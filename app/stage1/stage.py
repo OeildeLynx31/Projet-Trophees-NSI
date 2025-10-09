@@ -6,6 +6,8 @@ class Stage():
         self.game = game
         self.group = pygame.sprite.Group()
 
+        self.backgroundColor = "BLACK"
+
         self.player = Player()
         self.player.add(self.group)
 
@@ -17,3 +19,5 @@ class Stage():
 
         for sprite in self.group.sprites():
             sprite.tick() #run the tick method for each sprite in the stage
+
+        self.game.fill(self.backgroundColor)
