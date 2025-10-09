@@ -1,2 +1,5 @@
-# hello world
-print("Hello world!");
+import pygame;
+from app.classes.game import Game
+
+game = Game()
+game.run()
