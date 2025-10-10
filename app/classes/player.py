@@ -6,7 +6,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.images = []
-        self.images.append(pygame.image.load(os.path.join('./assets/player/', 'player1.png')).convert())
+        self.images.append(pygame.image.load(os.path.join('./assets/players/', 'player1.png')).convert())
         self.image = self.images[0]
 
         self.rect = self.image.get_rect()
@@ -15,12 +15,19 @@ class Player(pygame.sprite.Sprite):
 
         self.speed = 5
 
+        self.keys = []
+
     def tick(self):
-        print('tick du joueur!')
+        self.keys = pygame.key.get_pressed()
+        if self.keys[pygame.K_UP]:
+            self.move(0, -1)
+        if self.keys[pygame.K_DOWN]:
+            self.move(0, 1)
+        if self.keys[pygame.K_LEFT]:
+            self.move(-1, 0)
+        if self.keys[pygame.K_RIGHT]:
+            self.move(1, 0)
 
     def move(self, x, y):
         self.rect.x += x*self.speed
         self.rect.y += y*self.speed
-
-        # Exemple: avancer vers le haut
-        # self.move(1,0)
