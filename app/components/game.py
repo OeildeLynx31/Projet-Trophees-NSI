@@ -7,7 +7,7 @@ class Game():
         
         self.screen = pygame.display.set_mode((1280, 720))
         self.running = False
-        self.currentStage = getStageByID("1")(self.screen)
+        self.currentStage = getStageByID("1")(self)
         self.clock = pygame.time.Clock()
 
     def run(self):
@@ -24,4 +24,4 @@ class Game():
         pygame.quit()
 
     def tick(self):
-        self.currentStage.tick()
+        self.currentStage.tick(self)

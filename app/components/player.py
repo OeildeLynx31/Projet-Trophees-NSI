@@ -2,9 +2,10 @@ import pygame;
 import os;
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, game):
         pygame.sprite.Sprite.__init__(self)
 
+        self.game = game
         # costumes/skins
         self.images = {}
         self.images["normal_right"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), (100, 100)).convert_alpha()
@@ -28,7 +29,7 @@ class Player(pygame.sprite.Sprite):
         self.keys = []
 
 
-    def tick(self):
+    def tick(self, game):
         self.costumeTicked = False
         self.keys = pygame.key.get_pressed()
         if self.keys[pygame.K_UP]:
