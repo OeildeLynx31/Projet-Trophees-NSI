@@ -1,4 +1,5 @@
 import pygame;
+import os;
 from ...components.player import Player
 
 class Stage():
@@ -6,14 +7,18 @@ class Stage():
         self.game = game
         self.group = pygame.sprite.Group()
 
-        self.backgroundColor = "BLACK"
+        self.backdrop = pygame.transform.scale(pygame.image.load(os.path.join('./assets/backgrounds/', 'background1.png')), (1280, 720))
+        self.backgroundColor = "WHITE"
+
 
         self.player = Player()
         self.player.add(self.group)
 
+
+
     def tick(self):
         #L'arrière-plan futur
-        #world.blit(backdrop, backdropbox)
+        self.game.blit(self.backdrop, (0, 0))
         self.group.draw(self.game)
         pygame.display.flip()
 
