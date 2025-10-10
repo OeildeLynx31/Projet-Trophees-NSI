@@ -1,5 +1,5 @@
 import pygame;
-from ...classes.player import Player
+from ...components.player import Player
 
 class Stage():
     def __init__(self, game):
