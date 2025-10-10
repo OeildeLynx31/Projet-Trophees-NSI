@@ -13,18 +13,20 @@ class Player(pygame.sprite.Sprite):
         self.image = self.images["normal_right"]
 
         self.rect = self.image.get_rect()
-        self.rect.x = 0   # go to x
-        self.rect.y = 0   # go to y
+        self.rect.x = 0 # go to x
+        self.rect.y = 0 # go to y
 
         self.speed = 5
         self.velocity = [0, 0]
-        self.lastDir = [0, 0]
+        self.lastDir = 1 # 1 for right and -1 for left
 
         self.keys = []
 
+        self.costumeTicked = False
+
 
     def tick(self):
-        self.moving = False
+        self.costumeTicked = False
         self.keys = pygame.key.get_pressed()
         if self.keys[pygame.K_UP]:
             self.move(0, -1)
@@ -34,22 +36,28 @@ class Player(pygame.sprite.Sprite):
             self.move(-1, 0)
         if self.keys[pygame.K_RIGHT]:
             self.move(1, 0)
-        self.checkCostume()
+        self.checkCostume('endTick')
 
     
-    def checkCostume(self):
-        if (self.velocity[0] > 0):
-            self.image = self.images["walk_right"]
-        elif (self.velocity[0] < 0):
-            self.image = self.images["walk_left"]
-        else:
-            self.image = self.images["normal_right"]
+    def checkCostume(self, type=""):
+        if (not self.costumeTicked): # To update costume only once by tick
+            self.costumeTicked = True
+            if (self.velocity[0] > 0):
+                self.image = self.images["walk_right"]
+            elif (self.velocity[0] < 0):
+                self.image = self.images["walk_left"]
+            else:
+                if (self.lastDir < 0):
+                    self.image = self.images["normal_left"]
+                else:
+                    self.image = self.images["normal_right"]
 
-        self.velocity = [0, 0] 
-        
+
     def move(self, x, y):
         self.velocity = [x, y]
-        self.lastDir = [x, y]
+        if (x != 0): # if player is jumping or falling, do not change the player direction
+            self.lastDir = self.velocity[0]
         self.rect.x += self.velocity[0]*self.speed
         self.rect.y += self.velocity[1]*self.speed
-        print(self.velocity)
+        self.checkCostume()
+        self.velocity = [0, 0] 
