@@ -5,24 +5,27 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
 
+        # costumes/skins
         self.images = {}
-        self.images["normal_right"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player1.png')).convert(), (100, 100))
-        self.images["normal_left"] = pygame.transform.flip(pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player1.png')).convert(), (100, 100)), True, False)
-        self.images["walk_right"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player_walking.png')).convert(), (100, 100))
-        self.images["walk_left"] = pygame.transform.flip(pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player_walking.png')).convert(), (100, 100)), True, False)
+        self.images["normal_right"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), (100, 100)).convert_alpha()
+        self.images["normal_left"] = pygame.transform.flip(pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), (100, 100)), True, False).convert_alpha()
+        self.images["walk_right"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player_walking.png')), (100, 100)).convert_alpha()
+        self.images["walk_left"] = pygame.transform.flip(pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player_walking.png')), (100, 100)), True, False).convert_alpha()
+        
         self.image = self.images["normal_right"]
+        self.costumeTicked = False
 
+        # position and hitbox
         self.rect = self.image.get_rect()
         self.rect.x = 0 # go to x
         self.rect.y = 0 # go to y
 
+        # movement
         self.speed = 5
         self.velocity = [0, 0]
         self.lastDir = 1 # 1 for right and -1 for left
 
         self.keys = []
-
-        self.costumeTicked = False
 
 
     def tick(self):
