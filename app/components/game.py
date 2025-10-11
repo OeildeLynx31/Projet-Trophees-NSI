@@ -2,12 +2,12 @@ import pygame
 from ..utils.StageHandler import getStageByID
 
 class Game():
-    def __init__(self, currentStage=None):
+    def __init__(self):
         pygame.init()
-        
+        pygame.display.set_caption("Trophées NSI 2025-2026")
         self.screen = pygame.display.set_mode((1280, 720))
         self.running = False
-        self.currentStage = getStageByID("1")(self.screen)
+        self.currentStage = getStageByID("1")(self)
         self.clock = pygame.time.Clock()
 
     def run(self):
@@ -22,6 +22,9 @@ class Game():
     def quit(self):
         self.running = False
         pygame.quit()
+    
+    def changeStage(self, stageID):
+        self.currentStage = getStageByID(stageID)(self)
 
     def tick(self):
-        self.currentStage.tick()
+        self.currentStage.tick(self)
