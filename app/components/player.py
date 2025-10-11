@@ -1,5 +1,6 @@
 import pygame;
 import os;
+from ..utils.CollisionRect import get_enlarged_hitbox
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, game):
@@ -61,11 +62,12 @@ class Player(pygame.sprite.Sprite):
         self.velocity = [x, y]
         if (x != 0): # if player is jumping or falling, do not change the player direction
             self.lastDir = self.velocity[0]
-        self.rect.x += self.velocity[0]*self.speed
+        if get_enlarged_hitbox(self.rect, x, 0).collideobjects(self.game.currentStage.backdropRects) == None:
+            self.rect.x += self.velocity[0]*self.speed
         self.rect.y += self.velocity[1]*self.speed
         self.checkCostume()
         self.velocity = [0, 0] 
 
     def checkGravity(self):
-        if self.rect.collideobjects(self.game.currentStage.backdropRects) == None:
+        if get_enlarged_hitbox(self.rect, 0, 1).collideobjects(self.game.currentStage.backdropRects) == None:
             self.move(0, 1)
