@@ -62,7 +62,7 @@ class Player(pygame.sprite.Sprite):
         self.velocity = [x, y]
         if (x != 0): # if player is jumping or falling, do not change the player direction
             self.lastDir = self.velocity[0]
-        if get_enlarged_hitbox(self.rect, x, 0).collideobjects(self.game.currentStage.backdropRects) == None:
+        if get_enlarged_hitbox(self.rect, x, y).collideobjects(self.game.currentStage.backdropRects) == None:
             self.rect.x += self.velocity[0]*self.speed
         self.rect.y += self.velocity[1]*self.speed
         self.checkCostume()
