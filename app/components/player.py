@@ -19,8 +19,8 @@ class Player(pygame.sprite.Sprite):
 
         # position and hitbox
         self.rect = self.image.get_rect()
-        self.rect.x = 0 # go to x
-        self.rect.y = 0 # go to y
+        self.rect.x = 100 # go to x
+        self.rect.y = 300 # go to y
 
         # movement
         self.speed = 5
