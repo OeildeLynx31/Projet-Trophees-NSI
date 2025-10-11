@@ -2,7 +2,7 @@ import pygame
 from ..utils.StageHandler import getStageByID
 
 class Game():
-    def __init__(self, currentStage=None):
+    def __init__(self):
         pygame.init()
         
         self.screen = pygame.display.set_mode((1280, 720))
@@ -22,6 +22,9 @@ class Game():
     def quit(self):
         self.running = False
         pygame.quit()
+    
+    def changeStage(self, stageID):
+        self.currentStage = getStageByID(stageID)(self)
 
     def tick(self):
         self.currentStage.tick(self)

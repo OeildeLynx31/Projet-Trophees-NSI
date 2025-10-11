@@ -24,6 +24,9 @@ class Player(pygame.sprite.Sprite):
 
         # movement
         self.speed = 5
+        self.jumpHeight = 5
+        self.gravity = 0.5
+        self.jumping = False
         self.velocity = [0, 0]
         self.lastDir = 1 # 1 for right and -1 for left
 
@@ -34,8 +37,8 @@ class Player(pygame.sprite.Sprite):
         self.game = game
         self.costumeTicked = False
         self.keys = pygame.key.get_pressed()
-        if self.keys[pygame.K_SPACE]:
-            self.move(0, -3)
+        if not self.jumping and self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP]:
+            self.jump(self.jumpHeight)
         if self.keys[pygame.K_LEFT]:
             self.move(-1, 0)
         if self.keys[pygame.K_RIGHT]:
@@ -59,15 +62,24 @@ class Player(pygame.sprite.Sprite):
 
 
     def move(self, x, y):
-        self.velocity = [x, y]
-        if (x != 0): # if player is jumping or falling, do not change the player direction
-            self.lastDir = self.velocity[0]
-        if get_enlarged_hitbox(self.rect, x, y).collideobjects(self.game.currentStage.backdropRects) == None:
-            self.rect.x += self.velocity[0]*self.speed
-        self.rect.y += self.velocity[1]*self.speed
+        if x != 0:
+            self.lastDir = x
+            if get_enlarged_hitbox(self.rect, x * self.speed, 0).collideobjects(self.game.currentStage.backdropRects) == None:
+                self.rect.x += x * self.speed
+        
+        if get_enlarged_hitbox(self.rect, 0, y * self.speed).collideobjects(self.game.currentStage.backdropRects) == None:
+            self.rect.y += y * self.speed
+        else:
+            self.velocity[1] = 0
+            self.jumping = False
+        
         self.checkCostume()
-        self.velocity = [0, 0] 
 
     def checkGravity(self):
-        if get_enlarged_hitbox(self.rect, 0, 1).collideobjects(self.game.currentStage.backdropRects) == None:
-            self.move(0, 1)
+        self.velocity[1] += self.gravity
+        self.move(0, self.velocity[1])
+
+    def jump(self, force=3):
+        if not self.jumping:
+            self.velocity[1] = -force
+            self.jumping = True
