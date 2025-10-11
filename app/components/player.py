@@ -24,8 +24,8 @@ class Player(pygame.sprite.Sprite):
 
         # movement
         self.speed = 5
-        self.jumpHeight = 5
-        self.gravity = 0.5
+        self.jumpHeight = 4
+        self.gravity = 0.2
         self.jumping = False
         self.velocity = [0, 0]
         self.lastDir = 1 # 1 for right and -1 for left
