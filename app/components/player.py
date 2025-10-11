@@ -53,15 +53,15 @@ class Player(pygame.sprite.Sprite):
     def checkCostume(self, type=""):
         if (not self.costumeTicked): # To update costume only once by tick
             self.costumeTicked = True
-            if (self.velocity[0] > 0):
-                self.image = self.images["walk_right"]
-            elif (self.velocity[0] < 0):
-                self.image = self.images["walk_left"]
-            else:
-                if (self.lastDir < 0):
-                    self.image = self.images["normal_left"]
-                else:
-                    self.image = self.images["normal_right"]
+            # if (self.velocity[0] > 0):
+            #     self.image = self.images["walk_right"]
+            # elif (self.velocity[0] < 0):
+            #     self.image = self.images["walk_left"]
+            # else:
+            #     if (self.lastDir < 0):
+            #         self.image = self.images["normal_left"]
+            #     else:
+            #         self.image = self.images["normal_right"]
 
 
     def move(self, x, y):
