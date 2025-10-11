@@ -36,7 +36,10 @@ class Stage():
     def debug(self):
         for sprite in self.group.sprites():
             if (self.debugShowHitboxes):
-                pygame.draw.rect(self.screen, "RED", sprite.rect, 2)
+                if (hasattr(sprite, 'hitbox')):
+                    pygame.draw.rect(self.screen, "RED", sprite.hitbox, 2)
+                else:
+                    pygame.draw.rect(self.screen, "RED", sprite.rect, 2)
         if (self.debugShowHitboxes):
             for rect in self.backdropRects:
                 pygame.draw.rect(self.screen, "RED", rect, 2)

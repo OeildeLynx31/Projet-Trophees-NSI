@@ -21,6 +21,9 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 100 # go to x
         self.rect.y = 300 # go to y
+        self.hitbox = self.rect.copy()
+        self.hitbox.width = 70
+        self.hitbox.height = 80
 
         # movement
         self.speed = 5
@@ -62,17 +65,19 @@ class Player(pygame.sprite.Sprite):
 
 
     def move(self, x, y):
+        self.velocity[0] = x
         if x != 0:
             self.lastDir = x
-            if get_enlarged_hitbox(self.rect, x * self.speed, 0).collideobjects(self.game.currentStage.backdropRects) == None:
+            if get_enlarged_hitbox(self.hitbox, x * self.speed, 0).collideobjects(self.game.currentStage.backdropRects) == None:
                 self.rect.x += x * self.speed
         
-        if get_enlarged_hitbox(self.rect, 0, y * self.speed).collideobjects(self.game.currentStage.backdropRects) == None:
+        if get_enlarged_hitbox(self.hitbox, 0, y * self.speed).collideobjects(self.game.currentStage.backdropRects) == None:
             self.rect.y += y * self.speed
         else:
             self.velocity[1] = 0
             self.jumping = False
         
+        self.calcHitbox()
         self.checkCostume()
 
     def checkGravity(self):
@@ -83,3 +88,7 @@ class Player(pygame.sprite.Sprite):
         if not self.jumping:
             self.velocity[1] = -force
             self.jumping = True
+
+    def calcHitbox(self):
+        self.hitbox.x = self.rect.x + (self.rect.width - self.hitbox.width)/2 # centrage horizontal à partir des deux largeurs
+        self.hitbox.y = self.rect.y + (self.rect.height - self.hitbox.height) # basage de la hitbox à partir du bas
