@@ -9,10 +9,10 @@ class Player(pygame.sprite.Sprite):
         self.game = game
         # costumes/skins
         self.images = {}
-        self.images["normal_right"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), (100, 100)).convert_alpha()
-        self.images["normal_left"] = pygame.transform.flip(pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), (100, 100)), True, False).convert_alpha()
-        self.images["walk_right"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player_walking.png')), (100, 100)).convert_alpha()
-        self.images["walk_left"] = pygame.transform.flip(pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player_walking.png')), (100, 100)), True, False).convert_alpha()
+        self.images["normal_right"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), (56, 100)).convert_alpha()
+        self.images["normal_left"] = pygame.transform.flip(pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), (56, 100)), True, False).convert_alpha()
+        self.images["walk_right"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player_walking.png')), (56, 100)).convert_alpha()
+        self.images["walk_left"] = pygame.transform.flip(pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player_walking.png')), (56, 100)), True, False).convert_alpha()
         
         self.image = self.images["normal_right"]
         self.costumeTicked = False
@@ -22,8 +22,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = 100 # go to x
         self.rect.y = 300 # go to y
         self.hitbox = self.rect.copy()
-        self.hitbox.width = 70
-        self.hitbox.height = 80
+        self.hitbox.width = 56
+        self.hitbox.height = 100
 
         # movement
         self.speed = 5
