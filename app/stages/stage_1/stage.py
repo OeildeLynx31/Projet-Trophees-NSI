@@ -1,7 +1,7 @@
 import pygame;
 import os;
 from ...components.player import Player
-from ...utils.CollisionRect import get_sprite_collision_rects
+from ...utils.CollisionRect import *
 
 class Stage():
     def __init__(self, game):
@@ -11,7 +11,7 @@ class Stage():
 
         self.backdrop = pygame.transform.scale(pygame.image.load(os.path.join('./assets/backgrounds/', 'background1.png')), (1280, 720)).convert_alpha()
         self.backgroundColor = "WHITE"
-        self.backdropRects = get_sprite_collision_rects(self.backdrop)
+        self.backdropRects = get_collision_rects_for_background('./assets/backgrounds/', 'background1.png')
 
         self.player = Player(self.game)
         self.player.add(self.group)
