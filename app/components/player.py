@@ -30,16 +30,16 @@ class Player(pygame.sprite.Sprite):
 
 
     def tick(self, game):
+        self.game = game
         self.costumeTicked = False
         self.keys = pygame.key.get_pressed()
-        if self.keys[pygame.K_UP]:
-            self.move(0, -1)
-        if self.keys[pygame.K_DOWN]:
-            self.move(0, 1)
+        if self.keys[pygame.K_SPACE]:
+            self.move(0, -3)
         if self.keys[pygame.K_LEFT]:
             self.move(-1, 0)
         if self.keys[pygame.K_RIGHT]:
             self.move(1, 0)
+        self.checkGravity()
         self.checkCostume('endTick')
 
     
@@ -65,3 +65,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.velocity[1]*self.speed
         self.checkCostume()
         self.velocity = [0, 0] 
+
+    def checkGravity(self):
+        if self.rect.collideobjects(self.game.currentStage.backdropRects) == None:
+            self.move(0, 1)
