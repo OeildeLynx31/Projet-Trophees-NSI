@@ -8,23 +8,31 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.game = game
+
         # costumes/skins
         self.images = {}
-        self.images["normal_right"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), (100, 100)).convert_alpha()
-        self.images["normal_left"] = pygame.transform.flip(pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), (100, 100)), True, False).convert_alpha()
-        self.images["walk_right"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player_walking.png')), (100, 100)).convert_alpha()
-        self.images["walk_left"] = pygame.transform.flip(pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player_walking.png')), (100, 100)), True, False).convert_alpha()
+        self.images["normal_right"] = pygame.image.load(os.path.join('./assets/players/', 'player1.png'))
+        self.images["normal_left"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), True, False)
+        self.images["walk_right1"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png'))
+        self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f2.png'))
+        self.images["walk_left1"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png')), True, False)
+        self.images["walk_left2"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/players/", "player1-f2.png")), True, False)
         
+        for image in self.images:
+            self.images[image] = pygame.transform.scale(self.images[image], (28 * 2, 52 * 2)).convert_alpha()
+
         self.image = self.images["normal_right"]
         self.costumeTicked = False
+        self.walkingTick = 0
+        self.walkingSpeed = 10
 
         # position and hitbox
         self.rect = self.image.get_rect()
         self.rect.x = 100 # go to x
         self.rect.y = 300 # go to y
         self.hitbox = self.rect.copy()
-        self.hitbox.width = 70
-        self.hitbox.height = 80
+        self.hitbox.width = 50
+        self.hitbox.height = 100
 
         # movement
         self.speed = 5
@@ -56,10 +64,28 @@ class Player(pygame.sprite.Sprite):
         if (not self.costumeTicked): # To update costume only once by tick
             self.costumeTicked = True
             if (self.velocity[0] > 0):
-                self.image = self.images["walk_right"]
+                self.walkingTick = self.walkingTick + 1
+                if (self.walkingTick <= self.walkingSpeed):
+                    self.image = self.images["walk_right1"]
+                elif (self.walkingTick <= self.walkingSpeed * 2):
+                    self.image = self.images["walk_right2"]
+                else:
+                    self.image = self.images["normal_right"]
+                    if (self.walkingTick > self.walkingSpeed * 2):
+                        self.walkingTick = 0
+
             elif (self.velocity[0] < 0):
-                self.image = self.images["walk_left"]
+                self.walkingTick = self.walkingTick + 1
+                if (self.walkingTick <= self.walkingSpeed):
+                    self.image = self.images["walk_left1"]
+                elif (self.walkingTick <= self.walkingSpeed * 2):
+                    self.image = self.images["normal_left"]
+                else:
+                    self.image = self.images["normal_left"]
+                    if (self.walkingTick > self.walkingSpeed * 2):
+                        self.walkingTick = 0
             else:
+                self.walkingTick = 0
                 if (self.lastDir < 0):
                     self.image = self.images["normal_left"]
                 else:
@@ -77,7 +103,6 @@ class Player(pygame.sprite.Sprite):
                         self.rect.x += x * self.speed
                 else:
                     self.rect.x += x * self.speed
-        
         if get_enlarged_hitbox(self.hitbox, 0, y * self.speed).collideobjects(self.stage.backdropRects) == None:
             self.rect.y += y * self.speed
         else:
