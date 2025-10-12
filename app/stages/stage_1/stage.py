@@ -52,10 +52,10 @@ class Stage():
     def move(self, x, y):
         x2 = x
         y2 = y
-        if (self.scroll[0]+x > self.scrollMax):
-            x2 = self.scrollMax-self.scroll[0]
-        elif (self.scroll[0]-x < self.scrollMin):
-            x2 = self.scrollMin-self.scroll[0]
+        if ((self.scroll[0] + x) > self.scrollMax):
+            x2 = self.scrollMax - self.scroll[0]
+        elif ((self.scroll[0] + x) < self.scrollMin):
+            x2 = self.scrollMin - self.scroll[0]
         self.scroll[0] += x2
         self.scroll[1] += y2
         for rect in self.backdropRects:
