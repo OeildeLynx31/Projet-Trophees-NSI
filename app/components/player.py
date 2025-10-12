@@ -61,7 +61,6 @@ class Player(pygame.sprite.Sprite):
             self.move(1, 0)
         self.checkGravity()
         self.checkCostume('endTick')
-
     
     def checkCostume(self, type=""):
         if (not self.costumeTicked): # To update costume only once by tick
