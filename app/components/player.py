@@ -9,10 +9,12 @@ class Player(pygame.sprite.Sprite):
         self.game = game
         # costumes/skins
         self.images = {}
-        self.images["normal_right"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), (56, 100)).convert_alpha()
-        self.images["normal_left"] = pygame.transform.flip(pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), (56, 100)), True, False).convert_alpha()
-        self.images["walk_right"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player_walking.png')), (56, 100)).convert_alpha()
-        self.images["walk_left"] = pygame.transform.flip(pygame.transform.scale(pygame.image.load(os.path.join('./assets/players/', 'player_walking.png')), (56, 100)), True, False).convert_alpha()
+        self.images["normal_right"] = pygame.image.load(os.path.join('./assets/players/', 'player1.png')).convert_alpha()
+        self.images["normal_left"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), True, False).convert_alpha()
+        self.images["walk_right1"] = pygame.image.load(os.path.join('./assets/players/', 'player1-mv1.png')).convert_alpha()
+        self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-mv2.png')).convert_alpha()
+        self.images["walk_left1"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1-mv1.png')), True, False).convert_alpha()
+        self.images["walk_left2"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/players/", "player1-mv2.png")), True, False).convert_alpha()
         
         self.image = self.images["normal_right"]
         self.costumeTicked = False
@@ -53,15 +55,17 @@ class Player(pygame.sprite.Sprite):
     def checkCostume(self, type=""):
         if (not self.costumeTicked): # To update costume only once by tick
             self.costumeTicked = True
-            # if (self.velocity[0] > 0):
-            #     self.image = self.images["walk_right"]
-            # elif (self.velocity[0] < 0):
-            #     self.image = self.images["walk_left"]
-            # else:
-            #     if (self.lastDir < 0):
-            #         self.image = self.images["normal_left"]
-            #     else:
-            #         self.image = self.images["normal_right"]
+            if (self.velocity[0] > 0):
+                self.image = self.images["walk_right1"]
+                self.image = self.images["walk_right2"]
+            elif (self.velocity[0] < 0):
+                self.image = self.images["walk_left1"]
+                self.image = self.images["walk_left2"]
+            else:
+                if (self.lastDir < 0):
+                    self.image = self.images["normal_left"]
+                else:
+                    self.image = self.images["normal_right"]
 
 
     def move(self, x, y):
