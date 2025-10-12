@@ -43,6 +43,7 @@ class Player(pygame.sprite.Sprite):
 
     def tick(self, game):
         self.game = game
+        self.stage = game.currentStage
         self.costumeTicked = False
         self.keys = pygame.key.get_pressed()
         if not self.jumping and self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP]:
@@ -75,10 +76,15 @@ class Player(pygame.sprite.Sprite):
         self.velocity[0] = x
         if x != 0:
             self.lastDir = x
-            if get_enlarged_hitbox(self.hitbox, x * self.speed, 0).collideobjects(self.game.currentStage.backdropRects) == None:
-                self.rect.x += x * self.speed
+            if get_enlarged_hitbox(self.hitbox, x * self.speed, 0).collideobjects(self.stage.backdropRects) == None:
+                if ((self.rect.x > (self.game.screen.get_width()-self.stage.scrollSpace) and x > 0) or (self.rect.x < self.stage.scrollSpace and x < 0)):
+                    stageMovement = self.stage.move(-x * self.speed, 0)
+                    if (stageMovement[0] == 0):
+                        self.rect.x += x * self.speed
+                else:
+                    self.rect.x += x * self.speed
         
-        if get_enlarged_hitbox(self.hitbox, 0, y * self.speed).collideobjects(self.game.currentStage.backdropRects) == None:
+        if get_enlarged_hitbox(self.hitbox, 0, y * self.speed).collideobjects(self.stage.backdropRects) == None:
             self.rect.y += y * self.speed
         else:
             self.velocity[1] = 0

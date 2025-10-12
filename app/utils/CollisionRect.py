@@ -8,8 +8,9 @@ def get_sprite_collision_rects(image_surface):
     return rects
 
 def get_collision_rects_for_background(path, file):
-    background = pygame.transform.scale(pygame.image.load(os.path.join(path, file.replace(".png", ".hitbox.png"))), (1280, 720)).convert_alpha()
-    return get_sprite_collision_rects(background)
+    background = pygame.image.load(os.path.join(path, file.replace(".png", ".hitbox.png")))
+    backgroundHitBox = pygame.transform.scale(background, (1280, 1280 * background.get_height() / background.get_width())).convert_alpha()
+    return get_sprite_collision_rects(backgroundHitBox)
 
 def get_enlarged_hitbox(rect, marginX, marginY):
     enlargedBox = rect.copy()

@@ -9,7 +9,8 @@ class Stage():
         self.screen = game.screen
         self.group = pygame.sprite.Group()
 
-        self.backdrop = pygame.transform.scale(pygame.image.load(os.path.join('./assets/backgrounds/', 'background1.png')), (1280, 720)).convert_alpha()
+        background = pygame.image.load(os.path.join('./assets/backgrounds/', 'background1.png'))
+        self.backdrop = pygame.transform.scale(background, (1280, 1280 * background.get_height() / background.get_width())).convert_alpha()
         self.backgroundColor = "WHITE"
         self.backdropRects = get_collision_rects_for_background('./assets/backgrounds/', 'background1.png')
 
@@ -18,10 +19,15 @@ class Stage():
 
         self.debugShowHitboxes = True
 
+        self.scroll = [0, 0]
+        self.scrollMax = 0
+        self.scrollMin = -100
+        self.scrollSpace = 150
+
 
     def tick(self, game):
         #L'arrière-plan futur
-        self.screen.blit(self.backdrop, (0, 0))
+        self.screen.blit(self.backdrop, (self.scroll[0], self.scroll[1]))
         self.group.draw(self.screen)
         
 
@@ -43,3 +49,17 @@ class Stage():
         if (self.debugShowHitboxes):
             for rect in self.backdropRects:
                 pygame.draw.rect(self.screen, "RED", rect, 2)
+
+    def move(self, x, y):
+        x2 = x
+        y2 = y
+        if ((self.scroll[0] + x) > self.scrollMax):
+            x2 = self.scrollMax - self.scroll[0]
+        elif ((self.scroll[0] + x) < self.scrollMin):
+            x2 = self.scrollMin - self.scroll[0]
+        self.scroll[0] += x2
+        self.scroll[1] += y2
+        for rect in self.backdropRects:
+            rect.x += x2
+            rect.y += y2
+        return [x2, y2]
