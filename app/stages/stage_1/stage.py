@@ -63,3 +63,10 @@ class Stage():
             rect.x += x2
             rect.y += y2
         return [x2, y2]
+
+    def goto(self, x, y):
+        for rect in self.backdropRects:
+            rect.x = rect.x - self.scroll[0] + x
+            rect.y = rect.y - self.scroll[1] + y
+        self.scroll[0] = x
+        self.scroll[1] = y
