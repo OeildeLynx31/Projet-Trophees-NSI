@@ -1,6 +1,7 @@
 import pygame;
 import os;
 from ..utils.CollisionRect import get_enlarged_hitbox
+from ..utils.StageMovement import getRelativePos
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, game):
@@ -86,9 +87,18 @@ class Player(pygame.sprite.Sprite):
         self.calcHitbox()
         self.checkCostume()
 
+    def goto(self, x, y, rel=True):
+        pos = [x, y]
+        if (rel):
+            pos = getRelativePos(self.stage, x, y)
+        self.rect.x = pos[0]
+        self.rect.y = pos[1]
+
     def checkGravity(self):
         self.velocity[1] += self.gravity
         self.move(0, self.velocity[1])
+        if (self.rect.y > 1000): # if falling in the "void"
+            self.respawn()
 
     def jump(self, force=3):
         if not self.jumping:
@@ -98,3 +108,7 @@ class Player(pygame.sprite.Sprite):
     def calcHitbox(self):
         self.hitbox.x = self.rect.x + (self.rect.width - self.hitbox.width)/2 # centrage horizontal à partir des deux largeurs
         self.hitbox.y = self.rect.y + (self.rect.height - self.hitbox.height) # basage de la hitbox à partir du bas
+
+    def respawn(self):
+        self.stage.goto(0, 0)
+        self.goto(100, 300)
