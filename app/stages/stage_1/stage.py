@@ -19,6 +19,8 @@ class Stage():
         self.debugShowHitboxes = True
 
         self.scroll = [0, 0]
+        self.scrollMax = 0
+        self.scrollMin = -10
 
 
     def tick(self, game):
@@ -47,8 +49,15 @@ class Stage():
                 pygame.draw.rect(self.screen, "RED", rect, 2)
 
     def move(self, x, y):
-        self.scroll[0] += x
-        self.scroll[1] += y
+        x2 = x
+        y2 = y
+        if (self.scroll[0]+x > self.scrollMax):
+            x2 = self.scrollMax-self.scroll[0]
+        elif (self.scroll[0]-x > self.scrollMin):
+            x2 = self.scrollMin-self.scroll[0]
+        self.scroll[0] += x2
+        self.scroll[1] += y2
         for rect in self.backdropRects:
-            rect.x += x
-            rect.y += y
+            rect.x += x2
+            rect.y += y2
+        return [x2, y2]
