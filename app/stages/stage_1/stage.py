@@ -2,6 +2,7 @@ import pygame;
 import os;
 from ...components.player import Player
 from ...utils.CollisionRect import *
+from ...utils.StageMovement import genStageMin
 
 class Stage():
     def __init__(self, game):
@@ -21,8 +22,8 @@ class Stage():
 
         self.scroll = [0, 0]
         self.scrollMax = 0
-        self.scrollMin = -100
-        self.scrollSpace = 150
+        self.scrollMin = genStageMin(self, 0)
+        self.scrollSpace = 400
 
 
     def tick(self, game):
