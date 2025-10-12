@@ -7,6 +7,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.game = game
+
         # costumes/skins
         self.images = {}
         self.images["normal_right"] = pygame.image.load(os.path.join('./assets/players/', 'player1.png'))
@@ -21,6 +22,7 @@ class Player(pygame.sprite.Sprite):
 
         self.image = self.images["normal_right"]
         self.costumeTicked = False
+        self.walkingTick = 0
 
         # position and hitbox
         self.rect = self.image.get_rect()
@@ -60,12 +62,32 @@ class Player(pygame.sprite.Sprite):
         if (not self.costumeTicked): # To update costume only once by tick
             self.costumeTicked = True
             if (self.velocity[0] > 0):
-                self.image = self.images["walk_right1"]
-                self.image = self.images["walk_right2"]
+                self.walkingTick = self.walkingTick + 1
+                if (self.walkingTick <= 10):
+                    self.image = self.images["walk_right1"]
+                elif (self.walkingTick <= 20):
+                    self.image = self.images["normal_right"]
+                elif (self.walkingTick <= 30):
+                    self.image = self.images["walk_right2"]
+                else:
+                    self.image = self.images["normal_right"]
+                    if (self.walkingTick > 40):
+                        self.walkingTick = 0
+
             elif (self.velocity[0] < 0):
-                self.image = self.images["walk_left1"]
-                self.image = self.images["walk_left2"]
+                self.walkingTick = self.walkingTick + 1
+                if (self.walkingTick <= 10):
+                    self.image = self.images["walk_left1"]
+                elif (self.walkingTick <= 20):
+                    self.image = self.images["normal_left"]
+                elif (self.walkingTick <= 30):
+                    self.image = self.images["walk_left2"]
+                else:
+                    self.image = self.images["normal_left"]
+                    if (self.walkingTick > 40):
+                        self.walkingTick = 0
             else:
+                self.walkingTick = 0
                 if (self.lastDir < 0):
                     self.image = self.images["normal_left"]
                 else:
@@ -83,7 +105,6 @@ class Player(pygame.sprite.Sprite):
                         self.rect.x += x * self.speed
                 else:
                     self.rect.x += x * self.speed
-        
         if get_enlarged_hitbox(self.hitbox, 0, y * self.speed).collideobjects(self.stage.backdropRects) == None:
             self.rect.y += y * self.speed
         else:
