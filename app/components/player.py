@@ -23,6 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.images["normal_right"]
         self.costumeTicked = False
         self.walkingTick = 0
+        self.walkingSpeed = 10
 
         # position and hitbox
         self.rect = self.image.get_rect()
@@ -63,28 +64,24 @@ class Player(pygame.sprite.Sprite):
             self.costumeTicked = True
             if (self.velocity[0] > 0):
                 self.walkingTick = self.walkingTick + 1
-                if (self.walkingTick <= 10):
+                if (self.walkingTick <= self.walkingSpeed):
                     self.image = self.images["walk_right1"]
-                elif (self.walkingTick <= 20):
-                    self.image = self.images["normal_right"]
-                elif (self.walkingTick <= 30):
+                elif (self.walkingTick <= self.walkingSpeed * 2):
                     self.image = self.images["walk_right2"]
                 else:
                     self.image = self.images["normal_right"]
-                    if (self.walkingTick > 40):
+                    if (self.walkingTick > self.walkingSpeed * 3):
                         self.walkingTick = 0
 
             elif (self.velocity[0] < 0):
                 self.walkingTick = self.walkingTick + 1
-                if (self.walkingTick <= 10):
+                if (self.walkingTick <= self.walkingSpeed):
                     self.image = self.images["walk_left1"]
-                elif (self.walkingTick <= 20):
+                elif (self.walkingTick <= self.walkingSpeed * 2):
                     self.image = self.images["normal_left"]
-                elif (self.walkingTick <= 30):
-                    self.image = self.images["walk_left2"]
                 else:
                     self.image = self.images["normal_left"]
-                    if (self.walkingTick > 40):
+                    if (self.walkingTick > self.walkingSpeed * 3):
                         self.walkingTick = 0
             else:
                 self.walkingTick = 0
