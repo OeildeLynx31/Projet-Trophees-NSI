@@ -36,6 +36,9 @@ class Player(pygame.sprite.Sprite):
 
         self.keys = []
 
+        # game changers
+        self.boosts = [] #jumpStick pour rester collé au plafond
+
 
     def tick(self, game):
         self.game = game
@@ -81,8 +84,9 @@ class Player(pygame.sprite.Sprite):
         if get_enlarged_hitbox(self.hitbox, 0, y * self.speed).collideobjects(self.stage.backdropRects) == None:
             self.rect.y += y * self.speed
         else:
+            if y > 0 and "jumpStick" not in self.boosts:
+                self.jumping = False
             self.velocity[1] = 0
-            self.jumping = False
         
         self.calcHitbox()
         self.checkCostume()
