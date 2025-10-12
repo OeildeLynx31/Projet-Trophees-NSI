@@ -9,13 +9,16 @@ class Player(pygame.sprite.Sprite):
         self.game = game
         # costumes/skins
         self.images = {}
-        self.images["normal_right"] = pygame.image.load(os.path.join('./assets/players/', 'player1.png')).convert_alpha()
-        self.images["normal_left"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), True, False).convert_alpha()
-        self.images["walk_right1"] = pygame.image.load(os.path.join('./assets/players/', 'player1-mv1.png')).convert_alpha()
-        self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-mv2.png')).convert_alpha()
-        self.images["walk_left1"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1-mv1.png')), True, False).convert_alpha()
-        self.images["walk_left2"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/players/", "player1-mv2.png")), True, False).convert_alpha()
+        self.images["normal_right"] = pygame.image.load(os.path.join('./assets/players/', 'player1.png'))
+        self.images["normal_left"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), True, False)
+        self.images["walk_right1"] = pygame.image.load(os.path.join('./assets/players/', 'player1-mv1.png'))
+        self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-mv2.png'))
+        self.images["walk_left1"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1-mv1.png')), True, False)
+        self.images["walk_left2"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/players/", "player1-mv2.png")), True, False)
         
+        for image in self.images:
+            self.images[image] = pygame.transform.scale(self.images[image], (28 * 2, 52 * 2)).convert_alpha()
+
         self.image = self.images["normal_right"]
         self.costumeTicked = False
 
@@ -24,7 +27,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = 100 # go to x
         self.rect.y = 300 # go to y
         self.hitbox = self.rect.copy()
-        self.hitbox.width = 56
+        self.hitbox.width = 50
         self.hitbox.height = 100
 
         # movement
