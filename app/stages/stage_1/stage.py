@@ -18,10 +18,12 @@ class Stage():
 
         self.debugShowHitboxes = True
 
+        self.scroll = [0, 0]
+
 
     def tick(self, game):
         #L'arrière-plan futur
-        self.screen.blit(self.backdrop, (0, 0))
+        self.screen.blit(self.backdrop, (self.scroll[0], self.scroll[1]))
         self.group.draw(self.screen)
         
 
@@ -43,3 +45,10 @@ class Stage():
         if (self.debugShowHitboxes):
             for rect in self.backdropRects:
                 pygame.draw.rect(self.screen, "RED", rect, 2)
+
+    def move(self, x, y):
+        self.scroll[0] += x
+        self.scroll[1] += y
+        for rect in self.backdropRects:
+            rect.x += x
+            rect.y += y
