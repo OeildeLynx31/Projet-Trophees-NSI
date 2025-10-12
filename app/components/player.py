@@ -12,10 +12,10 @@ class Player(pygame.sprite.Sprite):
         self.images = {}
         self.images["normal_right"] = pygame.image.load(os.path.join('./assets/players/', 'player1.png'))
         self.images["normal_left"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), True, False)
-        self.images["walk_right1"] = pygame.image.load(os.path.join('./assets/players/', 'player1-mv1.png'))
-        self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-mv2.png'))
-        self.images["walk_left1"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1-mv1.png')), True, False)
-        self.images["walk_left2"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/players/", "player1-mv2.png")), True, False)
+        self.images["walk_right1"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png'))
+        self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f2.png'))
+        self.images["walk_left1"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png')), True, False)
+        self.images["walk_left2"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/players/", "player1-f2.png")), True, False)
         
         for image in self.images:
             self.images[image] = pygame.transform.scale(self.images[image], (28 * 2, 52 * 2)).convert_alpha()
@@ -70,7 +70,7 @@ class Player(pygame.sprite.Sprite):
                     self.image = self.images["walk_right2"]
                 else:
                     self.image = self.images["normal_right"]
-                    if (self.walkingTick > self.walkingSpeed * 3):
+                    if (self.walkingTick > self.walkingSpeed * 2):
                         self.walkingTick = 0
 
             elif (self.velocity[0] < 0):
@@ -81,7 +81,7 @@ class Player(pygame.sprite.Sprite):
                     self.image = self.images["normal_left"]
                 else:
                     self.image = self.images["normal_left"]
-                    if (self.walkingTick > self.walkingSpeed * 3):
+                    if (self.walkingTick > self.walkingSpeed * 2):
                         self.walkingTick = 0
             else:
                 self.walkingTick = 0
