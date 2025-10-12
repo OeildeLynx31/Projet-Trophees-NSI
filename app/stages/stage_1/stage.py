@@ -20,7 +20,8 @@ class Stage():
 
         self.scroll = [0, 0]
         self.scrollMax = 0
-        self.scrollMin = -10
+        self.scrollMin = -100
+        self.scrollSpace = 150
 
 
     def tick(self, game):
@@ -53,7 +54,7 @@ class Stage():
         y2 = y
         if (self.scroll[0]+x > self.scrollMax):
             x2 = self.scrollMax-self.scroll[0]
-        elif (self.scroll[0]-x > self.scrollMin):
+        elif (self.scroll[0]-x < self.scrollMin):
             x2 = self.scrollMin-self.scroll[0]
         self.scroll[0] += x2
         self.scroll[1] += y2

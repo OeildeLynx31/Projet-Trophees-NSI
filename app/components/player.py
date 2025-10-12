@@ -70,7 +70,7 @@ class Player(pygame.sprite.Sprite):
         if x != 0:
             self.lastDir = x
             if get_enlarged_hitbox(self.hitbox, x * self.speed, 0).collideobjects(self.stage.backdropRects) == None:
-                if ((self.rect.x > 1050 and x > 0) or (self.rect.x < 50 and x < 0)):
+                if ((self.rect.x > (self.game.screen.get_width()-self.stage.scrollSpace) and x > 0) or (self.rect.x < self.stage.scrollSpace and x < 0)):
                     stageMovement = self.stage.move(-x * self.speed, 0)
                     if (stageMovement[0] == 0):
                         self.rect.x += x * self.speed
