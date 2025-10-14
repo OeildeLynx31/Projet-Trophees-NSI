@@ -10,7 +10,7 @@ class Stage():
     self.group = pygame.sprite.Group()
     self.backdrop = pygame.transform.scale(pygame.image.load(os.path.join('./assets/backgrounds/', "bg_interface__main.png")), (1280, 720)).convert_alpha()
 
-    self.play_button = Button(540, 300, 200, 80, "button.png")
+    self.play_button = Button(540, 250, 200, 200, "main_play.png")
 
   def tick(self, game):
     self.game = game
