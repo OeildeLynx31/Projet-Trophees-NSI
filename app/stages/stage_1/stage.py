@@ -2,7 +2,8 @@ import pygame;
 import os;
 from ...components.player import Player
 from ...utils.CollisionRect import *
-from ...utils.StageMovement import *
+from ...utils.StageMovement import genStageMin
+from ...utils.StageUtils import *
 
 class Stage():
     def __init__(self, game):
@@ -34,58 +35,20 @@ class Stage():
 
 
     def tick(self, game):
-        #L'arrière-plan futur
-        self.screen.blit(self.backdrop, (self.scroll[0], self.scroll[1]))
-        self.group.draw(self.screen)
-        
-        for sprite in self.group.sprites():
-            sprite.tick(game) #run the tick method for each sprite in the stage
-
-        self.debug()
-        pygame.display.flip()
-
-        self.screen.fill(self.backgroundColor)
+        stageTick(self, game)
 
     def debug(self):
-        for sprite in self.group.sprites():
-            if (self.debugShowHitboxes):
-                if (hasattr(sprite, 'hitbox')):
-                    pygame.draw.rect(self.screen, "RED", sprite.hitbox, 2)
-                else:
-                    pygame.draw.rect(self.screen, "RED", sprite.rect, 2)
-        if (self.debugShowHitboxes):
-            for rect in self.backdropRects:
-                pygame.draw.rect(self.screen, "RED", rect, 2)
+        stageDebug(self)
 
     def move(self, x, y):
-        x2 = x
-        y2 = y
-        if ((self.scroll[0] + x) > self.scrollMax):
-            x2 = self.scrollMax - self.scroll[0]
-        elif ((self.scroll[0] + x) < self.scrollMin):
-            x2 = self.scrollMin - self.scroll[0]
-        self.scroll[0] += x2
-        self.scroll[1] += y2
-        for rect in self.backdropRects:
-            rect.x += x2
-            rect.y += y2
-
-        self.moveAllEntities() # To also move all entities
-        
-        return [x2, y2]
+        returned = stageMove(self, x, y)
+        self.moveEntities() 
+        return returned
 
     def goto(self, x, y):
-        for rect in self.backdropRects:
-            rect.x = rect.x - self.scroll[0] + x
-            rect.y = rect.y - self.scroll[1] + y
-        self.scroll[0] = x
-        self.scroll[1] = y
+        stageGoto(self, x, y)
 
-        self.moveAllEntities() # To also move all entities
+        self.moveEntities()
 
-    def moveAllEntities(self):
-        allEntities = self.visualEntityGroup.sprites() + self.physicalEntityGroup.sprites()
-        for sprite in allEntities:
-            pos = getRelativePos(self, sprite.rect.x, sprite.rect.y)
-            sprite.rect.x = pos[0]
-            sprite.rect.y = pos[1]
+    def moveEntities(self):
+        moveEntities(self, self.visualEntityGroup.sprites() + self.physicalEntityGroup.sprites())
