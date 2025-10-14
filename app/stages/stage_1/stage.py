@@ -2,7 +2,7 @@ import pygame;
 import os;
 from ...components.player import Player
 from ...utils.CollisionRect import *
-from ...utils.StageMovement import genStageMin
+from ...utils.StageMovement import *
 
 class Stage():
     def __init__(self, game):
@@ -17,13 +17,13 @@ class Stage():
         self.player = Player(self.game)
 
         # Groups
-        self.group = pygame.sprite.Group()        # Global sprite rendering group, including all entities
-        self.visualEntityGroup = pygame.Group()   # Visual entities that doesn't have any hitbox
-        self.physicalEntityGroup = pygame.Group() # Phisical entities that has an hitbox
+        self.group = pygame.sprite.Group()               # Global sprite rendering group, including all entities
+        self.visualEntityGroup = pygame.sprite.Group()   # Visual entities that doesn't have any hitbox
+        self.physicalEntityGroup = pygame.sprite.Group() # Phisical entities that has an hitbox
 
         self.group.add(self.visualEntityGroup.sprites())
         self.group.add(self.physicalEntityGroup.sprites())
-        self.player.add(self.group)               # Player is managed autonomously, so he is in no specific group
+        self.player.add(self.group)                      # Player is managed autonomously, so has no specific group
 
         self.debugShowHitboxes = True
 
@@ -38,7 +38,6 @@ class Stage():
         self.screen.blit(self.backdrop, (self.scroll[0], self.scroll[1]))
         self.group.draw(self.screen)
         
-
         for sprite in self.group.sprites():
             sprite.tick(game) #run the tick method for each sprite in the stage
 
@@ -70,6 +69,9 @@ class Stage():
         for rect in self.backdropRects:
             rect.x += x2
             rect.y += y2
+
+        self.moveAllEntities() # To also move all entities
+        
         return [x2, y2]
 
     def goto(self, x, y):
@@ -78,3 +80,12 @@ class Stage():
             rect.y = rect.y - self.scroll[1] + y
         self.scroll[0] = x
         self.scroll[1] = y
+
+        self.moveAllEntities() # To also move all entities
+
+    def moveAllEntities(self):
+        allEntities = self.visualEntityGroup.sprites() + self.physicalEntityGroup.sprites()
+        for sprite in allEntities:
+            pos = getRelativePos(self, sprite.rect.x, sprite.rect.y)
+            sprite.rect.x = pos[0]
+            sprite.rect.y = pos[1]
