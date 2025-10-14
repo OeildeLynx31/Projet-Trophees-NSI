@@ -8,7 +8,6 @@ class Stage():
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
-        self.group = pygame.sprite.Group()
 
         background = pygame.image.load(os.path.join('./assets/backgrounds/', 'background1.png'))
         self.backdrop = pygame.transform.scale(background, (720 * background.get_width() / background.get_height(), 720)).convert_alpha()
@@ -16,7 +15,15 @@ class Stage():
         self.backdropRects = get_collision_rects_for_background('./assets/backgrounds/', 'background1.png')
 
         self.player = Player(self.game)
-        self.player.add(self.group)
+
+        # Groups
+        self.group = pygame.sprite.Group()        # Global sprite rendering group, including all entities
+        self.visualEntityGroup = pygame.Group()   # Visual entities that doesn't have any hitbox
+        self.physicalEntityGroup = pygame.Group() # Phisical entities that has an hitbox
+
+        self.group.add(self.visualEntityGroup.sprites())
+        self.group.add(self.physicalEntityGroup.sprites())
+        self.player.add(self.group)               # Player is managed autonomously, so he is in no specific group
 
         self.debugShowHitboxes = True
 
