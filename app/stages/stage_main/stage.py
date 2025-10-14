@@ -17,5 +17,6 @@ class Stage():
     self.screen.blit(self.backdrop, (0, 0))
     self.play_button.draw(self.screen)
     self.group.draw(self.screen)
-
+    if (self.play_button.isClicked()):
+      self.game.changeStage("1")
     pygame.display.flip()
