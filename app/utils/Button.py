@@ -11,5 +11,12 @@ class Button:
     def draw(self, surface):
         surface.blit(self.image, self.rect)
 
-    def isHovered(self, mouseX, mouseY):
-        return self.rect.collidepoint(mouseX, mouseY)
+    def isHovered(self):
+        mousePos = pygame.mouse.get_pos()
+        return self.rect.collidepoint(mousePos[0], mousePos[1])
+
+    def isClicked(self):
+        if (pygame.mouse.get_pressed()[0] and self.isHovered()):
+            return True
+        else:
+            return False
