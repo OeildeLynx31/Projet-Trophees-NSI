@@ -42,13 +42,10 @@ class Stage():
 
     def move(self, x, y):
         returned = stageMove(self, x, y)
-        self.moveEntities() 
         return returned
 
     def goto(self, x, y):
         stageGoto(self, x, y)
-
-        self.moveEntities()
 
     def moveEntities(self):
         moveEntities(self, self.visualEntityGroup.sprites() + self.physicalEntityGroup.sprites())

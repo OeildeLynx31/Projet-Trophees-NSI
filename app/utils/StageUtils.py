@@ -1,19 +1,21 @@
 import pygame
+from .StageMovement import isInScreen
 
 ### Stage methods ###
 
-def stageTick(self, game):
+def stageTick(stage, game):
 
-    self.screen.blit(self.backdrop, (self.scroll[0], self.scroll[1]))
-    self.group.draw(self.screen)
+    stage.screen.blit(stage.backdrop, (stage.scroll[0], stage.scroll[1]))
     
-    for sprite in self.group.sprites():
-        sprite.tick(game) #run the tick method for each sprite in the stage
+    for sprite in stage.group.sprites():
+        if (isInScreen(sprite) or sprite.isLiving):
+            sprite.tick(game)#run the tick method for each sprite in the stage
+            stage.screen.blit(sprite.image, sprite.rect)
 
-    self.debug()
+    stage.debug()
     pygame.display.flip()
 
-    self.screen.fill(self.backgroundColor)
+    stage.screen.fill(stage.backgroundColor)
 
 def stageMove(stage, x, y):
     x2 = x
@@ -27,6 +29,7 @@ def stageMove(stage, x, y):
     for rect in stage.backdropRects:
         rect.x += x2
         rect.y += y2
+    stage.moveEntities()
     return [x2, y2]
 
 def stageGoto(stage, x, y):
@@ -36,11 +39,11 @@ def stageGoto(stage, x, y):
     stage.scroll[0] = x
     stage.scroll[1] = y
 
-    stage.moveAllEntities() # To also move all entities
+    stage.moveEntities() # To also move all entities
 
 def stageDebug(stage):
     for sprite in stage.group.sprites():
-        if (stage.debugShowHitboxes):
+        if (stage.debugShowHitboxes and isInScreen(sprite)):
             if (hasattr(sprite, 'hitbox')):
                 pygame.draw.rect(stage.screen, "RED", sprite.hitbox, 2)
             else:
@@ -49,8 +52,8 @@ def stageDebug(stage):
         for rect in stage.backdropRects:
             pygame.draw.rect(stage.screen, "RED", rect, 2)
 
-def moveEntities(self, sprites):
+def moveEntities(stage, sprites):
     for sprite in sprites:
-        pos = getRelativePos(self, sprite.rect.x, sprite.rect.y)
+        pos = getRelativePos(stage, sprite.rect.x, sprite.rect.y)
         sprite.rect.x = pos[0]
         sprite.rect.y = pos[1]

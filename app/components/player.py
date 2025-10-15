@@ -8,6 +8,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.game = game
+        self.isLiving = True
 
         # costumes/skins
         self.images = {}
