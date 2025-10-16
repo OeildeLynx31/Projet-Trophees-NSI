@@ -11,6 +11,7 @@ class Stage():
     self.backdrop = pygame.transform.scale(pygame.image.load(os.path.join('./assets/backgrounds/', "bg_interface__main.png")), (1280, 720)).convert_alpha()
 
     self.play_button = Button(540, 250, 200, 200, "main_play.png")
+    self.quit_button = Button(540, 470, 200, 200, "main_quit.png")
 
   def tick(self, game):
     self.game = game
@@ -18,5 +19,8 @@ class Stage():
     self.play_button.draw(self.screen)
     self.group.draw(self.screen)
     if (self.play_button.isClicked()):
-      self.game.changeStage("1")
+        self.game.changeStage("1")
+    if (self.quit_button.isClicked()):
+        pygame.quit()
+        exit()
     pygame.display.flip()
