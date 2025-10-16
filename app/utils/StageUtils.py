@@ -1,0 +1,59 @@
+import pygame
+from .StageMovement import isInScreen
+
+### Stage methods ###
+
+def stageTick(stage, game):
+
+    stage.screen.blit(stage.backdrop, (stage.scroll[0], stage.scroll[1]))
+    
+    for sprite in stage.group.sprites():
+        if (isInScreen(sprite) or sprite.isLiving):
+            sprite.tick(game)#run the tick method for each sprite in the stage
+            stage.screen.blit(sprite.image, sprite.rect)
+
+    stage.debug()
+    pygame.display.flip()
+
+    stage.screen.fill(stage.backgroundColor)
+
+def stageMove(stage, x, y):
+    x2 = x
+    y2 = y
+    if ((stage.scroll[0] + x) > stage.scrollMax):
+        x2 = stage.scrollMax - stage.scroll[0]
+    elif ((stage.scroll[0] + x) < stage.scrollMin):
+        x2 = stage.scrollMin - stage.scroll[0]
+    stage.scroll[0] += x2
+    stage.scroll[1] += y2
+    for rect in stage.backdropRects:
+        rect.x += x2
+        rect.y += y2
+    stage.moveEntities()
+    return [x2, y2]
+
+def stageGoto(stage, x, y):
+    for rect in stage.backdropRects:
+        rect.x = rect.x - stage.scroll[0] + x
+        rect.y = rect.y - stage.scroll[1] + y
+    stage.scroll[0] = x
+    stage.scroll[1] = y
+
+    stage.moveEntities() # To also move all entities
+
+def stageDebug(stage):
+    for sprite in stage.group.sprites():
+        if (stage.debugShowHitboxes and isInScreen(sprite)):
+            if (hasattr(sprite, 'hitbox')):
+                pygame.draw.rect(stage.screen, "RED", sprite.hitbox, 2)
+            else:
+                pygame.draw.rect(stage.screen, "RED", sprite.rect, 2)
+    if (stage.debugShowHitboxes):
+        for rect in stage.backdropRects:
+            pygame.draw.rect(stage.screen, "RED", rect, 2)
+
+def moveEntities(stage, sprites):
+    for sprite in sprites:
+        pos = getRelativePos(stage, sprite.rect.x, sprite.rect.y)
+        sprite.rect.x = pos[0]
+        sprite.rect.y = pos[1]
