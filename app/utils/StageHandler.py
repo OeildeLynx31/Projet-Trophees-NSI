@@ -5,7 +5,6 @@ def getStageByID(id):
     stageClass = importlib.import_module(f"app.stages.stage_{id}.stage")
     return stageClass.Stage
   except ModuleNotFoundError:
-    print(f"Stage with ID {id} not found.")
     return None
   
   

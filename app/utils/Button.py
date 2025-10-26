@@ -17,7 +17,6 @@ class Button:
 
     def isHovered(self):
         mousePos = pygame.mouse.get_pos()
-        print(self.clickRect.collidepoint(mousePos[0], mousePos[1]))
         return self.clickRect.collidepoint(mousePos[0], mousePos[1])
 
     def isClicked(self):
