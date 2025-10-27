@@ -47,17 +47,22 @@ class Player(pygame.sprite.Sprite):
         self.jumping = False
         self.velocity = [0, 0]
         self.lastDir = 1 # 1 for right and -1 for left
+        self.jumping = False
+        self.isSneaking = False
+        self.isFalling = False
 
         self.keys = []
 
         # game changers
-        self.boosts = [] #jumpStick pour rester collé au plafond, 
-                                   #jumpFall pour sauter depuis le vide (1 fois)
-                                   #immortal pour être immortel
-                                   #fly pour voler comme avec un jetpack
+        self.boosts = []
+                        #jumpStick pour rester collé au plafond, 
+                        #jumpFall pour sauter depuis le vide (1 fois)
+                        #immortal pour être immortel
+                        #fly pour voler comme avec un jetpack
+                        #regeneration pour regénérer de la vie naturellement
         self.health = 17
         self.damageCooldown = pygame.time.get_ticks()
-        self.lifeWaveAnimation = 0
+        self.lifeWaveAnimationStep = 0
 
     def tick(self, game):
         self.game = game
@@ -118,9 +123,11 @@ class Player(pygame.sprite.Sprite):
                     self.rect.x += x * self.speed
         if get_enlarged_hitbox(self.hitbox, 0, y * self.speed).collideobjects(self.stage.backdropRects) == None:
             self.rect.y += y * self.speed
+            self.isFalling = True
         else:
             if y > 0 and "jumpStick" not in self.boosts:
                 self.jumping = False
+                self.isFalling = False
             self.velocity[1] = 0
         
         self.calcHitbox()
@@ -136,11 +143,11 @@ class Player(pygame.sprite.Sprite):
     def checkGravity(self):
         self.velocity[1] += self.gravity
         self.move(0, self.velocity[1])
-        if (self.rect.y > 1000): # if falling in the "void"
+        if (self.rect.y > 1000): # if falling into the "void"
             self.damage(3)
 
     def jump(self, force=3):
-        if (not self.jumping and (self.velocity[1] <= 0 or "jumpFall" in self.boosts)):
+        if (not self.jumping and (not self.isFalling or "jumpFall" in self.boosts) and not self.isSneaking):
             self.velocity[1] = -force
             self.jumping = True
         if ("fly" in self.boosts):
@@ -162,6 +169,11 @@ class Player(pygame.sprite.Sprite):
             self.damageCooldown = pygame.time.get_ticks()
             if self.health < 1:
                 self.kill(source)
+
+    def heal(self, damage, source = None):
+        self.health += damage
+        if (self.health > 20):
+            self.health = 20
 
     def kill(self, source = None):
         print("Player was killed by", str(source))

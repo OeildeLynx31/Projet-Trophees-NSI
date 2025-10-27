@@ -63,9 +63,11 @@ def drawInterface(stage):
     drawLifeBar(stage, stage.player)
 
 def drawLifeBar(stage, player):
-    player.lifeWaveAnimation += 4
-    if (player.lifeWaveAnimation > 200):
-        player.lifeWaveAnimation = 0
+    player.lifeWaveAnimationStep += 4
+    if (player.lifeWaveAnimationStep > 200):
+        player.lifeWaveAnimationStep = 0
+        if ("regeneration" in player.boosts):
+            player.heal(1)
     
     health = player.health
     i = 0
@@ -77,7 +79,7 @@ def drawLifeBar(stage, player):
             heartList.append(1)
         else:
             heartList.append(0)
-        stage.screen.blit(player.heart[heartList[-1]], (840 + i * 20, 645 if player.lifeWaveAnimation//10 == i and player.health == 20 else 650))
+        stage.screen.blit(player.heart[heartList[-1]], (840 + i * 20, 645 if player.lifeWaveAnimationStep//10 == i and (player.health == 20 or "regeneration" in player.boosts) else 650))
     
 
     
