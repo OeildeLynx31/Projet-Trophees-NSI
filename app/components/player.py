@@ -54,6 +54,7 @@ class Player(pygame.sprite.Sprite):
         self.boosts = [] #jumpStick pour rester collé au plafond
         self.health = 17
         self.damageCooldown = pygame.time.get_ticks()
+        self.lifeWaveAnimation = 0
 
     def tick(self, game):
         self.game = game
