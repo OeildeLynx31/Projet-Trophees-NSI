@@ -44,7 +44,6 @@ class Player(pygame.sprite.Sprite):
         self.speed = 5
         self.jumpHeight = 4
         self.gravity = 0.2
-        self.jumping = False
         self.velocity = [0, 0]
         self.lastDir = 1 # 1 for right and -1 for left
         self.jumping = False
@@ -75,6 +74,7 @@ class Player(pygame.sprite.Sprite):
             self.move(-1, 0)
         if self.keys[pygame.K_RIGHT]:
             self.move(1, 0)
+        self.sneak(self.keys[pygame.K_DOWN])
         self.checkGravity()
         self.checkCostume('endTick')
     
@@ -153,6 +153,14 @@ class Player(pygame.sprite.Sprite):
         if ("fly" in self.boosts):
             self.jumping = False
             self.velocity[1] = -force/2
+
+    def sneak(self, state):
+        self.isSneaking = state
+        if not self.isFalling and state and not self.jumping:
+            self.hitbox.height = 50
+        else:
+            self.hitbox.height = 100
+        self.calcHitbox()
 
     def calcHitbox(self):
         self.hitbox.x = self.rect.x + (self.rect.width - self.hitbox.width)/2 # centrage horizontal à partir des deux largeurs
