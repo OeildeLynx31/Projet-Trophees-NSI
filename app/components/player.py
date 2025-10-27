@@ -53,7 +53,7 @@ class Player(pygame.sprite.Sprite):
         # game changers
         self.boosts = [] #jumpStick pour rester collé au plafond
         self.health = 17
-
+        self.damageCooldown = pygame.time.get_ticks()
 
     def tick(self, game):
         self.game = game
@@ -133,7 +133,7 @@ class Player(pygame.sprite.Sprite):
         self.velocity[1] += self.gravity
         self.move(0, self.velocity[1])
         if (self.rect.y > 1000): # if falling in the "void"
-            self.respawn()
+            self.damage(3)
 
     def jump(self, force=3):
         if not self.jumping:
@@ -148,3 +148,14 @@ class Player(pygame.sprite.Sprite):
         self.stage.goto(0, 0)
         self.goto(100, 300)
         self.health = 20
+
+    def damage(self, damage, source = None):
+        if (pygame.time.get_ticks() - self.damageCooldown > 120): # to prevent player from spam-damages killing it directly
+            self.health -= damage
+            self.damageCooldown = pygame.time.get_ticks()
+            if self.health < 1:
+                self.kill(source)
+
+    def kill(self, source = None):
+        print("Player was killed by", str(source))
+        self.respawn()
