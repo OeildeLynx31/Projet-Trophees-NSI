@@ -51,7 +51,7 @@ class Player(pygame.sprite.Sprite):
         self.keys = []
 
         # game changers
-        self.boosts = ["immortal"] #jumpStick pour rester collé au plafond, 
+        self.boosts = [] #jumpStick pour rester collé au plafond, 
                                    #jumpFall pour sauter depuis le vide (1 fois)
                                    #immortal pour être immortel
                                    #fly pour voler comme avec un jetpack
