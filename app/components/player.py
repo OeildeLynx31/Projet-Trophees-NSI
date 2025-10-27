@@ -18,6 +18,11 @@ class Player(pygame.sprite.Sprite):
         self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f2.png'))
         self.images["walk_left1"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png')), True, False)
         self.images["walk_left2"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/players/", "player1-f2.png")), True, False)
+
+        self.heart = []
+        self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'empty_heart.png')), (64, 64)).convert_alpha())
+        self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'half_heart.png')), (64, 64)).convert_alpha())
+        self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'heart.png')), (64, 64)).convert_alpha())
         
         for image in self.images:
             self.images[image] = pygame.transform.scale(self.images[image], (28 * 2, 52 * 2)).convert_alpha()
@@ -47,6 +52,7 @@ class Player(pygame.sprite.Sprite):
 
         # game changers
         self.boosts = [] #jumpStick pour rester collé au plafond
+        self.health = 17
 
 
     def tick(self, game):
@@ -141,3 +147,4 @@ class Player(pygame.sprite.Sprite):
     def respawn(self):
         self.stage.goto(0, 0)
         self.goto(100, 300)
+        self.health = 20

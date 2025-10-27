@@ -13,6 +13,7 @@ def stageTick(stage, game):
             stage.screen.blit(sprite.image, sprite.rect)
 
     stage.debug()
+    drawInterface(stage)
     pygame.display.flip()
 
     stage.screen.fill(stage.backgroundColor)
@@ -57,3 +58,22 @@ def moveEntities(stage, sprites):
         pos = getRelativePos(stage, sprite.rect.x, sprite.rect.y)
         sprite.rect.x = pos[0]
         sprite.rect.y = pos[1]
+
+def drawInterface(stage):
+    drawLifeBar(stage, stage.player)
+
+def drawLifeBar(stage, player):
+    health = player.health
+    i = 0
+    heartList = []
+    for i in range(0, 20, 2):
+        if (i+1 < health):
+            heartList.append(2)
+        elif (i < health):
+            heartList.append(1)
+        else:
+            heartList.append(0)
+        stage.screen.blit(player.heart[heartList[-1]], (840 + i * 20, 650))
+    
+
+    
