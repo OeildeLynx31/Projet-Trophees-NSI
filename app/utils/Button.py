@@ -4,7 +4,7 @@ from .CollisionRect import get_sprite_collision_rects
 
 class Button:
     def __init__(self, x, y, width, height, img):
-        self.image = pygame.image.load(os.path.join('./assets/interface/', img))
+        self.image = pygame.image.load(os.path.join('./assets/interface/buttons/', img))
         self.image = pygame.transform.scale(self.image, (width, height)).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
