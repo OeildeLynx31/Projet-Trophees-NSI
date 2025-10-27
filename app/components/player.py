@@ -51,7 +51,10 @@ class Player(pygame.sprite.Sprite):
         self.keys = []
 
         # game changers
-        self.boosts = [] #jumpStick pour rester collé au plafond, jumpFall pour sauter depuis le vide (1 fois)
+        self.boosts = ["immortal"] #jumpStick pour rester collé au plafond, 
+                                   #jumpFall pour sauter depuis le vide (1 fois)
+                                   #immortal pour être immortel
+                                   #fly pour voler comme avec un jetpack
         self.health = 17
         self.damageCooldown = pygame.time.get_ticks()
         self.lifeWaveAnimation = 0
@@ -140,6 +143,9 @@ class Player(pygame.sprite.Sprite):
         if (not self.jumping and (self.velocity[1] <= 0 or "jumpFall" in self.boosts)):
             self.velocity[1] = -force
             self.jumping = True
+        if ("fly" in self.boosts):
+            self.jumping = False
+            self.velocity[1] = -force/2
 
     def calcHitbox(self):
         self.hitbox.x = self.rect.x + (self.rect.width - self.hitbox.width)/2 # centrage horizontal à partir des deux largeurs
@@ -151,7 +157,7 @@ class Player(pygame.sprite.Sprite):
         self.health = 20
 
     def damage(self, damage, source = None):
-        if (pygame.time.get_ticks() - self.damageCooldown > 120): # to prevent player from spam-damages killing it directly
+        if (pygame.time.get_ticks() - self.damageCooldown > 120 and "immortal" not in self.boosts): # to prevent player from spam-damages killing it directly
             self.health -= damage
             self.damageCooldown = pygame.time.get_ticks()
             if self.health < 1:
