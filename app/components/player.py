@@ -51,7 +51,7 @@ class Player(pygame.sprite.Sprite):
         self.keys = []
 
         # game changers
-        self.boosts = [] #jumpStick pour rester collé au plafond
+        self.boosts = [] #jumpStick pour rester collé au plafond, jumpFall pour sauter depuis le vide (1 fois)
         self.health = 17
         self.damageCooldown = pygame.time.get_ticks()
         self.lifeWaveAnimation = 0
@@ -137,7 +137,7 @@ class Player(pygame.sprite.Sprite):
             self.damage(3)
 
     def jump(self, force=3):
-        if not self.jumping:
+        if (not self.jumping and (self.velocity[1] <= 0 or "jumpFall" in self.boosts)):
             self.velocity[1] = -force
             self.jumping = True
 
