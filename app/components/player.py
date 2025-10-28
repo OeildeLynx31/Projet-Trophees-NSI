@@ -1,5 +1,6 @@
 import pygame;
 import os;
+import time
 from ..utils.CollisionRect import get_enlarged_hitbox
 from ..utils.StageMovement import getRelativePos
 
@@ -62,6 +63,7 @@ class Player(pygame.sprite.Sprite):
         self.health = 17
         self.damageCooldown = pygame.time.get_ticks()
         self.lifeWaveAnimationStep = 0
+        self.effects = []
 
     def tick(self, game):
         self.game = game
@@ -75,6 +77,7 @@ class Player(pygame.sprite.Sprite):
         if self.keys[pygame.K_RIGHT]:
             self.move(1, 0)
         self.sneak(self.keys[pygame.K_DOWN])
+        self.updateEffects()
         self.checkGravity()
         self.checkCostume('endTick')
     
@@ -167,6 +170,7 @@ class Player(pygame.sprite.Sprite):
         self.hitbox.y = self.rect.y + (self.rect.height - self.hitbox.height) # basage de la hitbox à partir du bas
 
     def respawn(self):
+        self.giveEffect("regeneration", 2)
         self.stage.goto(0, 0)
         self.goto(100, 300)
         self.health = 20
@@ -174,6 +178,7 @@ class Player(pygame.sprite.Sprite):
     def damage(self, damage, source = None):
         if (pygame.time.get_ticks() - self.damageCooldown > 120 and "immortal" not in self.boosts): # to prevent player from spam-damages killing it directly
             self.health -= damage
+            self.damaged = True
             self.damageCooldown = pygame.time.get_ticks()
             if self.health < 1:
                 self.kill(source)
@@ -186,3 +191,37 @@ class Player(pygame.sprite.Sprite):
     def kill(self, source = None):
         print("Player was killed by", str(source))
         self.respawn()
+    
+    def updateEffects(self):
+        for effect in self.effects:
+            effect.tick()
+            if (effect.initTime + effect.duration < time.time() and effect.active):
+                effect.active = False
+                effect.onEnd()
+
+
+    def giveEffect(self, effectType, duration):
+        class Effect:
+            def __init__(self, player, effectType, duration):
+                self.player = player
+                self.type = effectType
+                self.duration = duration
+                self.initTime = time.time()
+                self.active = True
+                self.init()
+
+            def init(self):
+                if (self.type == "regeneration"):
+                    self.player.boosts.append("regeneration")
+                    self.player.lifeWaveAnimationStep = 0
+
+            def tick(self):
+                pass
+
+            def onEnd(self):
+                if (self.type == "regeneration"):
+                    self.player.boosts.remove("regeneration")
+                self.player.effects.remove(self)
+
+
+        self.effects.append(Effect(self, effectType, duration))
