@@ -55,13 +55,14 @@ class Player(pygame.sprite.Sprite):
         self.keys = pygame.key.get_pressed()
         if not self.jumping and self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP]:
             self.jump(self.jumpHeight)
-        if self.keys[pygame.K_LEFT]:
+        if self.keys[pygame.K_LEFT] and not self.keys[pygame.K_RIGHT]:
             self.move(-1, 0)
-        if self.keys[pygame.K_RIGHT]:
+        if self.keys[pygame.K_RIGHT] and not self.keys[pygame.K_LEFT]:
             self.move(1, 0)
+        self.sneak(self.keys[pygame.K_DOWN])
+        self.updateEffects()
         self.checkGravity()
         self.checkCostume('endTick')
-
     
     def checkCostume(self, type=""):
         if (not self.costumeTicked): # To update costume only once by tick
