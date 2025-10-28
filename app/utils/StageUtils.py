@@ -79,7 +79,13 @@ def drawLifeBar(stage, player):
             heartList.append(1)
         else:
             heartList.append(0)
-        stage.screen.blit(player.heart[heartList[-1]], (840 + i * 20, 645 if (player.lifeWaveAnimationStep//10 == i and "regeneration" in player.boosts) else 650))
+        heartAnimPos = 650
+        if (player.lifeWaveAnimationStep//10 == i and "regeneration" in player.boosts):
+            heartAnimPos = 645
+        elif (health < 5):
+            if (player.lifeWaveAnimationStep % (1/(player.lifeWaveAnimationStep//(21-i)+1)) != 0):
+                heartAnimPos = 645
+        stage.screen.blit(player.heart[heartList[-1]], (840 + i * 20, heartAnimPos))
     
 
     
