@@ -25,7 +25,6 @@ class Slider:
         if (self.sliding == True):
             newX = pygame.mouse.get_pos()[0]
             self.cursor.x = self.getStepPos(newX)
-            print("val:", self.value)
 
         pygame.draw.rect(surface, pygame.Color(255, 255, 255, 255), self.line)
         pygame.draw.rect(surface, pygame.Color(255, 255, 255, 255), self.cursor)
