@@ -1,0 +1,51 @@
+import pygame;
+import os;
+from ...components.player import Player
+from ...utils.CollisionRect import *
+from ...utils.StageMovement import genStageMin
+from ...utils.StageUtils import *
+
+class Stage():
+    def __init__(self, game):
+        self.game = game
+        self.screen = game.screen
+
+        background = pygame.image.load(os.path.join('./assets/backgrounds/', 'background1.png'))
+        self.backdrop = pygame.transform.scale(background, (720 * background.get_width() / background.get_height(), 720)).convert_alpha()
+        self.backgroundColor = "WHITE"
+        self.backdropRects = get_collision_rects_for_background('./assets/backgrounds/', 'background1.png')
+
+        self.player = Player(self.game)
+
+        # Groups
+        self.group = pygame.sprite.Group()               # Global sprite rendering group, including all entities
+        self.visualEntityGroup = pygame.sprite.Group()   # Visual entities that doesn't have any hitbox
+        self.physicalEntityGroup = pygame.sprite.Group() # Phisical entities that has an hitbox
+
+        self.group.add(self.visualEntityGroup.sprites())
+        self.group.add(self.physicalEntityGroup.sprites())
+        self.player.add(self.group)                      # Player is managed autonomously, so has no specific group
+
+        self.debugShowHitboxes = True
+
+        self.scroll = [0, 0]
+        self.scrollMax = 0
+        self.scrollMin = genStageMin(self, 0)
+        self.scrollSpace = 400
+
+
+    def tick(self, game):
+        stageTick(self, game)
+
+    def debug(self):
+        stageDebug(self)
+
+    def move(self, x, y):
+        returned = stageMove(self, x, y)
+        return returned
+
+    def goto(self, x, y):
+        stageGoto(self, x, y)
+
+    def moveEntities(self):
+        moveEntities(self, self.visualEntityGroup.sprites() + self.physicalEntityGroup.sprites())

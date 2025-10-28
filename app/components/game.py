@@ -7,7 +7,7 @@ class Game():
         pygame.display.set_caption("Trophées NSI 2025-2026")
         self.screen = pygame.display.set_mode((1280, 720))
         self.running = False
-        self.currentStage = getStageByID("1")(self)
+        self.currentStage = getStageByID("main")(self)
         self.clock = pygame.time.Clock()
 
     def run(self):

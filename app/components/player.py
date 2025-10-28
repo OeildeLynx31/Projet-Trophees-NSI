@@ -1,5 +1,6 @@
 import pygame;
 import os;
+import time
 from ..utils.CollisionRect import get_enlarged_hitbox
 from ..utils.StageMovement import getRelativePos
 
@@ -8,6 +9,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.game = game
+        self.isLiving = True
 
         # costumes/skins
         self.images = {}
@@ -17,6 +19,11 @@ class Player(pygame.sprite.Sprite):
         self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f2.png'))
         self.images["walk_left1"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png')), True, False)
         self.images["walk_left2"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/players/", "player1-f2.png")), True, False)
+
+        self.heart = []
+        self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'empty_heart.png')), (64, 64)).convert_alpha())
+        self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'half_heart.png')), (64, 64)).convert_alpha())
+        self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'heart.png')), (64, 64)).convert_alpha())
         
         for image in self.images:
             self.images[image] = pygame.transform.scale(self.images[image], (28 * 2, 52 * 2)).convert_alpha()
@@ -38,15 +45,25 @@ class Player(pygame.sprite.Sprite):
         self.speed = 5
         self.jumpHeight = 4
         self.gravity = 0.2
-        self.jumping = False
         self.velocity = [0, 0]
         self.lastDir = 1 # 1 for right and -1 for left
+        self.jumping = False
+        self.isSneaking = False
+        self.isFalling = False
 
         self.keys = []
 
         # game changers
-        self.boosts = [] #jumpStick pour rester collé au plafond
-
+        self.boosts = []
+                        #jumpStick pour rester collé au plafond, 
+                        #jumpFall pour sauter depuis le vide (1 fois)
+                        #immortal pour être immortel
+                        #fly pour voler comme avec un jetpack
+                        #regeneration pour regénérer de la vie naturellement
+        self.health = 17
+        self.damageCooldown = pygame.time.get_ticks()
+        self.lifeWaveAnimationStep = 0
+        self.effects = []
 
     def tick(self, game):
         self.game = game
@@ -109,9 +126,11 @@ class Player(pygame.sprite.Sprite):
                     self.rect.x += x * self.speed
         if get_enlarged_hitbox(self.hitbox, 0, y * self.speed).collideobjects(self.stage.backdropRects) == None:
             self.rect.y += y * self.speed
+            self.isFalling = True
         else:
             if y > 0 and "jumpStick" not in self.boosts:
                 self.jumping = False
+                self.isFalling = False
             self.velocity[1] = 0
         
         self.calcHitbox()
@@ -127,18 +146,82 @@ class Player(pygame.sprite.Sprite):
     def checkGravity(self):
         self.velocity[1] += self.gravity
         self.move(0, self.velocity[1])
-        if (self.rect.y > 1000): # if falling in the "void"
-            self.respawn()
+        if (self.rect.y > 1000): # if falling into the "void"
+            self.damage(3)
 
     def jump(self, force=3):
-        if not self.jumping:
+        if (not self.jumping and (not self.isFalling or "jumpFall" in self.boosts) and not self.isSneaking):
             self.velocity[1] = -force
             self.jumping = True
+        if ("fly" in self.boosts):
+            self.jumping = False
+            self.velocity[1] = -force/2
+
+    def sneak(self, state):
+        self.isSneaking = state
+        if not self.isFalling and state and not self.jumping:
+            self.hitbox.height = 50
+        else:
+            self.hitbox.height = 100
+        self.calcHitbox()
 
     def calcHitbox(self):
         self.hitbox.x = self.rect.x + (self.rect.width - self.hitbox.width)/2 # centrage horizontal à partir des deux largeurs
         self.hitbox.y = self.rect.y + (self.rect.height - self.hitbox.height) # basage de la hitbox à partir du bas
 
     def respawn(self):
+        self.giveEffect("regeneration", 2)
         self.stage.goto(0, 0)
         self.goto(100, 300)
+        self.health = 20
+
+    def damage(self, damage, source = None):
+        if (pygame.time.get_ticks() - self.damageCooldown > 120 and "immortal" not in self.boosts): # to prevent player from spam-damages killing it directly
+            self.health -= damage
+            self.damaged = True
+            self.damageCooldown = pygame.time.get_ticks()
+            if self.health < 1:
+                self.kill(source)
+
+    def heal(self, damage, source = None):
+        self.health += damage
+        if (self.health > 20):
+            self.health = 20
+
+    def kill(self, source = None):
+        print("Player was killed by", str(source))
+        self.respawn()
+    
+    def updateEffects(self):
+        for effect in self.effects:
+            effect.tick()
+            if (effect.initTime + effect.duration < time.time() and effect.active):
+                effect.active = False
+                effect.onEnd()
+
+
+    def giveEffect(self, effectType, duration):
+        class Effect:
+            def __init__(self, player, effectType, duration):
+                self.player = player
+                self.type = effectType
+                self.duration = duration
+                self.initTime = time.time()
+                self.active = True
+                self.init()
+
+            def init(self):
+                if (self.type == "regeneration"):
+                    self.player.boosts.append("regeneration")
+                    self.player.lifeWaveAnimationStep = 0
+
+            def tick(self):
+                pass
+
+            def onEnd(self):
+                if (self.type == "regeneration"):
+                    self.player.boosts.remove("regeneration")
+                self.player.effects.remove(self)
+
+
+        self.effects.append(Effect(self, effectType, duration))

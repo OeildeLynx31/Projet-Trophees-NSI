@@ -12,3 +12,9 @@ def getStaticPos(stage, x, y):
 
 def genStageMin(stage, margin=0):
     return 1280 - stage.backdrop.get_width() + margin
+
+def isInScreen(sprite):
+    screenRect = pygame.Rect(0, 0, 1280, 720)
+    rect = sprite.rect
+    return rect.colliderect(screenRect)
+    

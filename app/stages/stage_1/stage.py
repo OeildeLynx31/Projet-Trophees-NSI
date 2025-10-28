@@ -3,12 +3,12 @@ import os;
 from ...components.player import Player
 from ...utils.CollisionRect import *
 from ...utils.StageMovement import genStageMin
+from ...utils.StageUtils import *
 
 class Stage():
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
-        self.group = pygame.sprite.Group()
 
         background = pygame.image.load(os.path.join('./assets/backgrounds/', 'background1.png'))
         self.backdrop = pygame.transform.scale(background, (720 * background.get_width() / background.get_height(), 720)).convert_alpha()
@@ -16,7 +16,15 @@ class Stage():
         self.backdropRects = get_collision_rects_for_background('./assets/backgrounds/', 'background1.png')
 
         self.player = Player(self.game)
-        self.player.add(self.group)
+
+        # Groups
+        self.group = pygame.sprite.Group()               # Global sprite rendering group, including all entities
+        self.visualEntityGroup = pygame.sprite.Group()   # Visual entities that doesn't have any hitbox
+        self.physicalEntityGroup = pygame.sprite.Group() # Phisical entities that has an hitbox
+
+        self.group.add(self.visualEntityGroup.sprites())
+        self.group.add(self.physicalEntityGroup.sprites())
+        self.player.add(self.group)                      # Player is managed autonomously, so has no specific group
 
         self.debugShowHitboxes = True
 
@@ -27,47 +35,17 @@ class Stage():
 
 
     def tick(self, game):
-        #L'arrière-plan futur
-        self.screen.blit(self.backdrop, (self.scroll[0], self.scroll[1]))
-        self.group.draw(self.screen)
-        
-
-        for sprite in self.group.sprites():
-            sprite.tick(game) #run the tick method for each sprite in the stage
-
-        self.debug()
-        pygame.display.flip()
-
-        self.screen.fill(self.backgroundColor)
+        stageTick(self, game)
 
     def debug(self):
-        for sprite in self.group.sprites():
-            if (self.debugShowHitboxes):
-                if (hasattr(sprite, 'hitbox')):
-                    pygame.draw.rect(self.screen, "RED", sprite.hitbox, 2)
-                else:
-                    pygame.draw.rect(self.screen, "RED", sprite.rect, 2)
-        if (self.debugShowHitboxes):
-            for rect in self.backdropRects:
-                pygame.draw.rect(self.screen, "RED", rect, 2)
+        stageDebug(self)
 
     def move(self, x, y):
-        x2 = x
-        y2 = y
-        if ((self.scroll[0] + x) > self.scrollMax):
-            x2 = self.scrollMax - self.scroll[0]
-        elif ((self.scroll[0] + x) < self.scrollMin):
-            x2 = self.scrollMin - self.scroll[0]
-        self.scroll[0] += x2
-        self.scroll[1] += y2
-        for rect in self.backdropRects:
-            rect.x += x2
-            rect.y += y2
-        return [x2, y2]
+        returned = stageMove(self, x, y)
+        return returned
 
     def goto(self, x, y):
-        for rect in self.backdropRects:
-            rect.x = rect.x - self.scroll[0] + x
-            rect.y = rect.y - self.scroll[1] + y
-        self.scroll[0] = x
-        self.scroll[1] = y
+        stageGoto(self, x, y)
+
+    def moveEntities(self):
+        moveEntities(self, self.visualEntityGroup.sprites() + self.physicalEntityGroup.sprites())
