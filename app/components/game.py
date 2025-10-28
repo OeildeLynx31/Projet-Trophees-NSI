@@ -9,6 +9,8 @@ class Game():
         self.running = False
         self.currentStage = getStageByID("main")(self)
         self.clock = pygame.time.Clock()
+        self.settings = {}
+        self.settings["volume"] = 100
 
     def run(self):
         self.running = True
