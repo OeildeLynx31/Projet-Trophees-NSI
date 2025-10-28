@@ -1,51 +1,28 @@
-import pygame;
-import os;
-from ...components.player import Player
-from ...utils.CollisionRect import *
-from ...utils.StageMovement import genStageMin
-from ...utils.StageUtils import *
+import pygame
+import os
+
+from ...utils.Button import Button
+from ...utils.Slider import Slider
 
 class Stage():
-    def __init__(self, game):
-        self.game = game
-        self.screen = game.screen
+  def __init__(self, game):
+    self.game = game
+    self.screen = game.screen
+    self.group = pygame.sprite.Group()
+    self.backdrop = pygame.transform.scale(pygame.image.load(os.path.join('./assets/backgrounds/', "bg_interface__main.png")), (1280, 720)).convert()
 
-        background = pygame.image.load(os.path.join('./assets/backgrounds/', 'background1.png'))
-        self.backdrop = pygame.transform.scale(background, (720 * background.get_width() / background.get_height(), 720)).convert_alpha()
-        self.backgroundColor = "WHITE"
-        self.backdropRects = get_collision_rects_for_background('./assets/backgrounds/', 'background1.png')
+    self.back_button = Button(512, 576, 256, 128, "main_back.png")
+    self.volume_slider = Slider(512, 256, 256, 48, 0, 100, 50, 2)
 
-        self.player = Player(self.game)
+  def tick(self, game):
+    self.game = game
+    self.screen.blit(self.backdrop, (0, 0))
 
-        # Groups
-        self.group = pygame.sprite.Group()               # Global sprite rendering group, including all entities
-        self.visualEntityGroup = pygame.sprite.Group()   # Visual entities that doesn't have any hitbox
-        self.physicalEntityGroup = pygame.sprite.Group() # Phisical entities that has an hitbox
+    self.back_button.draw(self.screen)
+    self.volume_slider.draw(self.screen)
 
-        self.group.add(self.visualEntityGroup.sprites())
-        self.group.add(self.physicalEntityGroup.sprites())
-        self.player.add(self.group)                      # Player is managed autonomously, so has no specific group
+    self.group.draw(self.screen)
 
-        self.debugShowHitboxes = True
-
-        self.scroll = [0, 0]
-        self.scrollMax = 0
-        self.scrollMin = genStageMin(self, 0)
-        self.scrollSpace = 400
-
-
-    def tick(self, game):
-        stageTick(self, game)
-
-    def debug(self):
-        stageDebug(self)
-
-    def move(self, x, y):
-        returned = stageMove(self, x, y)
-        return returned
-
-    def goto(self, x, y):
-        stageGoto(self, x, y)
-
-    def moveEntities(self):
-        moveEntities(self, self.visualEntityGroup.sprites() + self.physicalEntityGroup.sprites())
+    if (self.back_button.isClicked()):
+        self.game.changeStage("main")
+    pygame.display.flip()
