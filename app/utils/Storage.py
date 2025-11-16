@@ -67,6 +67,24 @@ def updateData(fileName, findKeys, newRow):
         writeFile(fileName, data)
 
 
+# Similar to the previous function, but adds the row if the row is not already found :
+# setData('test', [key, value], {...})
+def upsertData(fileName, findKeys, newRow):
+    keyName, keyValue = findKeys[0], findKeys[1]
+    if (fileExist(fileName)):
+        data = readFile(fileName)
+        found = False
+        for row in data:
+            if (row[keyName] == keyValue):
+                row = newRow
+                found = True
+                break
+        if found:
+            writeFile(fileName, data)
+        else:
+            addData(fileName)
+
+
 # This function adds a new row to the table :
 # addData('test', {...})
 def insertData(fileName, row):
