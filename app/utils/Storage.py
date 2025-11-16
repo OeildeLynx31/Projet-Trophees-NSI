@@ -56,7 +56,7 @@ def getData(fileName, findKeys):
 
 # This function updates the row to the new given value :
 # setData('test', [key, value], {...})
-def setData(fileName, findKeys, newRow):
+def updateData(fileName, findKeys, newRow):
     keyName, keyValue = findKeys[0], findKeys[1]
     if (fileExist(fileName)):
         data = readFile(fileName)
@@ -69,7 +69,7 @@ def setData(fileName, findKeys, newRow):
 
 # This function adds a new row to the table :
 # addData('test', {...})
-def addData(fileName, row):
+def insertData(fileName, row):
     if (fileExist(fileName)):
         data = readFile(fileName)
         data.append(row)
@@ -78,7 +78,7 @@ def addData(fileName, row):
 
 # This function removes the matching row from the table :
 # remData('test', [key, value])
-def remData(fileName, findKeys):
+def removeData(fileName, findKeys):
     keyName, keyValue = findKeys[0], findKeys[1]
     if (fileExist(fileName)):
         data = readFile(fileName)
