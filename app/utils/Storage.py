@@ -8,8 +8,8 @@ def initFile(fileName, headers=[], data=[]):
         with open('./storage/'+fileName+'.csv', 'w', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=headers)
             writer.writeheader()
-        for row in data:
-            csv_dict_writer.writerow(row)
+            for row in data:
+                csv_dict_writer.writerow(row)
 
 def fileExist(fileName):
     if os.path.isfile('./storage/'+fileName+'.csv'):
@@ -28,16 +28,16 @@ def readFile(fileName):
 def writeFile(fileName, data):
     if (fileExist(fileName)):
         fieldnames = getColumns(fileName, data)
-        with open('./storage/'+fileName+'.csv', 'w', encoding="utf-8", newline="") as csv_file:
-            csv_dict_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        with open('./storage/'+fileName+'.csv', 'w', encoding="utf-8", newline='') as csvfile:
+            csv_dict_writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             csv_dict_writer.writeheader()
-            for line in data:
-                csv_dict_writer.writerow(line)
+            for row in data:
+                csv_dict_writer.writerow(row)
 
 def getColumns(fileName):
     if (fileExist(fileName)):
-        with open('./storage/'+fileName+'.csv') as csv_file:
-            csv_reader = csv.reader(csv_file)
+        with open('./storage/'+fileName+'.csv') as csvfile:
+            csv_reader = csv.reader(csvfile)
             for row in csv_reader:
                 return row # returns the first row of the table, the headers
             return []
@@ -50,8 +50,8 @@ def getColumns(fileName):
 def getData(fileName, findKeys):
     keyName, keyValue = findKeys[0], findKeys[1]
     if (fileExist(fileName)):
-        rowList = readFile(fileName)
-        for row in rowList:
+        data = readFile(fileName)
+        for row in data:
             if (row[keyName] == keyValue):
                 return row
 
@@ -84,7 +84,7 @@ def upsertData(fileName, findKeys, newRow):
         if found:
             writeFile(fileName, data)
         else:
-            addData(fileName)
+            addData(fileName, data)
 
 
 # This function adds a new row to the table :
