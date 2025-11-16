@@ -2,6 +2,7 @@ import pygame
 import os
 
 from ...utils.Button import Button
+from ...utils.Storage import *
 
 class Stage():
   def __init__(self, game):
