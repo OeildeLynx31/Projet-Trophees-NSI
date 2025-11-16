@@ -3,11 +3,13 @@ import os
 
 ######### Core functions #########
 
-def initFile(fileName, headers=[]):
+def initFile(fileName, headers=[], data=[]):
     if (not fileExist(fileName)):
         with open('./storage/'+fileName+'.csv', 'w', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=headers)
             writer.writeheader()
+        for row in data:
+            csv_dict_writer.writerow(row)
 
 def fileExist(fileName):
     if os.path.isfile('./storage/'+fileName+'.csv'):
