@@ -5,12 +5,13 @@ def getProperties(mobName):
             "living": True,
             "textW": 32,
             "textH": 32,
-            "growFactor": 2,
+            "growFactor": 3,
             "hitboxW": 20,
             "hitboxH": 32,
-            "walkingSpeed": 5,
+            "walkingSpeed": 3,
             "jumpHeight": 4,
             "health": 20,
-        }
+            "detectionDistance": 500,
+        },
     }
     return properties[mobName]
