@@ -46,3 +46,9 @@ def mustJump(sprite, dir):
     canJump = (True if rect2.collideobjects(sprite.stage.backdropRects) == None else False)
     print(isBlocked and canJump)
     return isBlocked and canJump
+
+def horizontalDistance(sprite, sprite2):
+    return (sprite.hitbox.x + sprite.hitbox.width / 2) - (sprite2.hitbox.x + sprite2.hitbox.width / 2)
+
+def verticalDistance(sprite, sprite2):
+    return (sprite.hitbox.y + sprite.hitbox.height / 2) - (sprite2.hitbox.y + sprite2.hitbox.height / 2)

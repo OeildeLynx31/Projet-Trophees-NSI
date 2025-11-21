@@ -4,6 +4,7 @@ import time
 from ..utils.CollisionRect import get_enlarged_hitbox
 from ..utils.CollisionRect import nearVoid
 from ..utils.CollisionRect import mustJump
+from ..utils.CollisionRect import horizontalDistance
 from ..utils.StageMovement import getRelativePos
 from ..utils.Entity import getProperties
 
@@ -138,7 +139,7 @@ class Entity(pygame.sprite.Sprite):
             self.damage(3)
 
     def runAI(self):
-        distFromPlayer = self.rect.x-self.stage.player.rect.x
+        distFromPlayer = horizontalDistance(self, self.stage.player)
         dir = 1 if distFromPlayer < 0 else -1
         if abs(distFromPlayer) < self.properties["maxPlayerDistance"] and abs(distFromPlayer) > self.properties["minPlayerDistance"] and (not nearVoid(self, dir) or self.properties["fallInVoid"]): # absolute value
             self.move(dir, 0)
