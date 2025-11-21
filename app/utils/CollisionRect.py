@@ -17,3 +17,13 @@ def get_enlarged_hitbox(rect, marginX, marginY):
     enlargedBox.x = enlargedBox.x + marginX
     enlargedBox.y = enlargedBox.y + marginY
     return enlargedBox
+
+def nearVoid(sprite, dir):
+    rect = pygame.Rect(0, 0, 0, 0)
+    if (dir > 0):
+        rect = pygame.Rect(sprite.rect.x+sprite.rect.width, sprite.rect.y+sprite.rect.height, 1, 720-sprite.rect.y-sprite.rect.height)
+    else:
+        rect = pygame.Rect(sprite.rect.x, sprite.rect.y+sprite.rect.height, 1, 720-sprite.rect.y-sprite.rect.height)
+    if (sprite.stage.debugShowHitboxes):
+        pygame.draw.rect(sprite.stage.screen, "RED", rect, 2)
+    return (True if rect.collideobjects(sprite.stage.backdropRects) == None else False)
