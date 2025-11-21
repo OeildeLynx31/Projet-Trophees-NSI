@@ -13,7 +13,8 @@ def getProperties(mobName):
             "canJump": True,
             "fallInVoid": False,
             "health": 20,
-            "detectionDistance": 500,
+            "maxPlayerDistance": 500,
+            "minPlayerDistance": 100,
         },
     }
     return properties[mobName]
