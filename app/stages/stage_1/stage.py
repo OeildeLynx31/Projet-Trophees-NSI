@@ -1,6 +1,7 @@
 import pygame;
 import os;
 from ...components.player import Player
+from ...entities.entity import Entity
 from ...utils.CollisionRect import *
 from ...utils.StageMovement import genStageMin
 from ...utils.StageUtils import *
@@ -33,6 +34,7 @@ class Stage():
         self.scrollMin = genStageMin(self, 0)
         self.scrollSpace = 400
 
+        self.start()
 
     def tick(self, game):
         stageTick(self, game)
@@ -47,5 +49,18 @@ class Stage():
     def goto(self, x, y):
         stageGoto(self, x, y)
 
-    def moveEntities(self):
-        moveEntities(self, self.visualEntityGroup.sprites() + self.physicalEntityGroup.sprites())
+    def moveEntities(self, x, y):
+        moveEntities(self, self.visualEntityGroup.sprites() + self.physicalEntityGroup.sprites(), x, y)
+
+    def spawnEntities(self):
+        self.physicalEntityGroup.add(Entity(self, self.game, "zombush", 1600, 300))
+        self.group.add(self.visualEntityGroup.sprites())
+        self.group.add(self.physicalEntityGroup.sprites())
+
+    def start(self):
+        for sprite in self.group:
+            if (not sprite.Player):
+                sprite.kill()
+        self.goto(0, 0)
+        self.spawnEntities()
+

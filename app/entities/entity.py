@@ -3,66 +3,62 @@ import os;
 import time
 from ..utils.CollisionRect import get_enlarged_hitbox
 from ..utils.StageMovement import getRelativePos
+from ..utils.Entity import getProperties
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self, game):
+class Entity(pygame.sprite.Sprite):
+    def __init__(self, stage, game, entityType, posX, posY):
         pygame.sprite.Sprite.__init__(self)
 
+        self.properties = getProperties(entityType)
+
         self.game = game
-        self.isLivingEntity = True
+        self.stage = stage
+        self.isLivingEntity = self.properties["living"]
         self.dead = False
-        self.Player = True
+        self.Player = False
+        self.entityType = entityType
+        self.entityName = self.properties["name"]
+
 
         # costumes/skins
         self.images = {}
-        self.images["normal_right"] = pygame.image.load(os.path.join('./assets/players/', 'player1.png'))
-        self.images["normal_left"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), True, False)
-        self.images["walk_right1"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png'))
-        self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f2.png'))
-        self.images["walk_left1"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png')), True, False)
-        self.images["walk_left2"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/players/", "player1-f2.png")), True, False)
-
-        self.heart = []
-        self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'empty_heart.png')), (64, 64)).convert_alpha())
-        self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'half_heart.png')), (64, 64)).convert_alpha())
-        self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'heart.png')), (64, 64)).convert_alpha())
+        self.images["normal_right"] = pygame.image.load(os.path.join('./assets/entities/', self.entityType+'.png'))
+        self.images["normal_left"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/entities/', self.entityType+'.png')), True, False)
+        self.images["walk_right1"] = pygame.image.load(os.path.join('./assets/entities/', self.entityType+'-walk.png'))
+        self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/entities/', self.entityType+'-walk2.png'))
+        self.images["walk_left1"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/entities/', self.entityType+'-walk.png')), True, False)
+        self.images["walk_left2"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/entities/", self.entityType+'-walk2.png')), True, False)
         
         for image in self.images:
-            self.images[image] = pygame.transform.scale(self.images[image], (28 * 2, 52 * 2)).convert_alpha()
+            self.images[image] = pygame.transform.scale(self.images[image], (self.properties["textW"] * self.properties["growFactor"], self.properties["textH"] * self.properties["growFactor"])).convert_alpha()
 
         self.image = self.images["normal_right"]
         self.costumeTicked = False
         self.walkingTick = 0
-        self.walkingSpeed = 10
+        self.walkingSpeed = self.properties["walkingSpeed"]
 
         # position and hitbox
         self.rect = self.image.get_rect()
-        self.rect.x = 100 # go to x
-        self.rect.y = 300 # go to y
+        pos = getRelativePos(self.stage, posX, posY)
+        self.rect.x = pos[0]
+        self.rect.y = pos[1]
         self.hitbox = self.rect.copy()
-        self.hitbox.width = 50
-        self.hitbox.height = 100
+        self.hitbox.width = self.properties["hitboxW"] * self.properties["growFactor"]
+        self.hitbox.height = self.properties["hitboxH"] * self.properties["growFactor"]
 
         # movement
         self.speed = 5
-        self.jumpHeight = 4
+        self.jumpHeight = self.properties["jumpHeight"]
         self.gravity = 0.2
         self.velocity = [0, 0]
         self.lastDir = 1 # 1 for right and -1 for left
         self.jumping = False
-        self.isSneaking = False
         self.isFalling = False
 
         self.keys = []
 
         # game changers
-        self.boosts = []
-                        #jumpStick pour rester collé au plafond, 
-                        #jumpFall pour sauter depuis le vide (1 fois)
-                        #immortal pour être immortel
-                        #fly pour voler comme avec un jetpack
-                        #regeneration pour regénérer de la vie naturellement
-        self.health = 17
+        self.health = self.properties["health"]
         self.damageCooldown = pygame.time.get_ticks()
         self.lifeWaveAnimationStep = 0
         self.effects = []
@@ -71,15 +67,6 @@ class Player(pygame.sprite.Sprite):
         self.game = game
         self.stage = game.currentStage
         self.costumeTicked = False
-        self.keys = pygame.key.get_pressed()
-        if not self.jumping and self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP]:
-            self.jump(self.jumpHeight)
-        if self.keys[pygame.K_LEFT] and not self.keys[pygame.K_RIGHT]:
-            self.move(-1, 0)
-        if self.keys[pygame.K_RIGHT] and not self.keys[pygame.K_LEFT]:
-            self.move(1, 0)
-        self.sneak(self.keys[pygame.K_DOWN])
-        self.updateEffects()
         self.checkGravity()
         self.checkCostume('endTick')
     
@@ -130,7 +117,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.y += y * self.speed
             self.isFalling = True
         else:
-            if y > 0 and "jumpStick" not in self.boosts:
+            if y > 0:
                 self.jumping = False
                 self.isFalling = False
             self.velocity[1] = 0
@@ -152,33 +139,16 @@ class Player(pygame.sprite.Sprite):
             self.damage(3)
 
     def jump(self, force=3):
-        if (not self.jumping and (not self.isFalling or "jumpFall" in self.boosts) and not self.isSneaking):
+        if (not self.jumping and not self.isFalling):
             self.velocity[1] = -force
             self.jumping = True
-        if ("fly" in self.boosts):
-            self.jumping = False
-            self.velocity[1] = -force/2
-
-    def sneak(self, state):
-        self.isSneaking = state
-        if not self.isFalling and state and not self.jumping:
-            self.hitbox.height = 50
-        else:
-            self.hitbox.height = 100
-        self.calcHitbox()
 
     def calcHitbox(self):
         self.hitbox.x = self.rect.x + (self.rect.width - self.hitbox.width)/2 # centrage horizontal à partir des deux largeurs
         self.hitbox.y = self.rect.y + (self.rect.height - self.hitbox.height) # basage de la hitbox à partir du bas
 
-    def respawn(self):
-        self.stage.start()
-        self.giveEffect("regeneration", 2)
-        self.goto(100, 300)
-        self.health = 20
-
     def damage(self, damage, source = None):
-        if (pygame.time.get_ticks() - self.damageCooldown > 120 and "immortal" not in self.boosts): # to prevent player from spam-damages killing it directly
+        if (pygame.time.get_ticks() - self.damageCooldown > 120): # to prevent player from spam-damages killing it directly
             self.health -= damage
             self.damaged = True
             self.damageCooldown = pygame.time.get_ticks()
@@ -191,39 +161,5 @@ class Player(pygame.sprite.Sprite):
             self.health = 20
 
     def kill(self, source = None):
-        print("Player was killed by", str(source))
-        self.respawn()
-    
-    def updateEffects(self):
-        for effect in self.effects:
-            effect.tick()
-            if (effect.initTime + effect.duration < time.time() and effect.active):
-                effect.active = False
-                effect.onEnd()
-
-
-    def giveEffect(self, effectType, duration):
-        class Effect:
-            def __init__(self, player, effectType, duration):
-                self.player = player
-                self.type = effectType
-                self.duration = duration
-                self.initTime = time.time()
-                self.active = True
-                self.init()
-
-            def init(self):
-                if (self.type == "regeneration"):
-                    self.player.boosts.append("regeneration")
-                    self.player.lifeWaveAnimationStep = 0
-
-            def tick(self):
-                pass
-
-            def onEnd(self):
-                if (self.type == "regeneration"):
-                    self.player.boosts.remove("regeneration")
-                self.player.effects.remove(self)
-
-
-        self.effects.append(Effect(self, effectType, duration))
+        self.dead = True
+        print(self.entityName, "was killed by", str(source))

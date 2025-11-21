@@ -1,5 +1,6 @@
 import pygame
 from .StageMovement import isInScreen
+from .StageMovement import getStaticPos
 
 ### Stage methods ###
 
@@ -8,10 +9,11 @@ def stageTick(stage, game):
     stage.screen.blit(stage.backdrop, (stage.scroll[0], stage.scroll[1]))
     
     for sprite in stage.group.sprites():
-        if (isInScreen(sprite) or sprite.isLiving):
+        if ((isInScreen(sprite) or sprite.isLivingEntity) and not sprite.dead):
             sprite.tick(game)#run the tick method for each sprite in the stage
             stage.screen.blit(sprite.image, sprite.rect)
-
+        if sprite.dead:
+            stage.group.remove(sprite)
     stage.debug()
     drawInterface(stage)
     pygame.display.flip()
@@ -30,7 +32,7 @@ def stageMove(stage, x, y):
     for rect in stage.backdropRects:
         rect.x += x2
         rect.y += y2
-    stage.moveEntities()
+    stage.moveEntities(x2, y2)
     return [x2, y2]
 
 def stageGoto(stage, x, y):
@@ -40,7 +42,7 @@ def stageGoto(stage, x, y):
     stage.scroll[0] = x
     stage.scroll[1] = y
 
-    stage.moveEntities() # To also move all entities
+    stage.moveEntities(0, 0) # To also move all entities
 
 def stageDebug(stage):
     for sprite in stage.group.sprites():
@@ -53,11 +55,11 @@ def stageDebug(stage):
         for rect in stage.backdropRects:
             pygame.draw.rect(stage.screen, "RED", rect, 2)
 
-def moveEntities(stage, sprites):
+def moveEntities(stage, sprites, x, y):
     for sprite in sprites:
-        pos = getRelativePos(stage, sprite.rect.x, sprite.rect.y)
-        sprite.rect.x = pos[0]
-        sprite.rect.y = pos[1]
+        pos = getStaticPos(stage, sprite.rect.x, sprite.rect.y)
+        sprite.rect.x +=  x
+        sprite.rect.y += y
 
 def drawInterface(stage):
     drawLifeBar(stage, stage.player)
