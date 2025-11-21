@@ -144,7 +144,6 @@ class Entity(pygame.sprite.Sprite):
         if abs(distFromPlayer) < self.properties["maxPlayerDistance"] and abs(distFromPlayer) > self.properties["minPlayerDistance"] and (not nearVoid(self, dir) or self.properties["fallInVoid"]): # absolute value
             self.move(dir, 0)
             if mustJump(self, dir) and self.properties["canJump"]:
-                print(self.jumping, self.isFalling)
                 self.jump(self.properties["jumpHeight"])
 
     def jump(self, force=3):

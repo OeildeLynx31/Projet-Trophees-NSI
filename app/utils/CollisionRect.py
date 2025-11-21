@@ -44,7 +44,6 @@ def mustJump(sprite, dir):
     
     isBlocked = (False if rect1.collideobjects(sprite.stage.backdropRects) == None else True)
     canJump = (True if rect2.collideobjects(sprite.stage.backdropRects) == None else False)
-    print(isBlocked and canJump)
     return isBlocked and canJump
 
 def horizontalDistance(sprite, sprite2):
