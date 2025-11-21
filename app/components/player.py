@@ -117,7 +117,7 @@ class Player(pygame.sprite.Sprite):
 
     def move(self, x, y):
         self.velocity[0] = x
-        if x != 0:
+        if x != 0 and self.rect.y < 1000: # if not falling into the "void"
             self.lastDir = x
             if get_enlarged_hitbox(self.hitbox, x * self.speed, 0).collideobjects(self.stage.backdropRects) == None:
                 if ((self.rect.x > (self.game.screen.get_width()-self.stage.scrollSpace) and x > 0) or (self.rect.x < self.stage.scrollSpace and x < 0)):
