@@ -140,9 +140,9 @@ class Entity(pygame.sprite.Sprite):
     def runAI(self):
         distFromPlayer = self.rect.x-self.stage.player.rect.x
         dir = 1 if distFromPlayer < 0 else -1
-        if abs(distFromPlayer) < self.properties["detectionDistance"] and abs(distFromPlayer) > 20 and not nearVoid(self, dir): # absolute value
+        if abs(distFromPlayer) < self.properties["detectionDistance"] and abs(distFromPlayer) > 20 and (not nearVoid(self, dir) or self.properties["fallInVoid"]): # absolute value
             self.move(dir, 0)
-            if mustJump(self, dir):
+            if mustJump(self, dir) and self.properties["canJump"]:
                 print(self.jumping, self.isFalling)
                 self.jump(self.properties["jumpHeight"])
 

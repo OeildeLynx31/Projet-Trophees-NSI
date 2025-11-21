@@ -10,6 +10,8 @@ def getProperties(mobName):
             "hitboxH": 32,
             "walkingSpeed": 3,
             "jumpHeight": 4,
+            "canJump": True,
+            "fallInVoid": False,
             "health": 20,
             "detectionDistance": 500,
         },
