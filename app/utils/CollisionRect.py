@@ -21,9 +21,9 @@ def get_enlarged_hitbox(rect, marginX, marginY):
 def nearVoid(sprite, dir):
     rect = pygame.Rect(0, 0, 0, 0)
     if (dir > 0):
-        rect = pygame.Rect(sprite.hitbox.x + sprite.hitbox.width + 10, sprite.hitbox.y + sprite.hitbox.height, 1, 720 - sprite.hitbox.y - sprite.hitbox.height)
+        rect = pygame.Rect(sprite.hitbox.x + sprite.hitbox.width + 10, sprite.hitbox.y + sprite.hitbox.height, sprite.hitbox.width / 2, 720 - sprite.hitbox.y - sprite.hitbox.height)
     else:
-        rect = pygame.Rect(sprite.hitbox.x - 10, sprite.hitbox.y + sprite.hitbox.height, 1, 720 - sprite.hitbox.y - sprite.hitbox.height)
+        rect = pygame.Rect(sprite.hitbox.x - 10 - sprite.hitbox.width / 2, sprite.hitbox.y + sprite.hitbox.height, sprite.hitbox.width / 2, 720 - sprite.hitbox.y - sprite.hitbox.height)
     if (sprite.stage.debugShowHitboxes):
         pygame.draw.rect(sprite.stage.screen, "BLUE", rect, 2)
     return (True if rect.collideobjects(sprite.stage.backdropRects) == None else False)
