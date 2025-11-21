@@ -21,9 +21,28 @@ def get_enlarged_hitbox(rect, marginX, marginY):
 def nearVoid(sprite, dir):
     rect = pygame.Rect(0, 0, 0, 0)
     if (dir > 0):
-        rect = pygame.Rect(sprite.rect.x+sprite.rect.width, sprite.rect.y+sprite.rect.height, 1, 720-sprite.rect.y-sprite.rect.height)
+        rect = pygame.Rect(sprite.hitbox.x + sprite.hitbox.width + 10, sprite.hitbox.y + sprite.hitbox.height, 1, 720 - sprite.hitbox.y - sprite.hitbox.height)
     else:
-        rect = pygame.Rect(sprite.rect.x, sprite.rect.y+sprite.rect.height, 1, 720-sprite.rect.y-sprite.rect.height)
+        rect = pygame.Rect(sprite.hitbox.x - 10, sprite.hitbox.y + sprite.hitbox.height, 1, 720 - sprite.hitbox.y - sprite.hitbox.height)
     if (sprite.stage.debugShowHitboxes):
-        pygame.draw.rect(sprite.stage.screen, "RED", rect, 2)
+        pygame.draw.rect(sprite.stage.screen, "BLUE", rect, 2)
     return (True if rect.collideobjects(sprite.stage.backdropRects) == None else False)
+
+def mustJump(sprite, dir):
+    rect1 = pygame.Rect(0, 0, 0, 0)
+    rect2 = pygame.Rect(0, 0, 0, 0)
+    if (dir > 0):
+        rect1 = pygame.Rect(sprite.hitbox.x + sprite.hitbox.width + 10, sprite.hitbox.y + sprite.hitbox.height - 20, 2, 10)
+        rect2 = pygame.Rect(sprite.hitbox.x + sprite.hitbox.width + 10, sprite.hitbox.y - sprite.properties["jumpHeight"] * 5, 2, 2)
+    else:
+        rect1 = pygame.Rect(sprite.hitbox.x - 10, sprite.hitbox.y + sprite.hitbox.height - 20, 2, 10)
+        rect2 = pygame.Rect(sprite.hitbox.x - 10, sprite.hitbox.y - sprite.properties["jumpHeight"] * 5, 2, 2)
+
+    if (sprite.stage.debugShowHitboxes):
+        pygame.draw.rect(sprite.stage.screen, "BLUE", rect1, 4)
+        pygame.draw.rect(sprite.stage.screen, "BLUE", rect2, 4)
+    
+    isBlocked = (False if rect1.collideobjects(sprite.stage.backdropRects) == None else True)
+    canJump = (True if rect2.collideobjects(sprite.stage.backdropRects) == None else False)
+    print(isBlocked and canJump)
+    return isBlocked and canJump

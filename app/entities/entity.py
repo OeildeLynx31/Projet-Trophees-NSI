@@ -3,6 +3,7 @@ import os;
 import time
 from ..utils.CollisionRect import get_enlarged_hitbox
 from ..utils.CollisionRect import nearVoid
+from ..utils.CollisionRect import mustJump
 from ..utils.StageMovement import getRelativePos
 from ..utils.Entity import getProperties
 
@@ -68,9 +69,9 @@ class Entity(pygame.sprite.Sprite):
         self.game = game
         self.stage = game.currentStage
         self.costumeTicked = False
-        self.checkGravity()
         if (self.isLivingEntity):
             self.runAI()
+            self.checkGravity()
         self.checkCostume('endTick')
     
     def checkCostume(self, type=""):
@@ -141,9 +142,12 @@ class Entity(pygame.sprite.Sprite):
         dir = 1 if distFromPlayer < 0 else -1
         if abs(distFromPlayer) < self.properties["detectionDistance"] and abs(distFromPlayer) > 20 and not nearVoid(self, dir): # absolute value
             self.move(dir, 0)
+            if mustJump(self, dir):
+                print(self.jumping, self.isFalling)
+                self.jump(self.properties["jumpHeight"])
 
     def jump(self, force=3):
-        if (not self.jumping and not self.isFalling):
+        if (not self.jumping):
             self.velocity[1] = -force
             self.jumping = True
 
