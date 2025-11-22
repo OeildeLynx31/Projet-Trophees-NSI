@@ -1,5 +1,6 @@
 import pygame
 import os
+from .Entity import getEntityID
 
 def getSpriteCollisionRects(image_surface):
     # Return a list of rects for each area of non-transparent pixels.
@@ -59,3 +60,19 @@ def getCollisionRectsWithoutSelf(sprite):
         if (fullList[i] != sprite.hitbox):
             newList.append(fullList[i])
     return newList
+
+def getSpriteForRect(stage, rect):
+    for sprite in stage.group:
+        if hasattr(sprite, 'hitbox'):
+            if sprite.hitbox == rect:
+                return sprite
+        else:
+            if sprite.rect == rect:
+                return sprite
+    return None
+
+def walkOnEntityID(sprite, spriteType, topMargin=0):
+    for entity in sprite.stage.group:
+        if spriteType == getEntityID(entity) and sprite.hitbox.colliderect(getEnlargedHitbox(entity.hitbox, 0, -topMargin)):
+            return True
+    return False

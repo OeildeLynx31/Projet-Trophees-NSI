@@ -51,3 +51,11 @@ def getEntitiesForStage(stageID):
         ]
     }
     return stageEntities[stageID]
+
+def getEntityID(sprite):
+    if hasattr(sprite, "entityType"):
+        return sprite.entityType
+    elif sprite.Player:
+        return "player"
+    else:
+        return None
