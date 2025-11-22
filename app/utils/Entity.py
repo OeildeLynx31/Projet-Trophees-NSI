@@ -27,3 +27,11 @@ def getProperties(mobName):
         },
     }
     return properties[mobName]
+
+def getEntitiesForStage(stageID):
+    stageEntities = {
+        "stage1": [
+            {"id": "zombush", "pos": [1600, 300]}
+        ]
+    }
+    return stageEntities[stageID]

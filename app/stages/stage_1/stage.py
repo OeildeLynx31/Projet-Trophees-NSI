@@ -5,6 +5,7 @@ from ...entities.entity import Entity
 from ...utils.CollisionRect import *
 from ...utils.StageMovement import genStageMin
 from ...utils.StageUtils import *
+from ...utils.Entity import getEntitiesForStage
 
 class Stage():
     def __init__(self, game):
@@ -54,7 +55,10 @@ class Stage():
         moveEntities(self, self.visualEntityGroup.sprites() + self.physicalEntityGroup.sprites(), x, y)
 
     def spawnEntities(self):
-        self.physicalEntityGroup.add(Entity(self, self.game, "zombush", 1600, 300))
+        entityList = getEntitiesForStage("stage1")
+        for entity in entityList:
+            self.physicalEntityGroup.add(Entity(self, self.game, entity["id"], entity["pos"][0], entity["pos"][1]))
+        
         self.group.add(self.visualEntityGroup.sprites())
         self.group.add(self.physicalEntityGroup.sprites())
         self.physicalEntitiesHitboxes = []
