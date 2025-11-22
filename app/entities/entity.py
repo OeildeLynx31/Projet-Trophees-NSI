@@ -35,8 +35,6 @@ class Entity(pygame.sprite.Sprite):
 
         self.image = self.images["normal_right"]
         self.costumeTicked = False
-        self.walkingTick = 0
-        self.walkingSpeed = self.properties["walkingSpeed"]
 
         # position and hitbox
         self.rect = self.image.get_rect()
@@ -49,18 +47,22 @@ class Entity(pygame.sprite.Sprite):
         self.physical = self.properties["physical"]
 
         # movement
-        self.speed = self.properties["walkingSpeed"]
-        self.jumpHeight = self.properties["jumpHeight"]
-        self.gravity = 0.2
         self.velocity = [0, 0]
+        self.gravity = 0.2
         self.lastDir = 1 # 1 for right and -1 for left
-        self.jumping = False
-        self.isFalling = False
+        self.health = 1
+        if self.isLivingEntity:
+            self.health = self.properties["health"]
+            self.speed = self.properties["walkingSpeed"]
+            self.jumpHeight = self.properties["jumpHeight"]
+            self.jumping = False
+            self.isFalling = False
+            self.walkingTick = 0
+            self.walkingSpeed = self.properties["walkingSpeed"]
 
         self.keys = []
 
         # game changers
-        self.health = self.properties["health"]
         self.damageCooldown = pygame.time.get_ticks()
         self.lifeWaveAnimationStep = 0
         self.effects = []
