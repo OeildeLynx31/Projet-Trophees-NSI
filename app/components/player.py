@@ -42,6 +42,7 @@ class Player(pygame.sprite.Sprite):
         self.hitbox = self.rect.copy()
         self.hitbox.width = 50
         self.hitbox.height = 100
+        self.physical = False
 
         # movement
         self.speed = 5

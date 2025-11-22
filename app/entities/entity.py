@@ -46,7 +46,7 @@ class Entity(pygame.sprite.Sprite):
         self.hitbox = self.rect.copy()
         self.hitbox.width = self.properties["hitboxW"] * self.properties["growFactor"]
         self.hitbox.height = self.properties["hitboxH"] * self.properties["growFactor"]
-        self.physical = True
+        self.physical = self.properties["physical"]
 
         # movement
         self.speed = self.properties["walkingSpeed"]
@@ -72,6 +72,8 @@ class Entity(pygame.sprite.Sprite):
         if (self.isLivingEntity):
             self.runAI()
             self.checkGravity()
+        elif self.physical:
+            self.calcHitbox()
         self.checkCostume('endTick')
     
     def checkCostume(self, type=""):

@@ -54,7 +54,8 @@ def verticalDistance(sprite, sprite2):
 
 def getCollisionRectsWithoutSelf(sprite):
     fullList = sprite.stage.backdropRects + sprite.stage.physicalEntitiesHitboxes
+    newList = []
     for i in range(len(fullList)):
-        if (fullList[i] == sprite.hitbox):
-            fullList.pop(i)
-    return fullList
+        if (fullList[i] != sprite.hitbox):
+            newList.append(fullList[i])
+    return newList

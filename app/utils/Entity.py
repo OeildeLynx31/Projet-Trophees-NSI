@@ -3,6 +3,7 @@ def getProperties(mobName):
         "zombush": {
             "name": "Zombush",
             "living": True,
+            "physical": False,
             "textW": 32,
             "textH": 32,
             "growFactor": 3,

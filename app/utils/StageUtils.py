@@ -49,9 +49,9 @@ def stageDebug(stage):
     for sprite in stage.group.sprites():
         if (stage.debugShowHitboxes and isInScreen(sprite)):
             if (hasattr(sprite, 'hitbox')):
-                pygame.draw.rect(stage.screen, "RED", sprite.hitbox, 2)
+                pygame.draw.rect(stage.screen, "RED" if sprite.physical else "BLUE", sprite.hitbox, 2)
             else:
-                pygame.draw.rect(stage.screen, "RED", sprite.rect, 2)
+                pygame.draw.rect(stage.screen, "RED" if sprite.physical else "BLUE", sprite.rect, 2)
     if (stage.debugShowHitboxes):
         for rect in stage.backdropRects:
             pygame.draw.rect(stage.screen, "RED", rect, 2)
