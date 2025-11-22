@@ -22,6 +22,7 @@ class Stage():
         self.group = pygame.sprite.Group()               # Global sprite rendering group, including all entities
         self.visualEntityGroup = pygame.sprite.Group()   # Visual entities that doesn't have any hitbox
         self.physicalEntityGroup = pygame.sprite.Group() # Phisical entities that has an hitbox
+        self.physicalEntitiesHitboxes = []
 
         self.group.add(self.visualEntityGroup.sprites())
         self.group.add(self.physicalEntityGroup.sprites())
@@ -56,6 +57,10 @@ class Stage():
         self.physicalEntityGroup.add(Entity(self, self.game, "zombush", 1600, 300))
         self.group.add(self.visualEntityGroup.sprites())
         self.group.add(self.physicalEntityGroup.sprites())
+        self.physicalEntitiesHitboxes = []
+        for entity in self.group:
+            if not entity.Player and entity.physical:
+                self.physicalEntitiesHitboxes.append(entity.hitbox)
 
     def start(self):
         for sprite in self.group:

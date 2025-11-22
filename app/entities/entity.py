@@ -5,6 +5,7 @@ from ..utils.CollisionRect import get_enlarged_hitbox
 from ..utils.CollisionRect import nearVoid
 from ..utils.CollisionRect import mustJump
 from ..utils.CollisionRect import horizontalDistance
+from ..utils.CollisionRect import getCollisionRectsWithoutSelf
 from ..utils.StageMovement import getRelativePos
 from ..utils.Entity import getProperties
 
@@ -48,6 +49,7 @@ class Entity(pygame.sprite.Sprite):
         self.hitbox = self.rect.copy()
         self.hitbox.width = self.properties["hitboxW"] * self.properties["growFactor"]
         self.hitbox.height = self.properties["hitboxH"] * self.properties["growFactor"]
+        self.physical = True
 
         # movement
         self.speed = self.properties["walkingSpeed"]
@@ -111,9 +113,9 @@ class Entity(pygame.sprite.Sprite):
         self.velocity[0] = x
         if x != 0:
             self.lastDir = x
-            if get_enlarged_hitbox(self.hitbox, x * self.speed, 0).collideobjects(self.stage.backdropRects) == None:
+            if get_enlarged_hitbox(self.hitbox, x * self.speed, 0).collideobjects(getCollisionRectsWithoutSelf(self)) == None:
                     self.rect.x += x * self.speed
-        if get_enlarged_hitbox(self.hitbox, 0, y * self.speed).collideobjects(self.stage.backdropRects) == None:
+        if get_enlarged_hitbox(self.hitbox, 0, y * self.speed).collideobjects(getCollisionRectsWithoutSelf(self)) == None:
             self.rect.y += y * self.speed
             self.isFalling = True
         else:

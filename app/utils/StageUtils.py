@@ -14,6 +14,7 @@ def stageTick(stage, game):
             stage.screen.blit(sprite.image, sprite.rect)
         if sprite.dead:
             stage.group.remove(sprite)
+            stage.physicalEntitiesHitboxes.remove(sprite.hitbox)
     stage.debug()
     drawInterface(stage)
     pygame.display.flip()

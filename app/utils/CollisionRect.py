@@ -51,3 +51,10 @@ def horizontalDistance(sprite, sprite2):
 
 def verticalDistance(sprite, sprite2):
     return (sprite.hitbox.y + sprite.hitbox.height / 2) - (sprite2.hitbox.y + sprite2.hitbox.height / 2)
+
+def getCollisionRectsWithoutSelf(sprite):
+    fullList = sprite.stage.backdropRects + sprite.stage.physicalEntitiesHitboxes
+    for i in range(len(fullList)):
+        if (fullList[i] == sprite.hitbox):
+            fullList.pop(i)
+    return fullList
