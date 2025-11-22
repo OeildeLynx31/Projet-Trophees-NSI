@@ -28,7 +28,6 @@ class Entity(pygame.sprite.Sprite):
         self.images = {}
         for skin in self.properties["skins"]:
             self.images[skin[0]] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/entities/', skin[1]+'.png')), skin[2], False)
-        print(self.images)
 
         for image in self.images:
             self.images[image] = pygame.transform.scale(self.images[image], (self.properties["textW"] * self.properties["growFactor"], self.properties["textH"] * self.properties["growFactor"])).convert_alpha()
