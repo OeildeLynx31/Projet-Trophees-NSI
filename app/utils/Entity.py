@@ -25,13 +25,29 @@ def getProperties(mobName):
                 ["walk_left2", "zombush-walk2", True],
             ]
         },
+        "champoline": {
+            "name": "Champoline",
+            "living": False,
+            "physical": True,
+            "textW": 32,
+            "textH": 16,
+            "growFactor": 3,
+            "hitboxW": 32,
+            "hitboxH": 12,
+            "skins": [
+                ["normal_right", "champoline", False],
+            ]
+        }
+        
     }
     return properties[mobName]
 
 def getEntitiesForStage(stageID):
     stageEntities = {
         "stage1": [
-            {"id": "zombush", "pos": [1600, 300]}
+            {"id": "zombush", "pos": [1600, 300]},
+            {"id": "champoline", "pos": [1100, 360]}
+
         ]
     }
     return stageEntities[stageID]
