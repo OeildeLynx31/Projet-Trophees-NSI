@@ -26,13 +26,10 @@ class Entity(pygame.sprite.Sprite):
 
         # costumes/skins
         self.images = {}
-        self.images["normal_right"] = pygame.image.load(os.path.join('./assets/entities/', self.entityType+'.png'))
-        self.images["normal_left"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/entities/', self.entityType+'.png')), True, False)
-        self.images["walk_right1"] = pygame.image.load(os.path.join('./assets/entities/', self.entityType+'-walk.png'))
-        self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/entities/', self.entityType+'-walk2.png'))
-        self.images["walk_left1"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/entities/', self.entityType+'-walk.png')), True, False)
-        self.images["walk_left2"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/entities/", self.entityType+'-walk2.png')), True, False)
-        
+        for skin in self.properties["skins"]:
+            self.images[skin[0]] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/entities/', skin[1]+'.png')), skin[2], False)
+        print(self.images)
+
         for image in self.images:
             self.images[image] = pygame.transform.scale(self.images[image], (self.properties["textW"] * self.properties["growFactor"], self.properties["textH"] * self.properties["growFactor"])).convert_alpha()
 
