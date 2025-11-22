@@ -2,6 +2,7 @@ import pygame;
 import os;
 import time
 from ..utils.CollisionRect import getEnlargedHitbox
+from ..utils.CollisionRect import walkOnEntityID
 from ..utils.StageMovement import getRelativePos
 
 class Player(pygame.sprite.Sprite):
@@ -151,6 +152,8 @@ class Player(pygame.sprite.Sprite):
         self.move(0, self.velocity[1])
         if (self.rect.y > 1000): # if falling into the "void"
             self.damage(3)
+        if (walkOnEntityID(self, "champoline", 20)):
+            self.jump(5)
 
     def jump(self, force=3):
         if (not self.jumping and (not self.isFalling or "jumpFall" in self.boosts) and not self.isSneaking):
