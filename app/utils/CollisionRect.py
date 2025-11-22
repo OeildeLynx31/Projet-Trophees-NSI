@@ -1,18 +1,18 @@
 import pygame
 import os
 
-def get_sprite_collision_rects(image_surface):
+def getSpriteCollisionRects(image_surface):
     # Return a list of rects for each area of non-transparent pixels.
     mask = pygame.mask.from_surface(image_surface)
     rects = mask.get_bounding_rects()
     return rects
 
-def get_collision_rects_for_background(path, file):
+def getBackgroundCollisionRects(path, file):
     background = pygame.image.load(os.path.join(path, file.replace(".png", ".hitbox.png")))
     backgroundHitBox = pygame.transform.scale(background, (720 * background.get_width() / background.get_height(), 720)).convert_alpha()
-    return get_sprite_collision_rects(backgroundHitBox)
+    return getSpriteCollisionRects(backgroundHitBox)
 
-def get_enlarged_hitbox(rect, marginX, marginY):
+def getEnlargedHitbox(rect, marginX, marginY):
     enlargedBox = rect.copy()
     enlargedBox.x = enlargedBox.x + marginX
     enlargedBox.y = enlargedBox.y + marginY

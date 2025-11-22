@@ -1,6 +1,6 @@
 import pygame
 import os
-from .CollisionRect import get_sprite_collision_rects
+from .CollisionRect import getSpriteCollisionRects
 
 class Button:
     def __init__(self, x, y, width, height, img):
@@ -8,7 +8,7 @@ class Button:
         self.image = pygame.transform.scale(self.image, (width, height)).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
-        self.clickRect = get_sprite_collision_rects(self.image)[0] # supposing that a button is composed by only one surface
+        self.clickRect = getSpriteCollisionRects(self.image)[0] # supposing that a button is composed by only one surface
         self.clickRect.x += x
         self.clickRect.y += y
 

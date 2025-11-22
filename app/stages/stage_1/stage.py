@@ -14,7 +14,7 @@ class Stage():
         background = pygame.image.load(os.path.join('./assets/backgrounds/', 'background1.png'))
         self.backdrop = pygame.transform.scale(background, (720 * background.get_width() / background.get_height(), 720)).convert_alpha()
         self.backgroundColor = "WHITE"
-        self.backdropRects = get_collision_rects_for_background('./assets/backgrounds/', 'background1.png')
+        self.backdropRects = getBackgroundCollisionRects('./assets/backgrounds/', 'background1.png')
 
         self.player = Player(self.game)
 

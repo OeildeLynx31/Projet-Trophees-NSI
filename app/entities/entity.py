@@ -1,7 +1,7 @@
 import pygame;
 import os;
 import time
-from ..utils.CollisionRect import get_enlarged_hitbox
+from ..utils.CollisionRect import getEnlargedHitbox
 from ..utils.CollisionRect import nearVoid
 from ..utils.CollisionRect import mustJump
 from ..utils.CollisionRect import horizontalDistance
@@ -113,9 +113,9 @@ class Entity(pygame.sprite.Sprite):
         self.velocity[0] = x
         if x != 0:
             self.lastDir = x
-            if get_enlarged_hitbox(self.hitbox, x * self.speed, 0).collideobjects(getCollisionRectsWithoutSelf(self)) == None:
+            if getEnlargedHitbox(self.hitbox, x * self.speed, 0).collideobjects(getCollisionRectsWithoutSelf(self)) == None:
                     self.rect.x += x * self.speed
-        if get_enlarged_hitbox(self.hitbox, 0, y * self.speed).collideobjects(getCollisionRectsWithoutSelf(self)) == None:
+        if getEnlargedHitbox(self.hitbox, 0, y * self.speed).collideobjects(getCollisionRectsWithoutSelf(self)) == None:
             self.rect.y += y * self.speed
             self.isFalling = True
         else:
