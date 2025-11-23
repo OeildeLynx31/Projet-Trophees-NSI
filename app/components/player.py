@@ -74,7 +74,7 @@ class Player(pygame.sprite.Sprite):
         self.stage = game.currentStage
         self.costumeTicked = False
         self.keys = pygame.key.get_pressed()
-        if not self.jumping and self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP]:
+        if self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP]:
             self.jump(self.jumpHeight)
         if self.keys[pygame.K_LEFT] and not self.keys[pygame.K_RIGHT]:
             self.move(-1, 0)
@@ -154,8 +154,12 @@ class Player(pygame.sprite.Sprite):
             self.damage(3)
         if (walkOnEntityID(self, "champoline", 20)):
             self.jump(5)
+        if (walkOnEntityID(self, "vines")):
+            self.velocity[1] = 0.2
 
     def jump(self, force=3):
+        if (walkOnEntityID(self, "vines")):
+            self.velocity[1] = -0.7
         if (not self.jumping and (not self.isFalling or "jumpFall" in self.boosts) and not self.isSneaking):
             self.velocity[1] = -force
             self.jumping = True
