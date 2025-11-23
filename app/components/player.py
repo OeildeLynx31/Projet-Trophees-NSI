@@ -87,7 +87,6 @@ class Player(pygame.sprite.Sprite):
         self.checkCostume('endTick')
     
     def checkCostume(self, type=""):
-        Particle(self.stage, self.rect.x, self.rect.y, 3, "part1", 0.5, 5)
         if (not self.costumeTicked): # To update costume only once by tick
             self.costumeTicked = True
             if (self.velocity[0] > 0):
@@ -172,6 +171,7 @@ class Player(pygame.sprite.Sprite):
     def sneak(self, state):
         self.isSneaking = state
         if not self.isFalling and state and not self.jumping:
+            Particle(self.stage, self.rect.x, self.rect.y + 50, 3, "part1", 0.5, 5)
             self.hitbox.height = 50
         else:
             self.hitbox.height = 100
