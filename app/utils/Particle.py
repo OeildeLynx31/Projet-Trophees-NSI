@@ -5,13 +5,14 @@ from .StageMovement import getRelativePos
 from .StageMovement import getStaticPos
  
 class Particle:
-    def __init__(self, stage, x:int, y:int, size:int=1, parType:str="circle", speed:int=2, lifeTime:int=100):
+    def __init__(self, stage, x:int, y:int, size:int=1, parType:str="circle", speed:float=2, gravity:float=0, lifeTime:int=100):
         self.stage = stage
         pos = getStaticPos(self.stage, x, y)
         self.x = pos[0]
         self.y = pos[1]
         self.vx = random.uniform(-speed, speed)
         self.vy = random.uniform(-speed, speed)
+        self.gravity = gravity
         self.size = size
         self.lifetime = lifeTime  # Durée de vie de la particule
         self.type = parType
@@ -21,11 +22,16 @@ class Particle:
     def tick(self):
         self.x += self.vx
         self.y += self.vy
+        if self.gravity:
+            self.y += 0.5
         self.lifetime -= 1
         if self.lifetime == 0:
             self.stage.particles.remove(self)
         else:
             self.draw(self.stage.screen)
+
+        if len(self.stage.particles) > 1000:
+            print("Warning: Too much particles")
  
     def draw(self, screen):
         pos = getRelativePos(self.stage, self.x, self.y)
