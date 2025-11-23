@@ -45,7 +45,7 @@ def getProperties(mobName):
             "textW": 16,
             "textH": 32,
             "growFactor": 4,
-            "hitboxW": 16,
+            "hitboxW": 8,
             "hitboxH": 32,
             "skins": [
                 ["normal_right", "vines", False],
