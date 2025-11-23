@@ -73,8 +73,7 @@ class Entity(pygame.sprite.Sprite):
         if (self.isLivingEntity):
             self.runAI()
             self.checkGravity()
-        elif self.physical:
-            self.calcHitbox()
+        self.calcHitbox()
         self.checkCostume('endTick')
     
     def checkCostume(self, type=""):
