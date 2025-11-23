@@ -4,6 +4,7 @@ import time
 from ..utils.CollisionRect import getEnlargedHitbox
 from ..utils.CollisionRect import walkOnEntityID
 from ..utils.StageMovement import getRelativePos
+from ..utils.Particle import Particle
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, game):
@@ -86,6 +87,7 @@ class Player(pygame.sprite.Sprite):
         self.checkCostume('endTick')
     
     def checkCostume(self, type=""):
+        Particle(self.stage, self.rect.x, self.rect.y, 3, "part1", 1)
         if (not self.costumeTicked): # To update costume only once by tick
             self.costumeTicked = True
             if (self.velocity[0] > 0):

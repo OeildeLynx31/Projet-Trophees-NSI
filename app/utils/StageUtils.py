@@ -16,6 +16,8 @@ def stageTick(stage, game):
             stage.group.remove(sprite)
             if (sprite.hitbox in stage.physicalEntitiesHitboxes):
                 stage.physicalEntitiesHitboxes.remove(sprite.hitbox)
+    for particle in stage.particles:
+        particle.tick()
     stage.debug()
     drawInterface(stage)
     pygame.display.flip()
