@@ -37,6 +37,19 @@ def getProperties(mobName):
             "skins": [
                 ["normal_right", "champoline", False],
             ]
+        },
+        "vines": {
+            "name": "Vines",
+            "living": False,
+            "physical": False,
+            "textW": 16,
+            "textH": 32,
+            "growFactor": 4,
+            "hitboxW": 16,
+            "hitboxH": 32,
+            "skins": [
+                ["normal_right", "vines", False],
+            ]
         }
         
     }
@@ -46,8 +59,8 @@ def getEntitiesForStage(stageID):
     stageEntities = {
         "stage1": [
             {"id": "zombush", "pos": [1600, 300]},
-            {"id": "champoline", "pos": [1100, 360]}
-
+            {"id": "champoline", "pos": [1100, 360]},
+            {"id": "vines", "pos": [1450, 233]}
         ]
     }
     return stageEntities[stageID]
