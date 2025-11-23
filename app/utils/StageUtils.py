@@ -8,16 +8,35 @@ def stageTick(stage, game):
 
     stage.screen.blit(stage.backdrop, (stage.scroll[0], stage.scroll[1]))
     
+    # blit and tick the entities that are rendered behind the player (-1)
     for sprite in stage.group.sprites():
-        if ((isInScreen(sprite) or sprite.isLivingEntity) and not sprite.dead):
-            sprite.tick(game)#run the tick method for each sprite in the stage
+        if ((isInScreen(sprite) or sprite.isLivingEntity) and not sprite.dead and not sprite.Player and sprite.renderLayer == -1):
+            sprite.tick(game)
             stage.screen.blit(sprite.image, sprite.rect)
+
         if sprite.dead:
             stage.group.remove(sprite)
             if (sprite.hitbox in stage.physicalEntitiesHitboxes):
                 stage.physicalEntitiesHitboxes.remove(sprite.hitbox)
+    
     for particle in stage.particles:
-        particle.tick()
+        if particle.renderLayer == -1:
+            particle.tick()
+
+    # blit and tick the player
+    stage.player.tick(game)
+    stage.screen.blit(stage.player.image, stage.player.rect)
+
+    for sprite in stage.group.sprites():
+        if ((isInScreen(sprite) or sprite.isLivingEntity) and not sprite.dead and not sprite.Player and sprite.renderLayer == 1):
+            sprite.tick(game)
+            stage.screen.blit(sprite.image, sprite.rect)
+
+    for particle in stage.particles:
+        if particle.renderLayer == 1:
+            particle.tick()
+
+
     stage.debug()
     drawInterface(stage)
     pygame.display.flip()

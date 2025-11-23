@@ -44,6 +44,7 @@ class Entity(pygame.sprite.Sprite):
         self.hitbox.width = self.properties["hitboxW"] * self.properties["growFactor"]
         self.hitbox.height = self.properties["hitboxH"] * self.properties["growFactor"]
         self.physical = self.properties["physical"]
+        self.renderLayer = self.properties["renderLayer"] if hasattr(self.properties, "renderLayer") else -1
 
         # movement
         self.velocity = [0, 0]

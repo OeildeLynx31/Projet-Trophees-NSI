@@ -18,6 +18,7 @@ class Particle:
         self.type = parType
         self.stage.particles.append(self)
         self.img = pygame.transform.scale(pygame.image.load(os.path.join('./assets/particles/', self.type+'.png')), (8 * self.size, 8 * self.size))
+        self.renderLayer = -1
  
     def tick(self):
         self.x += self.vx
