@@ -19,10 +19,10 @@ def getProperties(mobName):
             "skins": [
                 ["normal_right", "zombush", False],
                 ["normal_left", "zombush", True],
-                ["walk_right1", "zombush-walk", False],
-                ["walk_left1", "zombush-walk", True],
-                ["walk_right2", "zombush-walk2", False],
-                ["walk_left2", "zombush-walk2", True],
+                ["walk_right1", "zombush2", False],
+                ["walk_left1", "zombush2", True],
+                ["walk_right2", "zombush3", False],
+                ["walk_left2", "zombush3", True],
             ]
         },
         "champoline": {

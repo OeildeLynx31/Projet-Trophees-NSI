@@ -82,24 +82,30 @@ class Entity(pygame.sprite.Sprite):
             self.costumeTicked = True
             if (self.velocity[0] > 0):
                 self.walkingTick = self.walkingTick + 1
-                if (self.walkingTick <= self.walkingSpeed):
+                if (self.walkingTick <= self.walkingSpeed * 4):
+                    self.image = self.images["normal_right"]
+                elif (self.walkingTick <= self.walkingSpeed * 8):
                     self.image = self.images["walk_right1"]
-                elif (self.walkingTick <= self.walkingSpeed * 2):
+                elif (self.walkingTick <= self.walkingSpeed * 12):
                     self.image = self.images["walk_right2"]
                 else:
-                    self.image = self.images["normal_right"]
-                    if (self.walkingTick > self.walkingSpeed * 2):
+                    if (self.walkingTick > self.walkingSpeed * 12):
                         self.walkingTick = 0
 
             elif (self.velocity[0] < 0):
                 self.walkingTick = self.walkingTick + 1
-                if (self.walkingTick <= self.walkingSpeed):
+                if (self.walkingTick <= self.walkingSpeed * 4):
                     self.image = self.images["walk_left1"]
-                elif (self.walkingTick <= self.walkingSpeed * 2):
+                    print('1')
+                elif (self.walkingTick <= self.walkingSpeed * 8):
                     self.image = self.images["normal_left"]
+                    print('2')
+                elif (self.walkingTick <= self.walkingSpeed * 12):
+                    self.image = self.images["walk_left2"]
+                    print('3')
                 else:
                     self.image = self.images["normal_left"]
-                    if (self.walkingTick > self.walkingSpeed * 2):
+                    if (self.walkingTick > self.walkingSpeed * 12):
                         self.walkingTick = 0
             else:
                 self.walkingTick = 0
