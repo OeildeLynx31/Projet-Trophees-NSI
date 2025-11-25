@@ -1,4 +1,5 @@
 import pygame
+import time
 from .StageMovement import isInScreen
 from .StageMovement import getStaticPos
 
@@ -36,6 +37,11 @@ def stageTick(stage, game):
         if particle.renderLayer == 1:
             particle.tick()
 
+    for damage in stage.damages:
+        if time.time() > damage.time + damage.duration:
+            stage.damages.remove(damage)
+        else:
+            damage.tick()
 
     stage.debug()
     drawInterface(stage)
@@ -68,15 +74,18 @@ def stageGoto(stage, x, y):
     stage.moveEntities(0, 0) # To also move all entities
 
 def stageDebug(stage):
-    for sprite in stage.group.sprites():
-        if (stage.debugShowHitboxes and isInScreen(sprite)):
-            if (hasattr(sprite, 'hitbox')):
-                pygame.draw.rect(stage.screen, "RED" if sprite.physical else "BLUE", sprite.hitbox, 2)
-            else:
-                pygame.draw.rect(stage.screen, "RED" if sprite.physical else "BLUE", sprite.rect, 2)
-    if (stage.debugShowHitboxes):
-        for rect in stage.backdropRects:
-            pygame.draw.rect(stage.screen, "RED", rect, 2)
+    if stage.debugShowHitboxes:
+        for sprite in stage.group.sprites():
+            if (isInScreen(sprite)):
+                if (hasattr(sprite, 'hitbox')):
+                    pygame.draw.rect(stage.screen, "RED" if sprite.physical else "BLUE", sprite.hitbox, 2)
+                else:
+                    pygame.draw.rect(stage.screen, "RED" if sprite.physical else "BLUE", sprite.rect, 2)
+        if (stage.debugShowHitboxes):
+            for rect in stage.backdropRects:
+                pygame.draw.rect(stage.screen, "RED", rect, 2)
+        for damage in stage.damages:
+            pygame.draw.rect(stage.screen, "YELLOW", damage.rect, 2)
 
 def moveEntities(stage, sprites, x, y):
     for sprite in sprites:

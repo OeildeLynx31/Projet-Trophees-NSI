@@ -74,6 +74,7 @@ class Entity(pygame.sprite.Sprite):
         if (self.isLivingEntity):
             self.runAI()
             self.checkGravity()
+            self.checkDamage()
         self.calcHitbox()
         self.checkCostume('endTick')
     
@@ -150,6 +151,12 @@ class Entity(pygame.sprite.Sprite):
             self.move(dir, 0)
             if mustJump(self, dir) and self.properties["canJump"]:
                 self.jump(self.properties["jumpHeight"])
+
+    def checkDamage(self):
+        for damage in self.stage.damages:
+            if damage.rect.collideobjects([self.hitbox]) and not self in damage.damagedEntities and self != damage.origin:
+                self.damage(damage.damage, damage.origin)
+                damage.damagedEntities.append(self)
 
     def jump(self, force=3):
         if (not self.jumping):

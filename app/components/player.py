@@ -5,6 +5,7 @@ from ..utils.CollisionRect import getEnlargedHitbox
 from ..utils.CollisionRect import walkOnEntityID
 from ..utils.StageMovement import getRelativePos
 from ..utils.Particle import Particle
+from ..utils.Damage import Damage
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, game):
@@ -56,6 +57,11 @@ class Player(pygame.sprite.Sprite):
         self.isSneaking = False
         self.isFalling = False
 
+        # attack
+        self.isAttacking = False
+        self.lastAttackTime = time.time()
+        self.attackSpeed = 0.5
+
         self.keys = []
 
         # game changers
@@ -81,9 +87,12 @@ class Player(pygame.sprite.Sprite):
             self.move(-1, 0)
         if self.keys[pygame.K_RIGHT] and not self.keys[pygame.K_LEFT]:
             self.move(1, 0)
+        if pygame.mouse.get_pressed(num_buttons=3)[0]:
+            self.attack()
         self.sneak(self.keys[pygame.K_DOWN])
         self.updateEffects()
         self.checkGravity()
+        self.checkDamage()
         self.checkCostume('endTick')
     
     def checkCostume(self, type=""):
@@ -158,6 +167,12 @@ class Player(pygame.sprite.Sprite):
         if (walkOnEntityID(self, "vines")):
             self.velocity[1] = 0.2
 
+    def checkDamage(self):
+        for damage in self.stage.damages:
+            if damage.rect.collideobjects([self.hitbox]) and not self in damage.damagedEntities and self != damage.origin:
+                self.damage(damage.damage, damage.origin)
+                damage.damagedEntities.append(self)
+
     def jump(self, force=3):
         if (walkOnEntityID(self, "vines")):
             self.velocity[1] = -0.7
@@ -176,6 +191,12 @@ class Player(pygame.sprite.Sprite):
         else:
             self.hitbox.height = 100
         self.calcHitbox()
+    
+    def attack(self):
+        if (time.time() - self.lastAttackTime > self.attackSpeed):
+            self.lastAttackTime = time.time()
+            self.isAttacking = 1
+            Damage(self.stage, [50, 0], [50, 20], 5, 0.2, self, True)
 
     def calcHitbox(self):
         self.hitbox.x = self.rect.x + (self.rect.width - self.hitbox.width)/2 # centrage horizontal à partir des deux largeurs

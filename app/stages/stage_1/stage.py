@@ -25,6 +25,7 @@ class Stage():
         self.physicalEntityGroup = pygame.sprite.Group() # Phisical entities that has an hitbox
         self.physicalEntitiesHitboxes = []
         self.particles = []
+        self.damages = []
 
         self.group.add(self.visualEntityGroup.sprites())
         self.group.add(self.physicalEntityGroup.sprites())
