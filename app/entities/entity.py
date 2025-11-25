@@ -96,13 +96,10 @@ class Entity(pygame.sprite.Sprite):
                 self.walkingTick = self.walkingTick + 1
                 if (self.walkingTick <= self.walkingSpeed * 4):
                     self.image = self.images["walk_left1"]
-                    print('1')
                 elif (self.walkingTick <= self.walkingSpeed * 8):
                     self.image = self.images["normal_left"]
-                    print('2')
                 elif (self.walkingTick <= self.walkingSpeed * 12):
                     self.image = self.images["walk_left2"]
-                    print('3')
                 else:
                     self.image = self.images["normal_left"]
                     if (self.walkingTick > self.walkingSpeed * 12):
