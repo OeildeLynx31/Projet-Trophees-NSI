@@ -1,11 +1,15 @@
 import pygame
 from ..utils.StageHandler import getStageByID
+from ..utils.Font import initFonts
 from ..utils.Storage import readFile
 
 class Game():
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Trophées NSI 2025-2026")
+
+        initFonts(self)
+
         self.screen = pygame.display.set_mode((1280, 720))
         self.running = False
         self.currentStage = getStageByID("main")(self)
@@ -36,11 +40,12 @@ class Game():
     def run(self):
         self.running = True
         while self.running :
+            self.tick()
+            self.clock.tick(60)
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.quit()
-            self.tick()
-            self.clock.tick(60)
 
     def quit(self):
         self.running = False
