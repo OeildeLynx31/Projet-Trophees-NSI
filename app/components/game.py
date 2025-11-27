@@ -10,7 +10,8 @@ class Game():
 
         initFonts(self)
 
-        self.screen = pygame.display.set_mode((1280, 720))
+        self.flags = pygame.FULLSCREEN | pygame.SCALED
+        self.screen = pygame.display.set_mode((1280, 720), flags=self.flags, vsync=1)
         self.running = False
         self.currentStage = getStageByID("main")(self)
         self.clock = pygame.time.Clock()
