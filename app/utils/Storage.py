@@ -9,12 +9,10 @@ def initFile(fileName, headers=[], data=[]):
             writer = csv.DictWriter(csvfile, fieldnames=headers)
             writer.writeheader()
             for row in data:
-                csv_dict_writer.writerow(row)
+                writer.writerow(row)
 
 def fileExist(fileName):
-    if os.path.isfile('./storage/'+fileName+'.csv'):
-        return True
-    return False
+    return os.path.isfile('./storage/' + fileName + '.csv')
 
 def readFile(fileName):
     if (fileExist(fileName)):
@@ -27,7 +25,7 @@ def readFile(fileName):
 
 def writeFile(fileName, data):
     if (fileExist(fileName)):
-        fieldnames = getColumns(fileName, data)
+        fieldnames = getColumns(fileName)
         with open('./storage/'+fileName+'.csv', 'w', encoding="utf-8", newline='') as csvfile:
             csv_dict_writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             csv_dict_writer.writeheader()
@@ -84,7 +82,7 @@ def upsertData(fileName, findKeys, newRow):
         if found:
             writeFile(fileName, data)
         else:
-            addData(fileName, data)
+            insertData(fileName, newRow)
 
 
 # This function adds a new row to the table :

@@ -16,6 +16,19 @@ class Stage():
     self.settings_button = Button(512, 384, 256, 128, "main_settings.png")
     self.title = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/', "title.png")), (876, 248)).convert_alpha()
 
+    try:
+      initFile('settings', headers=['name', 'value'], data=[])
+      print("Loading settings...")
+      settingsData = readFile('settings')
+      if len(settingsData) > 0 and settingsData:
+        for row in settingsData:
+          print(f" - {row['name']} : {row['value']}")
+      else:
+        print(" No settings found, using defaults.")
+    except Exception:
+      print(" Error while loading settings, using defaults.")
+      pass
+
   def tick(self, game):
     self.game = game
     self.screen.blit(self.backdrop, (0, 0))
@@ -29,6 +42,13 @@ class Stage():
     if (self.settings_button.isClicked()):
         self.game.changeStage("settings")
     if (self.quit_button.isClicked()):
-        pygame.quit()
-        exit()
+      print("Quitting game...")
+      try:
+        for k, v in self.game.settings.items():
+          upsertData('settings', [k, v], {'name': k, 'value': str(v)})
+          print(f"Saving setting {k} : {v}")
+      except Exception as e:
+        print(f"Error saving settings: {e}")
+      pygame.quit()
+      exit()
     pygame.display.flip()

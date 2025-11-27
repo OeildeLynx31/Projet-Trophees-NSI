@@ -1,5 +1,6 @@
 import pygame
 from ..utils.StageHandler import getStageByID
+from ..utils.Storage import readFile
 
 class Game():
     def __init__(self):
@@ -11,6 +12,26 @@ class Game():
         self.clock = pygame.time.Clock()
         self.settings = {}
         self.settings["volume"] = 100
+        self.loadSettings()
+        
+    def loadSettings(self):
+        try:
+            settingsData = readFile('settings')
+            if settingsData and len(settingsData) > 0:
+                for row in settingsData:
+                    key = row.get('name', '').strip()
+                    value = row.get('value', '').strip()
+                    if key:
+                        try:
+                            self.settings[key] = int(value)
+                        except ValueError:
+                            try:
+                                self.settings[key] = float(value)
+                            except ValueError:
+                                self.settings[key] = value
+                print(f"Loaded {len(settingsData)} setting(s) from storage")
+        except Exception as e:
+            print(f"Could not load settings from storage: {e}, using defaults")
 
     def run(self):
         self.running = True
