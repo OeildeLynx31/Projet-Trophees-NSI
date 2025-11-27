@@ -75,7 +75,7 @@ def upsertData(fileName, findKeys, newRow):
         data = readFile(fileName)
         found = False
         for row in data:
-            if (row[keyName] == keyValue):
+            if (row["name"] == keyName):
                 row = newRow
                 found = True
                 break

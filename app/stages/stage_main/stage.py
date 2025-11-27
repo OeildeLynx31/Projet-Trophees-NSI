@@ -21,19 +21,6 @@ class Stage():
         self.fontLabels = []
         self.fontLabels.append(Font("Hello world", [0, 0], getFont(self.game, "default"), "WHITE", {}))
 
-        try:
-            initFile('settings', headers=['name', 'value'], data=[])
-            print("Loading settings...")
-            settingsData = readFile('settings')
-            if len(settingsData) > 0 and settingsData:
-                for row in settingsData:
-                    print(f" - {row['name']} : {row['value']}")
-            else:
-                print(" No settings found, using defaults.")
-        except Exception:
-            print(" Error while loading settings, using defaults.")
-        pass
-
     def tick(self, game):
         self.game = game
         self.screen.blit(self.backdrop, (0, 0))
@@ -49,12 +36,6 @@ class Stage():
             self.game.changeStage("settings")
         if (self.quit_button.isClicked()):
             print("Quitting game...")
-            try:
-                for k, v in self.game.settings.items():
-                    upsertData('settings', [k, v], {'name': k, 'value': str(v)})
-                    print(f"Saving setting {k} : {v}")
-            except Exception as e:
-                print(f"Error saving settings: {e}")
             pygame.quit()
             exit()
         pygame.display.flip()

@@ -3,6 +3,7 @@ import os
 
 from ...utils.Button import Button
 from ...utils.Slider import Slider
+from ...utils.Settings import saveSettings
 
 class Stage():
     def __init__(self, game):
@@ -33,6 +34,7 @@ class Stage():
         self.group.draw(self.screen)
 
         if (self.back_button.isClicked()):
+            saveSettings(self.settings)
             self.game.changeStage("main")
         pygame.display.flip()
 
