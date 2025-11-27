@@ -15,11 +15,12 @@ class Game():
     def run(self):
         self.running = True
         while self.running :
+            self.tick()
+            self.clock.tick(60)
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.quit()
-            self.tick()
-            self.clock.tick(60)
 
     def quit(self):
         self.running = False
