@@ -1,10 +1,14 @@
 import pygame
 from ..utils.StageHandler import getStageByID
+from ..utils.Font import initFonts
 
 class Game():
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Trophées NSI 2025-2026")
+
+        initFonts(self)
+
         self.screen = pygame.display.set_mode((1280, 720))
         self.running = False
         self.currentStage = getStageByID("main")(self)
