@@ -26,11 +26,15 @@ def readFile(fileName):
 def writeFile(fileName, data):
     if (fileExist(fileName)):
         fieldnames = getColumns(fileName)
-        with open('./storage/'+fileName+'.csv', 'w', encoding="utf-8", newline='') as csvfile:
-            csv_dict_writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            csv_dict_writer.writeheader()
-            for row in data:
-                csv_dict_writer.writerow(row)
+        try:
+            with open('./storage/'+fileName+'.csv', 'w', encoding="utf-8", newline='') as csvfile:
+                csv_dict_writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                csv_dict_writer.writeheader()
+                for row in data:
+                    csv_dict_writer.writerow(row)
+                    print(f"writing ${row}")
+        except Exception as e:
+            print("error while wr", e)
 
 def getColumns(fileName):
     if (fileExist(fileName)):
@@ -80,7 +84,11 @@ def upsertData(fileName, findKeys, newRow):
                 found = True
                 break
         if found:
-            writeFile(fileName, data)
+            try:
+                writeFile(fileName, data)
+                print("done", found)
+            except Exception as e:
+                print("error while writing:", e)
         else:
             insertData(fileName, newRow)
 

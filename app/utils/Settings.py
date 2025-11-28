@@ -1,4 +1,4 @@
-from .Storage import initFile, readFile, upsertData
+from .Storage import initFile, readFile, writeFile
 
 def loadSettings():
     settings = {}
@@ -32,8 +32,9 @@ def getDefaults():
 
 def saveSettings(settings):
     try:
-        for k, v in settings.items():
-            upsertData('settings', [k, v], {'name': k, 'value': str(v)})
-            print(f"Saving setting {k} : {v}")
+        settingsArray = []
+        for key in settings.keys():
+            settingsArray.append({"name": key, "value": settings[key]})
+        writeFile("settings", settingsArray)
     except Exception as e:
         print(f"Error saving settings: {e}")
