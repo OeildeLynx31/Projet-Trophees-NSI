@@ -4,7 +4,7 @@ import os
 from ...utils.Button import Button
 from ...utils.Storage import *
 
-from ...utils.Font import Font
+from ...utils.Font import Label
 from ...utils.Font import getFont
 
 class Stage():
@@ -19,7 +19,7 @@ class Stage():
         self.settings_button = Button(512, 384, 256, 128, "main_settings.png")
         self.title = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/', "title.png")), (876, 248)).convert_alpha()
         self.fontLabels = []
-        self.fontLabels.append(Font("ABCDEEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789", [0, 0], getFont(self.game, "yoster"), "WHITE", 32))
+        self.fontLabels.append(Label("ABCDEEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789", [0, 0], getFont(self.game, "yoster"), "WHITE", 32))
 
     def tick(self, game):
         self.game = game

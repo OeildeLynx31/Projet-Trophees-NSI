@@ -14,7 +14,7 @@ def getFont(game, font="default"):
     else:
         return game.fonts["default"]
 
-class Font:
+class Label:
     def __init__(self, text, pos, font, color, scale, options={"underline":True}):
         self.font = font
         self.text = text
