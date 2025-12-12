@@ -4,39 +4,41 @@ import os
 def initFonts(game):
     pygame.font.init()
     game.fonts = {
-        "default": pygame.font.Font(None, 32),
+        "default": pygame.font.Font(None, 512),
+        "yoster": pygame.font.Font(os.path.join('./assets/fonts', "yoster.ttf"), 512),
     }
 
 def getFont(game, font="default"):
-    if hasattr(game.fonts, font):
+    if font in game.fonts:
         return game.fonts[font]
     else:
         return game.fonts["default"]
 
 class Font:
-    def __init__(self, text, pos, font, color, options={}):
+    def __init__(self, text, pos, font, color, scale, options={"underline":True}):
         self.font = font
         self.text = text
         self.color = color
 
         self.options = options
-        self.font.set_underline(self.options["underline"] if hasattr(self.options, "underline") else False)
-        self.font.set_strikethrough(self.options["strikethrough"] if hasattr(self.options, "strikethrough") else False)
-        self.font.set_bold(self.options["bold"] if hasattr(self.options, "bold") else False)
-        self.font.set_italic(self.options["italic"] if hasattr(self.options, "italic") else False)
+        self.font.set_underline(self.options["underline"] if "underline" in self.options else False)
+        self.font.set_strikethrough(self.options["strikethrough"] if "strikethrough" in self.options else False)
+        self.font.set_bold(self.options["bold"] if "bold" in self.options else False)
+        self.font.set_italic(self.options["italic"] if "italic" in self.options else False)
 
         self.size = self.font.size(self.text)
+        self.scale = scale
         self.rect = pygame.Rect(pos[0], pos[1], self.size[0], self.size[1])
 
 
     def draw(self, surface):
-        self.image = self.font.render(self.text, self.options["antialias"] if hasattr(self.options, "italic") else True, self.color)
-        surface.blit(self.image, self.rect)
+        self.font.set_underline(self.options["underline"] if "underline" in self.options else False)
+        self.font.set_strikethrough(self.options["strikethrough"] if "strikethrough" in self.options else False)
+        self.font.set_bold(self.options["bold"] if "bold" in self.options else False)
+        self.font.set_italic(self.options["italic"] if "italic" in self.options else False)
 
-        self.font.set_underline(self.options["underline"] if hasattr(self.options, "underline") else False)
-        self.font.set_strikethrough(self.options["strikethrough"] if hasattr(self.options, "strikethrough") else False)
-        self.font.set_bold(self.options["bold"] if hasattr(self.options, "bold") else False)
-        self.font.set_italic(self.options["italic"] if hasattr(self.options, "italic") else False)
+        self.image = pygame.transform.scale_by(self.font.render(self.text, self.options["antialias"] if "antialias" in self.options else True, self.color), self.scale/512).convert_alpha()
+        surface.blit(self.image, self.rect)
 
     def isHovered(self):
         mousePos = pygame.mouse.get_pos()

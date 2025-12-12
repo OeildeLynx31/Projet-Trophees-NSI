@@ -19,7 +19,7 @@ class Stage():
         self.settings_button = Button(512, 384, 256, 128, "main_settings.png")
         self.title = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/', "title.png")), (876, 248)).convert_alpha()
         self.fontLabels = []
-        self.fontLabels.append(Font("Hello world", [0, 0], getFont(self.game, "default"), "WHITE", {}))
+        self.fontLabels.append(Font("ABCDEEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789", [0, 0], getFont(self.game, "yoster"), "WHITE", 32))
 
     def tick(self, game):
         self.game = game
