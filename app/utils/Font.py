@@ -6,6 +6,7 @@ def initFonts(game):
     game.fonts = {
         "default": pygame.font.Font(None, 512),
         "yoster": pygame.font.Font(os.path.join('./assets/fonts', "yoster.ttf"), 512),
+        "alagard": pygame.font.Font(os.path.join('./assets/fonts', "alagard.ttf"), 512),
     }
 
 def getFont(game, font="default"):
@@ -15,7 +16,7 @@ def getFont(game, font="default"):
         return game.fonts["default"]
 
 class Label:
-    def __init__(self, text, pos, font, color, scale, options={"underline":True}):
+    def __init__(self, text, pos, font, color, scale, options={}):
         self.font = font
         self.text = text
         self.color = color
