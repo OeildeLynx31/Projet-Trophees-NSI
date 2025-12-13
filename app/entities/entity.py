@@ -8,6 +8,7 @@ from ..utils.CollisionRect import horizontalDistance
 from ..utils.CollisionRect import getCollisionRectsWithoutSelf
 from ..utils.StageMovement import getRelativePos
 from ..utils.Entity import getProperties
+from ..utils.ImgFilter import damageFilter
 
 class Entity(pygame.sprite.Sprite):
     def __init__(self, stage, game, entityType, posX, posY):
@@ -29,8 +30,13 @@ class Entity(pygame.sprite.Sprite):
         for skin in self.properties["skins"]:
             self.images[skin[0]] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/entities/', skin[1]+'.png')), skin[2], False)
 
+        damageImages = {}
         for image in self.images:
+            if (self.isLivingEntity):
+                damageImages[image+"_damaged"] = pygame.transform.scale(damageFilter(self.images[image]), (self.properties["textW"] * self.properties["growFactor"], self.properties["textH"] * self.properties["growFactor"])).convert_alpha()
             self.images[image] = pygame.transform.scale(self.images[image], (self.properties["textW"] * self.properties["growFactor"], self.properties["textH"] * self.properties["growFactor"])).convert_alpha()
+        
+        self.images = self.images | damageImages
 
         self.image = self.images["normal_right"]
         self.costumeTicked = False
@@ -59,6 +65,7 @@ class Entity(pygame.sprite.Sprite):
             self.isFalling = False
             self.walkingTick = 0
             self.walkingSpeed = self.properties["walkingSpeed"]
+            self.damaged = False
 
         self.keys = []
 
@@ -79,16 +86,17 @@ class Entity(pygame.sprite.Sprite):
         self.checkCostume('endTick')
     
     def checkCostume(self, type=""):
+        damaged = "_damaged" if self.isLivingEntity and self.damaged else ""
         if (not self.costumeTicked): # To update costume only once by tick
             self.costumeTicked = True
             if (self.velocity[0] > 0):
                 self.walkingTick = self.walkingTick + 1
                 if (self.walkingTick <= self.walkingSpeed * 4):
-                    self.image = self.images["normal_right"]
+                    self.image = self.images["normal_right"+damaged]
                 elif (self.walkingTick <= self.walkingSpeed * 8):
-                    self.image = self.images["walk_right1"]
+                    self.image = self.images["walk_right1"+damaged]
                 elif (self.walkingTick <= self.walkingSpeed * 12):
-                    self.image = self.images["walk_right2"]
+                    self.image = self.images["walk_right2"+damaged]
                 else:
                     if (self.walkingTick > self.walkingSpeed * 12):
                         self.walkingTick = 0
@@ -96,21 +104,21 @@ class Entity(pygame.sprite.Sprite):
             elif (self.velocity[0] < 0):
                 self.walkingTick = self.walkingTick + 1
                 if (self.walkingTick <= self.walkingSpeed * 4):
-                    self.image = self.images["walk_left1"]
+                    self.image = self.images["walk_left1"+damaged]
                 elif (self.walkingTick <= self.walkingSpeed * 8):
-                    self.image = self.images["normal_left"]
+                    self.image = self.images["normal_left"+damaged]
                 elif (self.walkingTick <= self.walkingSpeed * 12):
-                    self.image = self.images["walk_left2"]
+                    self.image = self.images["walk_left2"+damaged]
                 else:
-                    self.image = self.images["normal_left"]
+                    self.image = self.images["normal_left"+damaged]
                     if (self.walkingTick > self.walkingSpeed * 12):
                         self.walkingTick = 0
             else:
                 self.walkingTick = 0
                 if (self.lastDir < 0):
-                    self.image = self.images["normal_left"]
+                    self.image = self.images["normal_left"+damaged]
                 else:
-                    self.image = self.images["normal_right"]
+                    self.image = self.images["normal_right"+damaged]
 
 
     def move(self, x, y):
@@ -157,6 +165,8 @@ class Entity(pygame.sprite.Sprite):
             if damage.rect.collideobjects([self.hitbox]) and not self in damage.damagedEntities and self != damage.origin:
                 self.damage(damage.damage, damage.origin)
                 damage.damagedEntities.append(self)
+        if pygame.time.get_ticks() - self.damageCooldown > 120:
+            self.damaged = False
 
     def jump(self, force=3):
         if (not self.jumping):

@@ -6,6 +6,7 @@ from ..utils.CollisionRect import walkOnEntityID
 from ..utils.StageMovement import getRelativePos
 from ..utils.Particle import Particle
 from ..utils.Damage import Damage
+from ..utils.ImgFilter import damageFilter
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, game):
@@ -30,8 +31,12 @@ class Player(pygame.sprite.Sprite):
         self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'half_heart.png')), (64, 64)).convert_alpha())
         self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'heart.png')), (64, 64)).convert_alpha())
         
+        damageImages = {}
         for image in self.images:
+            damageImages[image+"_damaged"] = pygame.transform.scale(damageFilter(self.images[image]), (28 * 2, 52 * 2)).convert_alpha()
             self.images[image] = pygame.transform.scale(self.images[image], (28 * 2, 52 * 2)).convert_alpha()
+        
+        self.images = self.images | damageImages
 
         self.image = self.images["normal_right"]
         self.costumeTicked = False
@@ -73,6 +78,7 @@ class Player(pygame.sprite.Sprite):
                         #regeneration pour regénérer de la vie naturellement
         self.health = 17
         self.damageCooldown = pygame.time.get_ticks()
+        self.damaged = False
         self.lifeWaveAnimationStep = 0
         self.effects = []
 
@@ -96,35 +102,36 @@ class Player(pygame.sprite.Sprite):
         self.checkCostume('endTick')
     
     def checkCostume(self, type=""):
+        damaged = "_damaged" if self.damaged else ""
         if (not self.costumeTicked): # To update costume only once by tick
             self.costumeTicked = True
             if (self.velocity[0] > 0):
                 self.walkingTick = self.walkingTick + 1
                 if (self.walkingTick <= self.walkingSpeed):
-                    self.image = self.images["walk_right1"]
+                    self.image = self.images["walk_right1"+damaged]
                 elif (self.walkingTick <= self.walkingSpeed * 2):
-                    self.image = self.images["walk_right2"]
+                    self.image = self.images["walk_right2"+damaged]
                 else:
-                    self.image = self.images["normal_right"]
+                    self.image = self.images["normal_right"+damaged]
                     if (self.walkingTick > self.walkingSpeed * 2):
                         self.walkingTick = 0
 
             elif (self.velocity[0] < 0):
                 self.walkingTick = self.walkingTick + 1
                 if (self.walkingTick <= self.walkingSpeed):
-                    self.image = self.images["walk_left1"]
+                    self.image = self.images["walk_left1"+damaged]
                 elif (self.walkingTick <= self.walkingSpeed * 2):
-                    self.image = self.images["normal_left"]
+                    self.image = self.images["normal_left"+damaged]
                 else:
-                    self.image = self.images["normal_left"]
+                    self.image = self.images["normal_left"+damaged]
                     if (self.walkingTick > self.walkingSpeed * 2):
                         self.walkingTick = 0
             else:
                 self.walkingTick = 0
                 if (self.lastDir < 0):
-                    self.image = self.images["normal_left"]
+                    self.image = self.images["normal_left"+damaged]
                 else:
-                    self.image = self.images["normal_right"]
+                    self.image = self.images["normal_right"+damaged]
 
 
     def move(self, x, y):
@@ -172,6 +179,8 @@ class Player(pygame.sprite.Sprite):
             if damage.rect.collideobjects([self.hitbox]) and not self in damage.damagedEntities and self != damage.origin:
                 self.damage(damage.damage, damage.origin)
                 damage.damagedEntities.append(self)
+        if pygame.time.get_ticks() - self.damageCooldown > 120:
+            self.damaged = False
 
     def jump(self, force=3):
         if (walkOnEntityID(self, "vines")):
