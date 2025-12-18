@@ -20,12 +20,8 @@ class Player(pygame.sprite.Sprite):
         # costumes/skins
         self.images = {}
         self.images["normal_right"] = pygame.image.load(os.path.join('./assets/players/', 'player1.png'))
-        self.images["normal_left"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1.png')), True, False)
         self.images["walk_right1"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png'))
         self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f2.png'))
-        self.images["walk_left1"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png')), True, False)
-        self.images["walk_left2"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/players/", "player1-f2.png")), True, False)
-        self.images["fall_left"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/players/", "player-fall.png")), True, False)
         self.images["fall_right"] = pygame.image.load(os.path.join("./assets/players/", "player-fall.png"))
 
 
@@ -34,6 +30,11 @@ class Player(pygame.sprite.Sprite):
         self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'half_heart.png')), (64, 64)).convert_alpha())
         self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'heart.png')), (64, 64)).convert_alpha())
         
+        for image in self.images | {}:
+            if image.find("right") > -1:
+                newImgName = image.replace("right", "left")
+                self.images[newImgName] = pygame.transform.flip(self.images[image], True, False)
+
         damageImages = {}
         for image in self.images:
             damageImages[image+"_damaged"] = pygame.transform.scale_by(damageFilter(self.images[image]), 2).convert_alpha()
