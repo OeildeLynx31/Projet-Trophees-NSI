@@ -25,6 +25,9 @@ class Player(pygame.sprite.Sprite):
         self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f2.png'))
         self.images["walk_left1"] = pygame.transform.flip(pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png')), True, False)
         self.images["walk_left2"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/players/", "player1-f2.png")), True, False)
+        self.images["fall_left"] = pygame.transform.flip(pygame.image.load(os.path.join("./assets/players/", "player-fall.png")), True, False)
+        self.images["fall_right"] = pygame.image.load(os.path.join("./assets/players/", "player-fall.png"))
+
 
         self.heart = []
         self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'empty_heart.png')), (64, 64)).convert_alpha())
@@ -89,10 +92,6 @@ class Player(pygame.sprite.Sprite):
         self.keys = pygame.key.get_pressed()
         if self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP]:
             self.jump(self.jumpHeight)
-        if self.keys[pygame.K_LEFT] and not self.keys[pygame.K_RIGHT]:
-            self.move(-1, 0)
-        if self.keys[pygame.K_RIGHT] and not self.keys[pygame.K_LEFT]:
-            self.move(1, 0)
         if pygame.mouse.get_pressed(num_buttons=3)[0]:
             self.attack()
         self.sneak(self.keys[pygame.K_DOWN])
@@ -103,36 +102,42 @@ class Player(pygame.sprite.Sprite):
     
     def checkCostume(self, type=""):
         damaged = "_damaged" if self.damaged else ""
-        if (not self.costumeTicked): # To update costume only once by tick
-            self.costumeTicked = True
-            if (self.velocity[0] > 0):
-                self.walkingTick = self.walkingTick + 1
-                if (self.walkingTick <= self.walkingSpeed):
-                    self.image = self.images["walk_right1"+damaged]
-                elif (self.walkingTick <= self.walkingSpeed * 2):
-                    self.image = self.images["walk_right2"+damaged]
-                else:
-                    self.image = self.images["normal_right"+damaged]
-                    if (self.walkingTick > self.walkingSpeed * 2):
-                        self.walkingTick = 0
+        #print(self.velocity[1], self.jumping, self.isFalling)
+        if (not self.isFalling):
+            if (not self.costumeTicked): # To update costume only once by tick
+                self.costumeTicked = True
+                if (self.velocity[0] > 0):
+                    self.walkingTick = self.walkingTick + 1
+                    if (self.walkingTick <= self.walkingSpeed):
+                        self.image = self.images["walk_right1"+damaged]
+                    elif (self.walkingTick <= self.walkingSpeed * 2):
+                        self.image = self.images["walk_right2"+damaged]
+                    else:
+                        self.image = self.images["normal_right"+damaged]
+                        if (self.walkingTick > self.walkingSpeed * 2):
+                            self.walkingTick = 0
 
-            elif (self.velocity[0] < 0):
-                self.walkingTick = self.walkingTick + 1
-                if (self.walkingTick <= self.walkingSpeed):
-                    self.image = self.images["walk_left1"+damaged]
-                elif (self.walkingTick <= self.walkingSpeed * 2):
-                    self.image = self.images["normal_left"+damaged]
+                elif (self.velocity[0] < 0):
+                    self.walkingTick = self.walkingTick + 1
+                    if (self.walkingTick <= self.walkingSpeed):
+                        self.image = self.images["walk_left1"+damaged]
+                    elif (self.walkingTick <= self.walkingSpeed * 2):
+                        self.image = self.images["normal_left"+damaged]
+                    else:
+                        self.image = self.images["normal_left"+damaged]
+                        if (self.walkingTick > self.walkingSpeed * 2):
+                            self.walkingTick = 0
                 else:
-                    self.image = self.images["normal_left"+damaged]
-                    if (self.walkingTick > self.walkingSpeed * 2):
-                        self.walkingTick = 0
+                    self.walkingTick = 0
+                    if (self.lastDir < 0):
+                        self.image = self.images["normal_left"+damaged]
+                    else:
+                        self.image = self.images["normal_right"+damaged]
+        else:
+            if (self.lastDir < 0):
+                self.image = self.images["fall_left"+damaged]
             else:
-                self.walkingTick = 0
-                if (self.lastDir < 0):
-                    self.image = self.images["normal_left"+damaged]
-                else:
-                    self.image = self.images["normal_right"+damaged]
-
+                self.image = self.images["fall_right"+damaged]
 
     def move(self, x, y):
         self.velocity[0] = x
@@ -145,13 +150,23 @@ class Player(pygame.sprite.Sprite):
                         self.rect.x += x * self.speed
                 else:
                     self.rect.x += x * self.speed
-        if getEnlargedHitbox(self.hitbox, 0, y * self.speed).collideobjects(self.stage.backdropRects + self.stage.physicalEntitiesHitboxes) == None:
+        if getEnlargedHitbox(self.hitbox, 0, y * self.speed).collideobjects(self.stage.backdropRects + self.stage.physicalEntitiesHitboxes) == None and self.velocity[1] != 0:
             self.rect.y += y * self.speed
             self.isFalling = True
         else:
             if y > 0 and "jumpStick" not in self.boosts:
-                self.jumping = False
-                self.isFalling = False
+                distToFloor = y if y >= 0 else 0
+                while y > 0 and getEnlargedHitbox(self.hitbox, 0, distToFloor * self.speed).collideobjects(self.stage.backdropRects + self.stage.physicalEntitiesHitboxes) != None:
+                    distToFloor = distToFloor - 0.1
+                if distToFloor >= 0:
+                    self.rect.y += (distToFloor - 0.1) * self.speed
+                else:
+                    print(y, distToFloor, 'blocked')
+                    self.rect.y += self.gravity * self.speed
+                print(y, distToFloor)
+                if y == self.gravity:
+                    self.jumping = False
+                    self.isFalling = False
             self.velocity[1] = 0
         
         self.calcHitbox()
@@ -166,13 +181,18 @@ class Player(pygame.sprite.Sprite):
 
     def checkGravity(self):
         self.velocity[1] += self.gravity
-        self.move(0, self.velocity[1])
+        xMovement = 0
+        if self.keys[pygame.K_LEFT] and not self.keys[pygame.K_RIGHT]:
+            xMovement = -1
+        if self.keys[pygame.K_RIGHT] and not self.keys[pygame.K_LEFT]:
+            xMovement = 1
+        self.move(xMovement, self.velocity[1])
         if (self.rect.y > 1000): # if falling into the "void"
             self.damage(3)
         if (walkOnEntityID(self, "champoline", 20)):
             self.jump(5)
         if (walkOnEntityID(self, "vines")):
-            self.velocity[1] = 0.2
+            self.velocity[1] = self.gravity
 
     def checkDamage(self):
         for damage in self.stage.damages:
