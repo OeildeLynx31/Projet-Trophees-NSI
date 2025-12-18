@@ -102,41 +102,24 @@ class Player(pygame.sprite.Sprite):
     
     def checkCostume(self, type=""):
         damaged = "_damaged" if self.damaged else ""
-        if (not self.isFalling):
-            if (not self.costumeTicked): # To update costume only once by tick
+        playerDir = "right" if self.lastDir > 0 else "left"
+        if (not self.costumeTicked): # To update costume only once by tick
+            if (self.isFalling):
+                    self.image = self.images["fall_"+playerDir+damaged]
+            elif (self.velocity[0] != 0):
                 self.costumeTicked = True
-                if (self.velocity[0] > 0):
-                    self.walkingTick = self.walkingTick + 1
-                    if (self.walkingTick <= self.walkingSpeed):
-                        self.image = self.images["walk_right1"+damaged]
-                    elif (self.walkingTick <= self.walkingSpeed * 2):
-                        self.image = self.images["walk_right2"+damaged]
-                    else:
-                        self.image = self.images["normal_right"+damaged]
-                        if (self.walkingTick > self.walkingSpeed * 2):
-                            self.walkingTick = 0
-
-                elif (self.velocity[0] < 0):
-                    self.walkingTick = self.walkingTick + 1
-                    if (self.walkingTick <= self.walkingSpeed):
-                        self.image = self.images["walk_left1"+damaged]
-                    elif (self.walkingTick <= self.walkingSpeed * 2):
-                        self.image = self.images["walk_left2"+damaged]
-                    else:
-                        self.image = self.images["normal_left"+damaged]
-                        if (self.walkingTick > self.walkingSpeed * 2):
-                            self.walkingTick = 0
+                self.walkingTick = self.walkingTick + 1
+                if (self.walkingTick <= self.walkingSpeed):
+                    self.image = self.images["walk_"+playerDir+"1"+damaged]
+                elif (self.walkingTick <= self.walkingSpeed * 2):
+                    self.image = self.images["walk_"+playerDir+"2"+damaged]
                 else:
-                    self.walkingTick = 0
-                    if (self.lastDir < 0):
-                        self.image = self.images["normal_left"+damaged]
-                    else:
-                        self.image = self.images["normal_right"+damaged]
-        else:
-            if (self.lastDir < 0):
-                self.image = self.images["fall_left"+damaged]
-            else:
-                self.image = self.images["fall_right"+damaged]
+                    self.image = self.images["normal_"+playerDir+damaged]
+                    if (self.walkingTick > self.walkingSpeed * 2):
+                        self.walkingTick = 0
+            else:                  
+                self.walkingTick = 0
+                self.image = self.images["normal_"+playerDir+damaged]
 
     def move(self, x, y):
         self.velocity[0] = x
