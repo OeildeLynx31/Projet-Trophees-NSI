@@ -102,7 +102,6 @@ class Player(pygame.sprite.Sprite):
     
     def checkCostume(self, type=""):
         damaged = "_damaged" if self.damaged else ""
-        #print(self.velocity[1], self.jumping, self.isFalling)
         if (not self.isFalling):
             if (not self.costumeTicked): # To update costume only once by tick
                 self.costumeTicked = True
@@ -156,14 +155,12 @@ class Player(pygame.sprite.Sprite):
         else:
             if y > 0 and "jumpStick" not in self.boosts:
                 distToFloor = y if y >= 0 else 0
-                while y > 0 and getEnlargedHitbox(self.hitbox, 0, distToFloor * self.speed).collideobjects(self.stage.backdropRects + self.stage.physicalEntitiesHitboxes) != None:
+                while distToFloor > 0 and getEnlargedHitbox(self.hitbox, 0, distToFloor * self.speed).collideobjects(self.stage.backdropRects + self.stage.physicalEntitiesHitboxes) != None:
                     distToFloor = distToFloor - 0.1
                 if distToFloor >= 0:
                     self.rect.y += (distToFloor - 0.1) * self.speed
                 else:
-                    print(y, distToFloor, 'blocked')
                     self.rect.y += self.gravity * self.speed
-                print(y, distToFloor)
                 if y == self.gravity:
                     self.jumping = False
                     self.isFalling = False
