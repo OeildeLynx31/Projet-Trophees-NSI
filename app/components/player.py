@@ -36,8 +36,8 @@ class Player(pygame.sprite.Sprite):
         
         damageImages = {}
         for image in self.images:
-            damageImages[image+"_damaged"] = pygame.transform.scale(damageFilter(self.images[image]), (28 * 2, 52 * 2)).convert_alpha()
-            self.images[image] = pygame.transform.scale(self.images[image], (28 * 2, 52 * 2)).convert_alpha()
+            damageImages[image+"_damaged"] = pygame.transform.scale_by(damageFilter(self.images[image]), 2).convert_alpha()
+            self.images[image] = pygame.transform.scale_by(self.images[image], 2).convert_alpha()
         
         self.images = self.images | damageImages
 
@@ -121,7 +121,7 @@ class Player(pygame.sprite.Sprite):
                     if (self.walkingTick <= self.walkingSpeed):
                         self.image = self.images["walk_left1"+damaged]
                     elif (self.walkingTick <= self.walkingSpeed * 2):
-                        self.image = self.images["normal_left"+damaged]
+                        self.image = self.images["walk_left2"+damaged]
                     else:
                         self.image = self.images["normal_left"+damaged]
                         if (self.walkingTick > self.walkingSpeed * 2):
