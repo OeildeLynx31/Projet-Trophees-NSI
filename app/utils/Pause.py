@@ -12,7 +12,7 @@ class PauseInterface:
         self.screen = game.screen
         self.pauseLayer = pygame.transform.scale_by(pygame.image.load(os.path.join('./assets/interface/pause/', "pause_interface.png")), 8).convert()
         self.backOverlay = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/', "pixel_overlay.png")), (1280, 720)).convert_alpha()
-        self.backOverlay.set_alpha(200)
+        self.backOverlay.set_alpha(160)
         self.openCloseCooldown = 250
         self.lastOpenClose = pygame.time.get_ticks()
         self.paused = False
@@ -33,8 +33,16 @@ class PauseInterface:
         self.screen.blit(self.pauseLayer, (448, 128))
         for bntName in self.buttons:
             self.buttons[bntName].draw(self.screen)
-            if self.buttons[bntName].isClicked():
-                self.switchPause(False)
+        if self.buttons["resume"].isClicked():
+            self.switchPause(False)
+        if self.buttons["quit"].isClicked():
+            self.game.quit()
+        if self.buttons["menu"].isClicked():
+            self.switchPause(False)
+            self.game.changeStage("main")
+        if self.buttons["restart"].isClicked():
+            self.switchPause(False)
+            self.game.changeStage("1")
         self.title.draw(self.screen)
 
 

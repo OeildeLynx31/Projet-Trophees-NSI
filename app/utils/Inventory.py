@@ -10,7 +10,7 @@ class InventoryInterface:
         self.screen = game.screen
         self.invLayer = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/inventory/', "inventory_back.png")), (800, 384)).convert()
         self.backOverlay = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/', "pixel_overlay.png")), (1280, 720)).convert_alpha()
-        self.backOverlay.set_alpha(200)
+        self.backOverlay.set_alpha(160)
         self.openCloseCooldown = 250
         self.lastOpenClose = pygame.time.get_ticks()
         self.opened = False
