@@ -20,11 +20,12 @@ class Entity(pygame.sprite.Sprite):
         self.game = game
         self.stage = stage
         self.isLivingEntity = self.properties["living"]
-        self.dead = False
+        self.isDestructible = self.properties['destructible'] if 'destructible' in self.properties else False
         self.Player = False
         self.entityType = entityType
         self.entityName = self.properties["name"]
 
+        print(self.entityName, self.isDestructible)
 
         # costumes/skins
         self.images = {}
@@ -51,13 +52,14 @@ class Entity(pygame.sprite.Sprite):
         self.hitbox.width = self.properties["hitboxW"] * self.properties["growFactor"]
         self.hitbox.height = self.properties["hitboxH"] * self.properties["growFactor"]
         self.physical = self.properties["physical"]
-        self.renderLayer = self.properties["renderLayer"] if hasattr(self.properties, "renderLayer") else -1
+        self.renderLayer = self.properties["renderLayer"] if "renderLayer" in self.properties else -1
 
         # movement
         self.velocity = [0, 0]
         self.gravity = 0.2
         self.lastDir = 1 # 1 for right and -1 for left
         self.health = 1
+        self.dead = False
         if self.isLivingEntity:
             self.health = self.properties["health"]
             self.speed = self.properties["walkingSpeed"]
@@ -66,6 +68,12 @@ class Entity(pygame.sprite.Sprite):
             self.isFalling = False
             self.walkingTick = 0
             self.walkingSpeed = self.properties["walkingSpeed"]
+            self.damaged = False
+            if self.isDestructible:
+                print('An alive entity shouldn\' be destructible!')
+
+        if self.isDestructible:
+            self.health = self.properties["health"]
             self.damaged = False
 
         self.keys = []
@@ -84,6 +92,7 @@ class Entity(pygame.sprite.Sprite):
         if (self.isLivingEntity):
             self.runAI()
             self.checkGravity()
+        if (self.isLivingEntity or self.isDestructible):
             self.checkDamage()
         self.calcHitbox()
         self.checkCostume('endTick')

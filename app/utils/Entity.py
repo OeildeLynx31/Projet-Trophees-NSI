@@ -43,10 +43,12 @@ def getProperties(mobName):
         "crate": {
             "name": "Crate",
             "living": False,
+            "destructible": True,
+            "health": 10,
             "physical": True,
             "textW": 9,
             "textH": 9,
-            "growFactor": 4,
+            "growFactor": 8,
             "hitboxW": 9,
             "hitboxH": 9,
             "skins": [
@@ -76,7 +78,7 @@ def getEntitiesForStage(stageID):
             {"id": "zombush", "pos": [1600, 300]},
             {"id": "champoline", "pos": [1100, 360]},
             {"id": "vines", "pos": [1450, 233]},
-            {"id": "crate", "pos": [600, 560]}
+            {"id": "crate", "pos": [400, 520]}
         ]
     }
     return stageEntities[stageID]
