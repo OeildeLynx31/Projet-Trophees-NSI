@@ -17,7 +17,7 @@ class Stage():
         self.play_button = Button(self.game, 512, 288, 256, 128, "PLAY")
         self.quit_button = Button(self.game, 512, 480, 256, 128, "QUIT")
         self.settings_button = Button(self.game, 512, 384, 256, 128, "SETTINGS")
-        self.title = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/', "title.png")), (876, 248)).convert_alpha()
+        self.title = pygame.transform.scale_by(pygame.image.load(os.path.join('./assets/interface/', "title.png")), 4).convert_alpha()
         self.fontLabels = []
 
         self.game.musicManager.play_music('base_loop', game.settings)
@@ -25,7 +25,7 @@ class Stage():
     def tick(self, game):
         self.game = game
         self.screen.blit(self.backdrop, (0, 0))
-        self.screen.blit(self.title, (252, 48)) # Apply X_OFFSET to title
+        self.screen.blit(self.title, (238, 48)) # Apply X_OFFSET to title
         self.play_button.draw(self.screen)
         self.quit_button.draw(self.screen)
         self.settings_button.draw(self.screen)
