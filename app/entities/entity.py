@@ -9,6 +9,7 @@ from ..utils.CollisionRect import getCollisionRectsWithoutSelf
 from ..utils.StageMovement import getRelativePos
 from ..utils.Entity import getProperties
 from ..utils.ImgFilter import damageFilter
+from ..utils.Damage import Damage
 
 class Entity(pygame.sprite.Sprite):
     def __init__(self, stage, game, entityType, posX, posY):
@@ -71,6 +72,8 @@ class Entity(pygame.sprite.Sprite):
 
         # game changers
         self.damageCooldown = pygame.time.get_ticks()
+        self.lastAttackTime = time.time()
+        self.attackSpeed = 1.0 # 1 second cooldown
         self.lifeWaveAnimationStep = 0
         self.effects = []
 
@@ -159,6 +162,8 @@ class Entity(pygame.sprite.Sprite):
             self.move(dir, 0)
             if mustJump(self, dir) and self.properties["canJump"]:
                 self.jump(self.properties["jumpHeight"])
+        elif abs(distFromPlayer) <= self.properties["attackRange"] and self.properties.get("attackDamage", 0) > 0: # Check if attackDamage is defined and > 0
+            self.attack()
 
     def checkDamage(self):
         for damage in self.stage.damages:
@@ -178,12 +183,21 @@ class Entity(pygame.sprite.Sprite):
         self.hitbox.y = self.rect.y + (self.rect.height - self.hitbox.height) # basage de la hitbox à partir du bas
 
     def damage(self, damage, source = None):
-        if (pygame.time.get_ticks() - self.damageCooldown > 120): # to prevent player from spam-damages killing it directly
+        if (pygame.time.get_ticks() - self.damageCooldown > 50): # to prevent player from spam-damages killing it directly
             self.health -= damage
             self.damaged = True
             self.damageCooldown = pygame.time.get_ticks()
             if self.health < 1:
                 self.kill(source)
+
+    def attack(self):
+        if (time.time() - self.lastAttackTime > self.attackSpeed):
+            self.lastAttackTime = time.time()
+            # Assuming properties["attackRange"] and properties["attackDamage"] exist
+            # For now, using placeholder values and a simple attack in front of the entity
+            attack_rect_offset = [self.properties["hitboxW"] * self.lastDir, 0]
+            attack_rect_size = [self.properties["attackRange"], self.properties["hitboxH"]]
+            Damage(self.stage, attack_rect_offset, attack_rect_size, self.properties["attackDamage"], 0.2, self, False)
 
     def heal(self, damage, source = None):
         self.health += damage

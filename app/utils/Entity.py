@@ -16,6 +16,8 @@ def getProperties(mobName):
             "health": 20,
             "maxPlayerDistance": 500,
             "minPlayerDistance": 100,
+            "attackRange": 50,
+            "attackDamage": 5,
             "skins": [
                 ["normal_right", "zombush", False],
                 ["normal_left", "zombush", True],
