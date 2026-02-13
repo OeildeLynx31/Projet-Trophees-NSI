@@ -3,6 +3,7 @@ from ..utils.StageHandler import getStageByID
 from ..utils.Font import initFonts
 from ..utils.Settings import loadSettings
 from ..utils.Musics import MusicManager
+from ..utils.Storage import initFile, upsertData, getData
 
 class Game():
     def __init__(self):
@@ -17,6 +18,10 @@ class Game():
         self.musicManager = MusicManager()
         self.clock = pygame.time.Clock()
         self.settings = loadSettings()
+        self.previousStageID = "main" # Added for pause menu
+        self.isPaused = False # Added for pause menu
+
+        initFile("save", ["name", "stage", "player_x", "player_y", "player_health", "player_boosts"])
 
         # Load the main stage
         self.currentStage = getStageByID("main")(self)
@@ -31,13 +36,53 @@ class Game():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.quit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        if not self.isPaused:
+                            self.previousStageID = self.currentStage.id if hasattr(self.currentStage, 'id') else "main"
+                            self.changeStage("pause")
+                            self.isPaused = True
+                        else:
+                            self.changeStage(self.previousStageID)
+                            self.isPaused = False
 
     def quit(self):
         self.running = False
         pygame.quit()
     
-    def changeStage(self, stageID):
+    def changeStage(self, stageID, load_data=None):
         self.currentStage = getStageByID(stageID)(self)
+        if load_data:
+            self.currentStage.player.goto(load_data['player_x'], load_data['player_y'], rel=False)
+            self.currentStage.player.health = int(load_data['player_health'])
+            self.currentStage.player.boosts = load_data['player_boosts'].split(',') if load_data['player_boosts'] else []
+        if stageID != "pause":
+            self.isPaused = False
+
+    def saveGame(self):
+        if hasattr(self.currentStage, 'player'):
+            player_data = {
+                "name": "player_data",
+                "stage": self.currentStage.id if hasattr(self.currentStage, 'id') else "main",
+                "player_x": str(self.currentStage.player.rect.x),
+                "player_y": str(self.currentStage.player.rect.y),
+                "player_health": str(self.currentStage.player.health),
+                "player_boosts": ",".join(self.currentStage.player.boosts)
+            }
+            upsertData("save", ["name", "player_data"], player_data)
+            print("Game Saved!")
+        else:
+            print("Cannot save game: player object not found in current stage.")
+
+    def loadGame(self):
+        saved_data = getData("save", ["name", "player_data"])
+        if saved_data:
+            print("Game Loaded!")
+            self.changeStage(saved_data['stage'], load_data=saved_data)
+            return True
+        else:
+            print("No saved game found.")
+            return False
 
     def tick(self):
         self.currentStage.tick(self)

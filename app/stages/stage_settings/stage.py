@@ -10,6 +10,7 @@ class Stage():
         self.game = game
         self.settings = self.game.settings
         self.screen = game.screen
+        self.id = "settings"
         self.group = pygame.sprite.Group()
         self.backdrop = pygame.transform.scale(pygame.image.load(os.path.join('./assets/backgrounds/', "bg_interface__main.png")), (1280, 720)).convert()
 
