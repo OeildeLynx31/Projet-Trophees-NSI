@@ -12,6 +12,7 @@ class Stage():
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
+        self.id = "1" # Added stage ID
 
         background = pygame.image.load(os.path.join('./assets/backgrounds/', 'background1.png'))
         self.backdrop = pygame.transform.scale(background, (720 * background.get_width() / background.get_height(), 720)).convert_alpha()

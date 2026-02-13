@@ -158,7 +158,7 @@ class Entity(pygame.sprite.Sprite):
     def runAI(self):
         distFromPlayer = horizontalDistance(self, self.stage.player)
         dir = 1 if distFromPlayer < 0 else -1
-        if abs(distFromPlayer) < self.properties["maxPlayerDistance"] and abs(distFromPlayer) > self.properties["minPlayerDistance"] and (not nearVoid(self, dir) or self.properties["fallInVoid"]): # absolute value
+        if abs(distFromPlayer) < self.properties["maxPlayerDistance"] and abs(distFromPlayer) > self.properties["attackRange"] and (not nearVoid(self, dir) or self.properties["fallInVoid"]): # absolute value
             self.move(dir, 0)
             if mustJump(self, dir) and self.properties["canJump"]:
                 self.jump(self.properties["jumpHeight"])
