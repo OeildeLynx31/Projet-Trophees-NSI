@@ -17,7 +17,7 @@ class PauseInterface:
         self.lastOpenClose = pygame.time.get_ticks()
         self.paused = False
         self.buttons = {}
-        self.buttons["continue"] = Button(512, 512, 256, 128, "main_back.png")
+        self.buttons["continue"] = Button(self.game, 512, 512, 256, 128, "RESUME")
 
         self.title = Label("GAME PAUSED", [472, 148], getFont(self.game, "yoster"), "#2b1501", 48)
 

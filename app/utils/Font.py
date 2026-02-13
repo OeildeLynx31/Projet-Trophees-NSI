@@ -29,7 +29,14 @@ class Label:
 
         self.size = self.font.size(self.text)
         self.scale = scale
-        self.rect = pygame.Rect(pos[0], pos[1], self.size[0], self.size[1])
+
+        self.image = pygame.transform.scale_by(self.font.render(self.text, self.options["antialias"] if "antialias" in self.options else True, self.color), self.scale/512).convert_alpha()
+
+        if "center" in self.options:
+            self.rect = self.image.get_rect(center=(self.options["center"][0], self.options["center"][1]))
+        else:
+            self.rect = pygame.Rect(pos[0], pos[1], self.size[0], self.size[1])
+
 
 
     def draw(self, surface):
