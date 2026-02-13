@@ -25,7 +25,7 @@ class Stage():
         # Groups
         self.group = pygame.sprite.Group()               # Global sprite rendering group, including all entities
         self.visualEntityGroup = pygame.sprite.Group()   # Visual entities that doesn't have any hitbox
-        self.physicalEntityGroup = pygame.sprite.Group() # Phisical entities that has an hitbox
+        self.physicalEntityGroup = pygame.sprite.Group() # Physical entities that has an hitbox
         self.physicalEntitiesHitboxes = []
         self.particles = []
         self.damages = []

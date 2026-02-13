@@ -29,8 +29,6 @@ class Stage():
         self.quit_button = Button(512 + self.X_OFFSET, 630, 256, 128, "main_quit.png")
         self.title = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/', "title.png")), (876, 248)).convert_alpha()
         self.fontLabels = []
-        self.fontLabels.append(Label("ABCDEEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789", [0, 0], getFont(self.game, "yoster"), "WHITE", 32))
-        self.fontLabels.append(Label("ABCDEEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789", [5, 30], getFont(self.game, "alagard"), "WHITE", 32))
 
         self.game.musicManager.play_music('base_loop', game.settings)
 
