@@ -17,11 +17,11 @@ class Stage():
         self.volume_slider = Slider(256, 128, 256, 48, 0, 100, self.settings["volume"], 2)
 
         self.volume_icons = {}
-        self.volume_icons["pos"] = (192, 128)
-        self.volume_icons["mute"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/icons/sound/', "sound_mute.png")), (48, 48)).convert_alpha()
-        self.volume_icons["low"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/icons/sound/', "sound_low.png")), (48, 48)).convert_alpha()
-        self.volume_icons["middle"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/icons/sound/', "sound_middle.png")), (48, 48)).convert_alpha()
-        self.volume_icons["loud"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/icons/sound/', "sound_loud.png")), (48, 48)).convert_alpha()
+        self.volume_icons["pos"] = (160, 108)
+        self.volume_icons["mute"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/icons/sound/', "sound_mute.png")), (96, 96)).convert_alpha()
+        self.volume_icons["low"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/icons/sound/', "sound_low.png")), (96, 96)).convert_alpha()
+        self.volume_icons["middle"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/icons/sound/', "sound_middle.png")), (96, 96)).convert_alpha()
+        self.volume_icons["loud"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/icons/sound/', "sound_loud.png")), (96, 96)).convert_alpha()
 
     def tick(self, game):
         self.game = game
