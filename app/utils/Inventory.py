@@ -2,7 +2,6 @@ import pygame
 import os
 
 from ..utils.Font import *
-from .Slot import Slot # Import the new Slot class
 
 class InventoryInterface:
     def __init__(self, game):
@@ -14,20 +13,11 @@ class InventoryInterface:
         self.openCloseCooldown = 250
         self.lastOpenClose = pygame.time.get_ticks()
         self.opened = False
+        self.slots = []
+        for id in range(0, 20):
+            self.slots.append(InventorySlot(self.game, id))
 
         self.title = Label("INVENTORY", [270, 188], getFont(self.game, "yoster"), "#2b1501", 48)
-
-        # Inventory slots
-        self.slots = []
-        slot_size = 64
-        slot_padding = 10
-        start_x = 240 + 50 # X position of invLayer + some internal padding
-        start_y = 168 + 100 # Y position of invLayer + some internal padding
-        for row in range(4): # Example 4x4 grid
-            for col in range(4):
-                x = start_x + col * (slot_size + slot_padding)
-                y = start_y + row * (slot_size + slot_padding)
-                self.slots.append(Slot(x, y, slot_size, slot_size))
 
     def changeState(self):
         newDate = pygame.time.get_ticks()
@@ -39,8 +29,49 @@ class InventoryInterface:
         self.screen.blit(self.backOverlay, (0, 0))
         self.screen.blit(self.invLayer, (240, 168))
         self.title.draw(self.screen)
-
         for slot in self.slots:
-            slot.draw(self.screen)
+            slot.tick(self.game)
 
-        
+
+class InventorySlot:
+    def __init__(self, game, id:int):
+        self.game = game
+        self.screen = game.screen
+
+        self.id = id
+        self.pos = self.getSlotPosFromID(id)
+        self.type = self.getSlotTypeFromID(id)
+
+        self.image = pygame.transform.scale_by(pygame.image.load(os.path.join('./assets/interface/inventory/', self.type+"_slot.png")), 8).convert_alpha()
+        self.image.set_alpha(32)
+
+    def tick(self, game):
+        self.screen.blit(self.image, self.pos)
+
+    def getSlotPosFromID(self, id:int):
+        x = 0
+        y = 0
+        if id < 5:
+            if id == 0:
+                x, y = 66, 15
+            elif id == 1:
+                x, y = 53, 6
+            elif id == 2:
+                x, y = 85, 6
+            elif id == 3:
+                x, y = 53, 31
+            else:
+                x, y = 85, 31
+        else:
+            id = id - 5
+            x = 4 + 9 * (id%5)
+            y = 21 + 9 * (id//5)
+        return (240 + 8 * x, 168 + 8 * y)
+
+    def getSlotTypeFromID(self, id:int):
+        if id == 0:
+            return "main"
+        elif id < 5:
+            return "second"
+        else:
+            return "normal"
