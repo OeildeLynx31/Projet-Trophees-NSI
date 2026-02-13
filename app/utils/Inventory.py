@@ -26,3 +26,10 @@ class InventoryInterface:
         self.screen.blit(self.backOverlay, (0, 0))
         self.screen.blit(self.invLayer, (240, 168))
         self.title.draw(self.screen)
+
+
+class InventorySlot:
+    def __init__(self, position:tuple, slotType="normal"):
+        self.pos = position
+        self.type = slotType
+        
