@@ -52,13 +52,13 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = 100 # go to x
         self.rect.y = 300 # go to y
         self.hitbox = self.rect.copy()
-        self.hitbox.width = 50
+        self.hitbox.width = 38
         self.hitbox.height = 100
         self.physical = False
 
         # movement
         self.speed = 5
-        self.jumpHeight = 4
+        self.jumpHeight = 3
         self.gravity = 0.2
         self.velocity = [0, 0]
         self.lastDir = 1 # 1 for right and -1 for left
