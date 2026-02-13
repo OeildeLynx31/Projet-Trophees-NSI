@@ -42,6 +42,7 @@ class Stage():
 
     def updateSettings(self):
         self.settings["volume"] = self.volume_slider.value
+        self.game.musicManager.updateVolume(self.settings)
 
     def drawSoundIcon(self):
         value = self.volume_slider.value

@@ -22,6 +22,8 @@ class Stage():
         self.fontLabels.append(Label("ABCDEEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789", [0, 0], getFont(self.game, "yoster"), "WHITE", 32))
         self.fontLabels.append(Label("ABCDEEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789", [5, 30], getFont(self.game, "alagard"), "WHITE", 32))
 
+        self.game.musicManager.play_music('base_loop', game.settings)
+
     def tick(self, game):
         self.game = game
         self.screen.blit(self.backdrop, (0, 0))

@@ -2,6 +2,7 @@ import pygame
 from ..utils.StageHandler import getStageByID
 from ..utils.Font import initFonts
 from ..utils.Settings import loadSettings
+from ..utils.Musics import MusicManager
 
 class Game():
     def __init__(self):
@@ -13,9 +14,12 @@ class Game():
         self.flags = pygame.FULLSCREEN | pygame.SCALED
         self.screen = pygame.display.set_mode((1280, 720), flags=self.flags, vsync=1)
         self.running = False
-        self.currentStage = getStageByID("main")(self)
+        self.musicManager = MusicManager()
         self.clock = pygame.time.Clock()
         self.settings = loadSettings()
+
+        # Load the main stage
+        self.currentStage = getStageByID("main")(self)
 
 
     def run(self):
