@@ -1,7 +1,8 @@
 import pygame
 import os
 
-from ..utils.Font import *
+from .Font import *
+from .CollisionRect import getSpriteCollisionRects
 
 class InventoryInterface:
     def __init__(self, game):
@@ -45,8 +46,18 @@ class InventorySlot:
         self.image = pygame.transform.scale_by(pygame.image.load(os.path.join('./assets/interface/inventory/', self.type+"_slot.png")), 8).convert_alpha()
         self.image.set_alpha(32)
 
+        self.clickRect = getSpriteCollisionRects(self.image)[0] # supposing that a button is composed by only one surface
+        self.clickRect.x += self.pos[0]
+        self.clickRect.y += self.pos[1]
+
+
     def tick(self, game):
+        self.image.set_alpha(48 if self.isHovered() else 32)
         self.screen.blit(self.image, self.pos)
+
+    def isHovered(self):
+        mousePos = pygame.mouse.get_pos()
+        return self.clickRect.collidepoint(mousePos[0], mousePos[1])
 
     def getSlotPosFromID(self, id:int):
         x = 0
