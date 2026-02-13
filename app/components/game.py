@@ -4,6 +4,7 @@ from ..utils.Font import initFonts
 from ..utils.Settings import loadSettings
 from ..utils.Musics import MusicManager
 from ..utils.Storage import initFile, upsertData, getData
+from ..utils.Pause import PauseInterface
 
 class Game():
     def __init__(self):
@@ -19,7 +20,7 @@ class Game():
         self.clock = pygame.time.Clock()
         self.settings = loadSettings()
         self.previousStageID = "main" # Added for pause menu
-        self.isPaused = False # Added for pause menu
+        self.pauseInterface = PauseInterface(self)
 
         initFile("save", ["name", "stage", "player_x", "player_y", "player_health", "player_boosts"])
 
@@ -36,15 +37,6 @@ class Game():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.quit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        if not self.isPaused:
-                            self.previousStageID = self.currentStage.id if hasattr(self.currentStage, 'id') else "main"
-                            self.changeStage("pause")
-                            self.isPaused = True
-                        else:
-                            self.changeStage(self.previousStageID)
-                            self.isPaused = False
 
     def quit(self):
         self.running = False

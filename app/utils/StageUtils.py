@@ -7,6 +7,11 @@ from .StageMovement import getStaticPos
 
 def stageTick(stage, game):
 
+    if game.pauseInterface.paused:
+        game.pauseInterface.tick(game)
+        pygame.display.flip()
+        return
+
     stage.screen.blit(stage.backdrop, (stage.scroll[0], stage.scroll[1]))
     
     # blit and tick the entities that are rendered behind the player (-1)
@@ -47,6 +52,8 @@ def stageTick(stage, game):
     #Render inventory interface
     if stage.inventory.opened:
         stage.inventory.tick(game)
+    if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+        game.pauseInterface.switchPause(True)
 
     stage.debug()
     drawInterface(stage)
