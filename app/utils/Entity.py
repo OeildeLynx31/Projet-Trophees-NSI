@@ -76,8 +76,8 @@ def getEntitiesForStage(stageID):
     stageEntities = {
         "stage1": [
             {"id": "zombush", "pos": [1600, 300]},
-            {"id": "champoline", "pos": [1100, 360]},
-            {"id": "vines", "pos": [1450, 233]},
+            {"id": "champoline", "pos": [1100, 550]},
+            {"id": "vines", "pos": [1450, 460]},
             {"id": "crate", "pos": [400, 520]}
         ]
     }
