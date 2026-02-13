@@ -33,6 +33,7 @@ def stageTick(stage, game):
             sprite.tick(game)
             stage.screen.blit(sprite.image, sprite.rect)
 
+    # Render particles
     for particle in stage.particles:
         if particle.renderLayer == 1:
             particle.tick()
@@ -42,6 +43,10 @@ def stageTick(stage, game):
             stage.damages.remove(damage)
         else:
             damage.tick()
+
+    #Render inventory interface
+    if stage.inventory.opened:
+        stage.inventory.tick(game)
 
     stage.debug()
     drawInterface(stage)

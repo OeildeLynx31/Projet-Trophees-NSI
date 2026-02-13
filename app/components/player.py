@@ -91,11 +91,16 @@ class Player(pygame.sprite.Sprite):
         self.stage = game.currentStage
         self.costumeTicked = False
         self.keys = pygame.key.get_pressed()
-        if self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP]:
-            self.jump(self.jumpHeight)
-        if pygame.mouse.get_pressed(num_buttons=3)[0]:
-            self.attack()
-        self.sneak(self.keys[pygame.K_DOWN])
+        if not self.stage.inventory.opened:
+            if (self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP]):
+                self.jump(self.jumpHeight)
+            if pygame.mouse.get_pressed(num_buttons=3)[0]:
+                self.attack()
+            self.sneak(self.keys[pygame.K_DOWN])
+        if self.keys[pygame.K_e]:
+            self.stage.inventory.changeState()
+
+
         self.updateEffects()
         self.checkGravity()
         self.checkDamage()
@@ -163,11 +168,13 @@ class Player(pygame.sprite.Sprite):
     def checkGravity(self):
         self.velocity[1] += self.gravity
         xMovement = 0
-        if self.keys[pygame.K_LEFT] and not self.keys[pygame.K_RIGHT]:
-            xMovement = -1
-        if self.keys[pygame.K_RIGHT] and not self.keys[pygame.K_LEFT]:
-            xMovement = 1
+        if not self.stage.inventory.opened:
+            if self.keys[pygame.K_LEFT] and not self.keys[pygame.K_RIGHT]:
+                xMovement = -1
+            if self.keys[pygame.K_RIGHT] and not self.keys[pygame.K_LEFT]:
+                xMovement = 1
         self.move(xMovement, self.velocity[1])
+
         if (self.rect.y > 1000): # if falling into the "void"
             self.damage(3)
         if (walkOnEntityID(self, "champoline", 20)):

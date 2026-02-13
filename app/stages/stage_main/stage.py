@@ -4,8 +4,7 @@ import os
 from ...utils.Button import Button
 from ...utils.Storage import *
 
-from ...utils.Font import Label
-from ...utils.Font import getFont
+from ...utils.Font import *
 
 class Stage():
     def __init__(self, game):

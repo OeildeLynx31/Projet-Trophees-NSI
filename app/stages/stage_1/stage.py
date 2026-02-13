@@ -6,6 +6,7 @@ from ...utils.CollisionRect import *
 from ...utils.StageMovement import genStageMin
 from ...utils.StageUtils import *
 from ...utils.Entity import getEntitiesForStage
+from ...utils.Inventory import InventoryInterface
 
 class Stage():
     def __init__(self, game):
@@ -18,6 +19,7 @@ class Stage():
         self.backdropRects = getBackgroundCollisionRects('./assets/backgrounds/', 'background1.png')
 
         self.player = Player(self.game)
+        self.inventory = InventoryInterface(self.game)
 
         # Groups
         self.group = pygame.sprite.Group()               # Global sprite rendering group, including all entities
@@ -31,7 +33,7 @@ class Stage():
         self.group.add(self.physicalEntityGroup.sprites())
         self.player.add(self.group)                      # Player is managed autonomously, so has no specific group
 
-        self.debugShowHitboxes = True
+        self.debugShowHitboxes = False
 
         self.scroll = [0, 0]
         self.scrollMax = 0
