@@ -131,14 +131,14 @@ class Player(pygame.sprite.Sprite):
         self.velocity[0] = x
         if x != 0 and self.rect.y < 1000: # if not falling into the "void"
             self.lastDir = x
-            if getEnlargedHitbox(self.hitbox, x * self.speed, 0).collideobjects(self.stage.backdropRects + self.stage.physicalEntitiesHitboxes) == None:
+            if getEnlargedHitbox(self.hitbox, (x + 0.1) * self.speed, 0).collideobjects(self.stage.backdropRects + self.stage.physicalEntitiesHitboxes) == None:
                 if ((self.rect.x > (self.game.screen.get_width()-self.stage.scrollSpace) and x > 0) or (self.rect.x < self.stage.scrollSpace and x < 0)):
                     stageMovement = self.stage.move(-x * self.speed, 0)
                     if (stageMovement[0] == 0):
                         self.rect.x += x * self.speed
                 else:
                     self.rect.x += x * self.speed
-        if getEnlargedHitbox(self.hitbox, 0, y * self.speed).collideobjects(self.stage.backdropRects + self.stage.physicalEntitiesHitboxes) == None and self.velocity[1] != 0:
+        if getEnlargedHitbox(self.hitbox, 0, (y + 0.1) * self.speed).collideobjects(self.stage.backdropRects + self.stage.physicalEntitiesHitboxes) == None and self.velocity[1] != 0:
             self.rect.y += y * self.speed
             self.isFalling = True
         else:
