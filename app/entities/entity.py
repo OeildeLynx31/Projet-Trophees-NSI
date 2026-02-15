@@ -25,8 +25,6 @@ class Entity(pygame.sprite.Sprite):
         self.entityType = entityType
         self.entityName = self.properties["name"]
 
-        print(self.entityName, self.isDestructible)
-
         # costumes/skins
         self.images = {}
         for skin in self.properties["skins"]:
