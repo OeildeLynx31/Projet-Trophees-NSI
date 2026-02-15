@@ -34,7 +34,7 @@ class Stage():
         self.group.add(self.physicalEntityGroup.sprites())
         self.player.add(self.group)                      # Player is managed autonomously, so has no specific group
 
-        self.debugShowHitboxes = False
+        self.debugShowHitboxes = self.game.debug["show_hitboxes"]
 
         self.scroll = [0, 0]
         self.scrollMax = 0

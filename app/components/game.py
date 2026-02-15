@@ -13,7 +13,12 @@ class Game():
 
         initFonts(self)
 
-        self.flags = pygame.FULLSCREEN | pygame.SCALED
+        self.debug = {
+            "show_hitboxes": True,
+            "fullscreen": False
+        }
+
+        self.flags = (pygame.FULLSCREEN | pygame.SCALED) if self.debug["fullscreen"] else 0
         self.screen = pygame.display.set_mode((1280, 720), flags=self.flags, vsync=1)
         self.running = False
         self.musicManager = MusicManager()
