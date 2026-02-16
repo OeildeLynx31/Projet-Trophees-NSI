@@ -178,7 +178,6 @@ class Player(pygame.sprite.Sprite):
         mouseRel = pygame.mouse.get_rel()
         if abs(mouseRel[0]) > 50 - self.game.settings["sensibility"]:
             self.lastDir = 1 if mouseRel[0] > 0 else -1
-        print(mouseRel)
         if not self.stage.inventory.opened and self.keys[pygame.K_z]:
             xMovement = self.lastDir
         self.move(xMovement, self.velocity[1])
