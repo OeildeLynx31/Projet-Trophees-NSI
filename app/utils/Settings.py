@@ -18,6 +18,12 @@ def loadSettings():
                         except ValueError:
                             settings[key] = value
             print(f"Loaded {len(settingsData)} setting(s) from storage")
+            
+            #In case new settings introduced are not in storage, it adds them from the default vaules without touching the other values
+            if len(getDefaults()) != len(settings):
+                for setting in getDefaults():
+                    if setting not in settings:
+                        settings[setting] = getDefaults()[setting]
         else:
             print("No settings found in storage, using defaults")
             settings = getDefaults()
@@ -28,6 +34,7 @@ def loadSettings():
 def getDefaults():
     return {
         "volume": 100,
+        "sensibility": 20,
     }
 
 def saveSettings(settings):

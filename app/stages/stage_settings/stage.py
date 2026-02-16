@@ -16,6 +16,7 @@ class Stage():
 
         self.back_button = Button(self.game, 512, 576, 256, 128, "BACK")
         self.volume_slider = Slider(256, 128, 256, 48, 0, 100, self.settings["volume"], 2)
+        self.sensibility_slider = Slider(256, 256, 256, 48, 0, 64, self.settings["sensibility"], 2)
 
         self.volume_icons = {}
         self.volume_icons["pos"] = (160, 108)
@@ -30,6 +31,7 @@ class Stage():
 
         self.back_button.draw(self.screen)
         self.volume_slider.draw(self.screen)
+        self.sensibility_slider.draw(self.screen)
         self.drawSoundIcon()
 
         self.group.draw(self.screen)
@@ -44,6 +46,8 @@ class Stage():
     def updateSettings(self):
         self.settings["volume"] = self.volume_slider.value
         self.game.musicManager.updateVolume(self.settings)
+
+        self.settings["sensibility"] = self.sensibility_slider.value
 
     def drawSoundIcon(self):
         value = self.volume_slider.value

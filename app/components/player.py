@@ -168,11 +168,19 @@ class Player(pygame.sprite.Sprite):
     def checkGravity(self):
         self.velocity[1] += self.gravity
         xMovement = 0
-        if not self.stage.inventory.opened:
+        # Old movement system
+        """if not self.stage.inventory.opened:
             if self.keys[pygame.K_LEFT] and not self.keys[pygame.K_RIGHT]:
                 xMovement = -1
             if self.keys[pygame.K_RIGHT] and not self.keys[pygame.K_LEFT]:
                 xMovement = 1
+        """
+        mouseRel = pygame.mouse.get_rel()
+        if abs(mouseRel[0]) > 50 - self.game.settings["sensibility"]:
+            self.lastDir = 1 if mouseRel[0] > 0 else -1
+        print(mouseRel)
+        if not self.stage.inventory.opened and self.keys[pygame.K_z]:
+            xMovement = self.lastDir
         self.move(xMovement, self.velocity[1])
 
         if (self.rect.y > 1000): # if falling into the "void"
