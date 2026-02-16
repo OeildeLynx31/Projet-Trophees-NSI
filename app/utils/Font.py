@@ -22,15 +22,15 @@ class Label:
         self.color = color
 
         self.options = options
-        self.font.set_underline(self.options["underline"] if "underline" in self.options else False)
-        self.font.set_strikethrough(self.options["strikethrough"] if "strikethrough" in self.options else False)
-        self.font.set_bold(self.options["bold"] if "bold" in self.options else False)
-        self.font.set_italic(self.options["italic"] if "italic" in self.options else False)
+        self.font.set_underline("underline" in self.options)
+        self.font.set_strikethrough("strikethrough" in self.options)
+        self.font.set_bold("bold" in self.options)
+        self.font.set_italic("italic" in self.options)
 
         self.size = self.font.size(self.text)
         self.scale = scale
 
-        self.image = pygame.transform.scale_by(self.font.render(self.text, self.options["antialias"] if "antialias" in self.options else True, self.color), self.scale/512).convert_alpha()
+        self.image = pygame.transform.scale_by(self.font.render(self.text, "antialias" in self.options, self.color), self.scale/512).convert_alpha()
 
         if "center" in self.options:
             self.rect = self.image.get_rect(center=(pos[0], pos[1]))
@@ -40,12 +40,12 @@ class Label:
 
 
     def draw(self, surface):
-        self.font.set_underline(self.options["underline"] if "underline" in self.options else False)
-        self.font.set_strikethrough(self.options["strikethrough"] if "strikethrough" in self.options else False)
-        self.font.set_bold(self.options["bold"] if "bold" in self.options else False)
-        self.font.set_italic(self.options["italic"] if "italic" in self.options else False)
+        self.font.set_underline("underline" in self.options)
+        self.font.set_strikethrough("strikethrough" in self.options)
+        self.font.set_bold("bold" in self.options)
+        self.font.set_italic("italic" in self.options)
 
-        self.image = pygame.transform.scale_by(self.font.render(self.text, self.options["antialias"] if "antialias" in self.options else True, self.color), self.scale/512).convert_alpha()
+        self.image = pygame.transform.scale_by(self.font.render(self.text, "antialias" in self.options, self.color), self.scale/512).convert_alpha()
         surface.blit(self.image, self.rect)
 
     def isHovered(self):
