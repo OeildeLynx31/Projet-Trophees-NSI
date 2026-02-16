@@ -14,8 +14,9 @@ class Slider:
         self.sliding = False
         self.value = initialValue
 
-        self.line = pygame.Rect(x, y + (height / 2), width, 5)
-        self.cursor = pygame.Rect(self.getPosForValue(self.value), y+2.5, 10, height)
+        self.line = pygame.transform.scale(pygame.image.load(os.path.join("./assets/interface", "slider.png")), (width, height)).convert_alpha()
+        self.cursor = pygame.Rect(self.getPosForValue(self.value), y + 1, 20, height)
+        self.cursorImg = pygame.transform.scale_by(pygame.image.load(os.path.join("./assets/interface", "slider_cursor.png")), height / 20).convert_alpha()
 
     def draw(self, surface):
         if (self.isClicked()):
@@ -26,8 +27,8 @@ class Slider:
             newX = pygame.mouse.get_pos()[0]
             self.cursor.x = self.getStepPos(newX)
 
-        pygame.draw.rect(surface, pygame.Color(255, 255, 255, 255), self.line)
-        pygame.draw.rect(surface, pygame.Color(255, 255, 255, 255), self.cursor)
+        surface.blit(self.line, (self.x, self.y))
+        surface.blit(self.cursorImg, (self.cursor.x - 28 * self.height / 20, self.y))
 
     def getValueForPos(self, pos):
         val = (pos - self.x) * (self.max - self.min) / self.width
