@@ -35,8 +35,8 @@ class InventoryInterface:
         self.title.draw(self.screen)
         for slot in self.slots:
             slot.tick(self.game)
-            if slot.isClicked():
-                print(self.saveInv())
+            if slot.isClicked()[1]:
+                self.equipItemFromSlot(slot.id)
 
     def moveItem(self, origin, arrival):
         originSlot = self.slots[origin]
@@ -44,6 +44,20 @@ class InventoryInterface:
         arrivalItem = arrivalSlot.getItem()
         arrivalSlot.setItem(originSlot.getItem())
         originSlot.setItem(arrivalItem)
+
+    def equipItemFromSlot(self, origin):
+        arrival = origin
+        if origin < 5:
+            for i in range(5, 20):
+                if self.slots[i].isEmpty():
+                    arrival = i
+                    break
+        else:
+            for i in range(5):
+                if self.slots[i].isEmpty() and (self.slots[origin].item.slotType == self.slots[i].type or self.slots[origin].item.slotType == "all"):
+                    arrival = i
+                    break
+        self.moveItem(origin, arrival)
 
     def loadInv(self, content):
         for index in range(len(self.slots)):
@@ -62,7 +76,6 @@ class InventoryInterface:
         2: {"id":"axe"},
         3: {"id":"chepa"},
         4: {"id":"mass"}
-
     }
 
 
@@ -95,10 +108,7 @@ class InventorySlot:
         return self.clickRect.collidepoint(mousePos[0], mousePos[1])
 
     def isClicked(self):
-        if (pygame.mouse.get_pressed()[0] and self.isHovered()):
-            return True
-        else:
-            return False
+        return (pygame.mouse.get_pressed()[0] and self.isHovered(), pygame.mouse.get_pressed()[2] and self.isHovered())
 
     def getSlotPosFromID(self, id:int):
         x = 0
@@ -135,6 +145,9 @@ class InventorySlot:
 
     def getItem(self):
         return self.item
+
+    def isEmpty(self):
+        return self.item.id == "empty"
 
     def emptySlot(self):
         self.setItem(Item("empty"))
