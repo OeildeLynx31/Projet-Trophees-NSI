@@ -18,7 +18,7 @@ class Button:
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
-        self.label.draw(self.game.screen)
+        self.label.draw(surface)
 
     def isHovered(self):
         mousePos = pygame.mouse.get_pos()

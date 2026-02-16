@@ -2,7 +2,8 @@ import pygame
 import os
 
 class Slider:
-    def __init__(self, x, y, width, height, min, max, initialValue, step=1):
+    def __init__(self, game, x, y, width, height, min, max, initialValue, step=1):
+        self.game = game
         self.x = x
         self.y = y
         self.width = width

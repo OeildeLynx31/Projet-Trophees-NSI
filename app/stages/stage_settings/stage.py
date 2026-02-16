@@ -15,8 +15,8 @@ class Stage():
         self.backdrop = pygame.transform.scale(pygame.image.load(os.path.join('./assets/backgrounds/', "bg_interface__main.png")), (1280, 720)).convert()
 
         self.back_button = Button(self.game, 512, 576, 256, 128, "BACK")
-        self.volume_slider = Slider(256, 128, 256, 48, 0, 100, self.settings["volume"], 2)
-        self.sensibility_slider = Slider(256, 256, 256, 48, 0, 64, self.settings["sensibility"], 2)
+        self.volume_slider = Slider(self.game, 256, 128, 256, 48, 0, 100, self.settings["volume"], 2)
+        self.sensibility_slider = Slider(self.game,256, 256, 256, 48, 0, 64, self.settings["sensibility"], 2)
 
         self.volume_icons = {}
         self.volume_icons["pos"] = (160, 108)
