@@ -44,8 +44,10 @@ class Game():
                     self.quit()
 
     def quit(self):
+        print("Quitting game...")
         self.running = False
         pygame.quit()
+        exit()
     
     def changeStage(self, stageID, load_data=None):
         self.currentStage = getStageByID(stageID)(self)

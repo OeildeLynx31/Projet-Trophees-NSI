@@ -38,9 +38,7 @@ class Stage():
         if (self.settings_button.isClicked()):
             self.game.changeStage("settings")
         if (self.quit_button.isClicked()):
-            print("Quitting game...")
-            pygame.quit()
-            exit()
+            self.game.quit()
         pygame.display.flip()
 
     def renderGUI(self):
