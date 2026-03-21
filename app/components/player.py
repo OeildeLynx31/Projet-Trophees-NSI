@@ -24,8 +24,6 @@ class Player(pygame.sprite.Sprite):
         self.images["walk_right1"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png'))
         self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f2.png'))
         self.images["fall_right"] = pygame.image.load(os.path.join("./assets/players/", "player-fall.png"))
-        self.images["attack_right"] = pygame.image.load(os.path.join("./assets/players/", "player-attack.png"))
-
 
         self.heart = []
         self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'empty_heart.png')), (64, 64)).convert_alpha())
