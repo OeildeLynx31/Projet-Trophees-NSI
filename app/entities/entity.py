@@ -191,11 +191,12 @@ class Entity(pygame.sprite.Sprite):
 
     def damage(self, damage, source = None):
         if (pygame.time.get_ticks() - self.damageCooldown > 50): # to prevent player from spam-damages killing it directly
-            self.health -= damage
-            self.damaged = True
-            self.damageCooldown = pygame.time.get_ticks()
-            if self.health < 1:
-                self.kill(source)
+            if not self.properties["immortal"]:
+                self.health -= damage
+                self.damaged = True
+                self.damageCooldown = pygame.time.get_ticks()
+                if self.health < 1:
+                    self.kill(source)
 
     def attack(self):
         if (time.time() - self.lastAttackTime > self.attackSpeed):

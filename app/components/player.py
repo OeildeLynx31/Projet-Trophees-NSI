@@ -20,6 +20,7 @@ class Player(pygame.sprite.Sprite):
         # costumes/skins
         self.images = {}
         self.images["normal_right"] = pygame.image.load(os.path.join('./assets/players/', 'player1.png'))
+        self.images["attack_right"] = pygame.image.load(os.path.join('./assets/players/', 'player1-attack.png'))
         self.images["walk_right1"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png'))
         self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f2.png'))
         self.images["fall_right"] = pygame.image.load(os.path.join("./assets/players/", "player-fall.png"))
