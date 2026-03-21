@@ -107,6 +107,7 @@ def moveEntities(stage, sprites, x, y):
 
 def drawInterface(stage):
     drawLifeBar(stage, stage.player)
+    drawScore(stage, stage.game.score)
 
 def drawLifeBar(stage, player):
     player.lifeWaveAnimationStep += 4
@@ -134,4 +135,7 @@ def drawLifeBar(stage, player):
         stage.screen.blit(player.heart[heartList[-1]], (840 + i * 20, heartAnimPos))
     
 
-    
+def drawScore(stage, score):
+    font = pygame.font.SysFont("Arial", 24)
+    scoreText = font.render(f"Score: {score}", True, "WHITE")
+    stage.screen.blit(scoreText, (10, 10))

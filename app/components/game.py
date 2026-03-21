@@ -26,6 +26,7 @@ class Game():
         self.settings = loadSettings()
         self.previousStageID = "main" # Added for pause menu
         self.pauseInterface = PauseInterface(self)
+        self.score = 0
 
         initFile("save", ["name", "stage", "player_x", "player_y", "player_health", "player_boosts"])
 

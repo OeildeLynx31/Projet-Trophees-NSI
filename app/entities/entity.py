@@ -214,4 +214,7 @@ class Entity(pygame.sprite.Sprite):
 
     def kill(self, source = None):
         self.dead = True
+        if source and hasattr(source, "entityName"):
+            source.score += self.properties["points"]
+            print(source.entityName, "killed", self.entityName, "and earned", self.properties["points"], "points! Total score:", source.score)
         print(self.entityName, "was killed by", str(source))
