@@ -171,6 +171,8 @@ class Entity(pygame.sprite.Sprite):
                 self.jump(self.properties["jumpHeight"])
         elif abs(distFromPlayer) <= self.properties["attackRange"] and self.properties.get("attackDamage", 0) > 0: # Check if attackDamage is defined and > 0
             self.attack()
+        if self.properties.get("touchKill", False) and self.hitbox.collideobjects([self.stage.player.hitbox]):
+            self.stage.player.kill()
 
     def checkDamage(self):
         for damage in self.stage.damages:

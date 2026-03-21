@@ -81,7 +81,7 @@ class Player(pygame.sprite.Sprite):
                         #immortal pour être immortel
                         #fly pour voler comme avec un jetpack
                         #regeneration pour regénérer de la vie naturellement
-        self.health = 17
+        self.health = 20
         self.damageCooldown = pygame.time.get_ticks()
         self.damaged = False
         self.lifeWaveAnimationStep = 0
@@ -100,6 +100,8 @@ class Player(pygame.sprite.Sprite):
             self.sneak(self.keys[pygame.K_DOWN])
         if self.keys[pygame.K_e]:
             self.stage.inventory.changeState()
+        if self.isAttacking and time.time() - self.lastAttackTime > self.attackSpeed / 2:
+            self.isAttacking = False
 
 
         self.updateEffects()
@@ -112,7 +114,9 @@ class Player(pygame.sprite.Sprite):
         playerDir = "right" if self.lastDir > 0 else "left"
         if (not self.costumeTicked): # To update costume only once by tick
             if (self.isFalling):
-                    self.image = self.images["fall_"+playerDir+damaged]
+                self.image = self.images["fall_"+playerDir+damaged]
+            elif self.isAttacking == 1:
+                self.image = self.images["attack_"+playerDir+damaged]
             elif (self.velocity[0] != 0):
                 self.costumeTicked = True
                 self.walkingTick = self.walkingTick + 1
@@ -220,7 +224,7 @@ class Player(pygame.sprite.Sprite):
     def attack(self):
         if (time.time() - self.lastAttackTime > self.attackSpeed):
             self.lastAttackTime = time.time()
-            self.isAttacking = 1
+            self.isAttacking = True
             Damage(self.stage, [50, 0], [50, 20], 5, 0.2, self, True)
 
     def calcHitbox(self):
