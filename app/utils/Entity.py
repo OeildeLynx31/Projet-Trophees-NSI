@@ -147,6 +147,7 @@ def getProperties(mobName):
             "minPlayerDistance": 100,
             "attackRange": 200,
             "attackDamage": 100,
+            "touchKill": True,
             "skins": [
                 ["normal_right", "spike", False],
                 ["normal_left", "spike", False]
