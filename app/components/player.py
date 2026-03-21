@@ -23,6 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.images["walk_right1"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f1.png'))
         self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f2.png'))
         self.images["fall_right"] = pygame.image.load(os.path.join("./assets/players/", "player-fall.png"))
+        self.images["attack_right"] = pygame.image.load(os.path.join("./assets/players/", "player-attack.png"))
 
 
         self.heart = []
@@ -99,6 +100,8 @@ class Player(pygame.sprite.Sprite):
             self.sneak(self.keys[pygame.K_DOWN])
         if self.keys[pygame.K_e]:
             self.stage.inventory.changeState()
+        if self.isAttacking and time.time() - self.lastAttackTime > self.attackSpeed:
+            self.isAttacking = False
 
 
         self.updateEffects()
@@ -111,7 +114,9 @@ class Player(pygame.sprite.Sprite):
         playerDir = "right" if self.lastDir > 0 else "left"
         if (not self.costumeTicked): # To update costume only once by tick
             if (self.isFalling):
-                    self.image = self.images["fall_"+playerDir+damaged]
+                self.image = self.images["fall_"+playerDir+damaged]
+            elif self.isAttacking == 1:
+                self.image = self.images["attack_"+playerDir+damaged]
             elif (self.velocity[0] != 0):
                 self.costumeTicked = True
                 self.walkingTick = self.walkingTick + 1
@@ -219,7 +224,7 @@ class Player(pygame.sprite.Sprite):
     def attack(self):
         if (time.time() - self.lastAttackTime > self.attackSpeed):
             self.lastAttackTime = time.time()
-            self.isAttacking = 1
+            self.isAttacking = True
             Damage(self.stage, [50, 0], [50, 20], 5, 0.2, self, True)
 
     def calcHitbox(self):
