@@ -100,7 +100,7 @@ class Player(pygame.sprite.Sprite):
             self.sneak(self.keys[pygame.K_DOWN])
         if self.keys[pygame.K_e]:
             self.stage.inventory.changeState()
-        if self.isAttacking and time.time() - self.lastAttackTime > self.attackSpeed:
+        if self.isAttacking and time.time() - self.lastAttackTime > self.attackSpeed / 2:
             self.isAttacking = False
 
 
