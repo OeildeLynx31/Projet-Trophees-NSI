@@ -48,7 +48,7 @@ def getProperties(mobName):
             "physical": True,
             "textW": 9,
             "textH": 9,
-            "growFactor": 8,
+            "growFactor": 5,
             "hitboxW": 9,
             "hitboxH": 9,
             "skins": [
@@ -67,8 +67,84 @@ def getProperties(mobName):
             "skins": [
                 ["normal_right", "vines", False],
             ]
+        },
+        "minirock":{
+            "name": "MiniRock",
+            "living": True,
+            "physical": False,
+            "textW": 20,
+            "textH": 20,
+            "growFactor": 4,
+            "hitboxW": 12,
+            "hitboxH": 18,
+            "walkingSpeed": 2,
+            "jumpHeight": 4,
+            "canJump": True,
+            "fallInVoid": False,
+            "health": 20,
+            "maxPlayerDistance": 150,
+            "minPlayerDistance": 100,
+            "attackRange": 50,
+            "attackDamage": 4,
+            "skins": [
+                ["normal_right", "minirock", False],
+                ["normal_left", "minirock", True],
+                ["walk_right1", "minirock2", False],
+                ["walk_left1", "minirock2", True],
+                ["walk_right2", "minirock3", False],
+                ["walk_left2", "minirock3", True],
+            ]
+        },
+        "grolem":{
+            "name": "Grolem",
+            "living": True,
+            "physical": False,
+            "textW": 46,
+            "textH": 35,
+            "growFactor": 5,
+            "hitboxW": 24,
+            "hitboxH": 24,
+            "walkingSpeed": 2,
+            "jumpHeight": 4,
+            "canJump": False,
+            "fallInVoid": False,
+            "health": 40,
+            "maxPlayerDistance": 400,
+            "minPlayerDistance": 100,
+            "attackRange": 100,
+            "attackDamage": 10,
+            "skins": [
+                ["normal_right", "grolem", False],
+                ["normal_left", "grolem", True],
+                ["walk_right1", "grolem2", False],
+                ["walk_left1", "grolem2", True],
+                ["walk_right2", "grolem3", False],
+                ["walk_left2", "grolem3", True],
+            ]
+        },
+        "spike":{
+            "name": "Spike",
+            "living": True,
+            "physical": False,
+            "textW": 16,
+            "textH": 4,
+            "growFactor": 8,
+            "hitboxW": 16,
+            "hitboxH": 3,
+            "walkingSpeed": 0,
+            "jumpHeight": 0,
+            "canJump": False,
+            "fallInVoid": False,
+            "health": 4000,
+            "maxPlayerDistance": 400,
+            "minPlayerDistance": 100,
+            "attackRange": 100,
+            "attackDamage": 100,
+            "skins": [
+                ["normal_right", "spike", False],
+                ["normal_left", "spike", False]
+            ]
         }
-        
     }
     return properties[mobName]
 
@@ -79,6 +155,32 @@ def getEntitiesForStage(stageID):
             {"id": "champoline", "pos": [1100, 550]},
             {"id": "vines", "pos": [1450, 460]},
             {"id": "crate", "pos": [400, 520]}
+        ],
+        "stage2": [
+            {"id": "champoline", "pos": [1260, 550]},
+            {"id": "champoline", "pos": [2270, 404]},
+            {"id": "vines", "pos": [1476, 276]},
+            {"id": "vines", "pos": [1870, 128]},
+            {"id": "minirock", "pos": [2050, 212]},
+            {"id": "minirock", "pos": [1420, 506]},      
+            {"id": "minirock", "pos": [3120, 260]},   
+            {"id": "grolem", "pos": [900, 420]},
+            {"id": "crate", "pos": [1680, 488]},
+            {"id": "spike", "pos": [1792, 628]},
+            {"id": "spike", "pos": [1840, 628]},
+            {"id": "spike", "pos": [1888, 628]},
+            {"id": "spike", "pos": [1936, 628]},
+            {"id": "spike", "pos": [1984, 628]},
+            {"id": "spike", "pos": [2032, 628]},
+            {"id": "spike", "pos": [2080, 628]},
+            {"id": "spike", "pos": [2128, 628]},
+            {"id": "spike", "pos": [2176, 628]},
+            {"id": "spike", "pos": [2224, 628]},
+            {"id": "spike", "pos": [2272, 628]},
+            {"id": "spike", "pos": [2320, 628]},
+            {"id": "spike", "pos": [2368, 628]},
+            {"id": "spike", "pos": [2752, 372]},
+            {"id": "spike", "pos": [2822, 372]},
         ]
     }
     return stageEntities[stageID]

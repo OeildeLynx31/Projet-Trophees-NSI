@@ -185,7 +185,7 @@ class Player(pygame.sprite.Sprite):
         if (self.rect.y > 1000): # if falling into the "void"
             self.damage(3)
         if (walkOnEntityID(self, "champoline", 20)):
-            self.jump(5)
+            self.jump(4)
         if (walkOnEntityID(self, "vines")):
             self.velocity[1] = self.gravity
 

@@ -14,8 +14,8 @@ class Game():
         initFonts(self)
 
         self.debug = {
-            "show_hitboxes": True,
-            "fullscreen": False
+            "show_hitboxes": False,
+            "fullscreen": True
         }
 
         self.flags = (pygame.FULLSCREEN | pygame.SCALED) if self.debug["fullscreen"] else 0
