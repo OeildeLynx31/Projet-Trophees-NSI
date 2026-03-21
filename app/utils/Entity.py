@@ -46,7 +46,7 @@ def getProperties(mobName):
             "name": "Crate",
             "living": False,
             "destructible": True,
-            "health": 10,
+            "health": 20,
             "physical": True,
             "immortal": False,
             "textW": 9,
@@ -145,13 +145,46 @@ def getProperties(mobName):
             "health": 4000,
             "maxPlayerDistance": 400,
             "minPlayerDistance": 100,
-            "attackRange": 100,
+            "attackRange": 200,
             "attackDamage": 100,
             "skins": [
                 ["normal_right", "spike", False],
                 ["normal_left", "spike", False]
             ]
-        }
+        },
+        "secretwall1": {
+            "name": "SecretWall1",
+            "living": False,
+            "destructible": True,
+            "health": 1,
+            "physical": False,
+            "immortal": False,
+            "textW": 16,
+            "textH": 16,
+            "growFactor": 4,
+            "hitboxW": 16,
+            "hitboxH": 16,
+            "skins": [
+                ["normal_right", "secretwall1", False],
+            ]
+        },
+        "secretwall2": {
+            "name": "SecretWall2",
+            "living": False,
+            "destructible": True,
+            "health": 1,
+            "physical": False,
+            "immortal": False,
+            "textW": 16,
+            "textH": 16,
+            "growFactor": 4,
+            "hitboxW": 16,
+            "hitboxH": 16,
+            "skins": [
+                ["normal_right", "secretwall2", False],
+            ]
+        },
+
     }
     return properties[mobName]
 
@@ -173,6 +206,7 @@ def getEntitiesForStage(stageID):
             {"id": "minirock", "pos": [3120, 260]},   
             {"id": "grolem", "pos": [900, 420]},
             {"id": "crate", "pos": [1680, 488]},
+            {"id": "crate", "pos": [3220, 583]},
             {"id": "spike", "pos": [1792, 628]},
             {"id": "spike", "pos": [1840, 628]},
             {"id": "spike", "pos": [1888, 628]},
@@ -188,6 +222,10 @@ def getEntitiesForStage(stageID):
             {"id": "spike", "pos": [2368, 628]},
             {"id": "spike", "pos": [2752, 372]},
             {"id": "spike", "pos": [2822, 372]},
+            {"id": "secretwall1", "pos": [3264, 500]},
+            {"id": "secretwall1", "pos": [3264, 564]},
+            {"id": "secretwall2", "pos": [3200, 500]},
+            {"id": "secretwall2", "pos": [3200, 564]},
         ]
     }
     return stageEntities[stageID]

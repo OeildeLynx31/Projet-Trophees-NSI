@@ -25,6 +25,7 @@ class Player(pygame.sprite.Sprite):
         self.images["walk_right2"] = pygame.image.load(os.path.join('./assets/players/', 'player1-f2.png'))
         self.images["fall_right"] = pygame.image.load(os.path.join("./assets/players/", "player-fall.png"))
 
+
         self.heart = []
         self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'empty_heart.png')), (64, 64)).convert_alpha())
         self.heart.append(pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/life_bar/', 'half_heart.png')), (64, 64)).convert_alpha())
@@ -80,7 +81,7 @@ class Player(pygame.sprite.Sprite):
                         #immortal pour être immortel
                         #fly pour voler comme avec un jetpack
                         #regeneration pour regénérer de la vie naturellement
-        self.health = 17
+        self.health = 20
         self.damageCooldown = pygame.time.get_ticks()
         self.damaged = False
         self.lifeWaveAnimationStep = 0
