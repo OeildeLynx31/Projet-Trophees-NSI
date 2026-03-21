@@ -93,11 +93,11 @@ class Player(pygame.sprite.Sprite):
         self.costumeTicked = False
         self.keys = pygame.key.get_pressed()
         if not self.stage.inventory.opened:
-            if (self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP]):
+            if (self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP] or self.keys[pygame.K_z] or self.keys[pygame.K_w]):
                 self.jump(self.jumpHeight)
             if pygame.mouse.get_pressed(num_buttons=3)[0]:
                 self.attack()
-            self.sneak(self.keys[pygame.K_DOWN])
+            self.sneak(self.keys[pygame.K_DOWN] or self.keys[pygame.K_s])
         if self.keys[pygame.K_e]:
             self.stage.inventory.changeState()
         if self.isAttacking and time.time() - self.lastAttackTime > self.attackSpeed / 2:
@@ -173,18 +173,20 @@ class Player(pygame.sprite.Sprite):
     def checkGravity(self):
         self.velocity[1] += self.gravity
         xMovement = 0
-        # Old movement system
-        """if not self.stage.inventory.opened:
-            if self.keys[pygame.K_LEFT] and not self.keys[pygame.K_RIGHT]:
+        
+        if not self.stage.inventory.opened:
+            if (self.keys[pygame.K_LEFT] or self.keys[pygame.K_q]) and not (self.keys[pygame.K_RIGHT] or self.keys[pygame.K_d]):
                 xMovement = -1
-            if self.keys[pygame.K_RIGHT] and not self.keys[pygame.K_LEFT]:
+            if (self.keys[pygame.K_RIGHT] or self.keys[pygame.K_d]) and not (self.keys[pygame.K_LEFT] or self.keys[pygame.K_q]):
                 xMovement = 1
-        """
+        
         mouseRel = pygame.mouse.get_rel()
         if abs(mouseRel[0]) > 50 - self.game.settings["sensibility"]:
             self.lastDir = 1 if mouseRel[0] > 0 else -1
+        
         if not self.stage.inventory.opened and self.keys[pygame.K_z]:
             xMovement = self.lastDir
+            
         self.move(xMovement, self.velocity[1])
 
         if (self.rect.y > 1000): # if falling into the "void"
