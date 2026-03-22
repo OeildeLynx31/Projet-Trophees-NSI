@@ -45,7 +45,7 @@ class Stage():
 
     def tick(self, game):
         if self.scroll[0] <= self.scrollMin:
-            self.game.changeStage("3")
+            self.game.changeStage("main")
             return
         stageTick(self, game)
 

@@ -265,6 +265,7 @@ class Player(pygame.sprite.Sprite):
 
         self.game.deathReason = reason
         self.game.deathScreen = self.game.screen.copy()
+        self.game.score = 0
         self.game.changeStage("gameover")
     
     def updateEffects(self):

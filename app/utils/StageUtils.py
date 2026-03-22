@@ -137,11 +137,16 @@ def drawLifeBar(stage, player):
     
 
 def drawScore(stage, score):
+    bg = pygame.Surface((180, 36), pygame.SRCALPHA)
+    bg.fill((10, 5, 0, 140))
+    stage.screen.blit(bg, (8, 8))
+    pygame.draw.rect(stage.screen, (160, 100, 40, 180), (8, 8, 180, 36), 1)
+
     scoreLabel = Label(
         f"Score: {score}",
-        (10, 10),
-        getFont(stage.game, "yoster"),
-        (200, 200, 220),
-        32
+        (16, 12),
+        getFont(stage.game, "alagard"),
+        (230, 190, 80),
+        28
     )
     scoreLabel.draw(stage.screen)

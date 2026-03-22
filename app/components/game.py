@@ -64,9 +64,16 @@ class Game():
         return False
 
     def changeStage(self, stageID, load_data=None):
-        if stageID == "1": # 1 normalement mais ici le jeu commence directement par le stage 2 pour les tests
-            self.score = 0
+        previousHealth = None
+
+        if hasattr(self.currentStage, 'player') and stageID not in ["1", "main", "presentation", "gameover", "settings"]:
+            previousHealth = self.currentStage.player.health
+
         self.currentStage = getStageByID(stageID)(self)
+
+        if previousHealth is not None and hasattr(self.currentStage, 'player'):
+            self.currentStage.player.health = previousHealth
+
         if load_data:
             self.currentStage.player.goto(load_data['player_x'], load_data['player_y'], rel=False)
             self.currentStage.player.health = int(load_data['player_health'])

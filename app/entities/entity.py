@@ -86,7 +86,8 @@ class Entity(pygame.sprite.Sprite):
 
     def tick(self, game):
         self.game = game
-        self.stage = game.currentStage
+        if game.currentStage is not self.stage:
+            return
         self.costumeTicked = False
         if (self.isLivingEntity):
             self.runAI()
