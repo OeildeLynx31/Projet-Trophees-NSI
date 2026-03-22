@@ -58,7 +58,7 @@ class Stage():
 
         raw_reason = self.game.deathReason if self.game.deathReason else "cause inconnue"
         reason_display = raw_reason[0].upper() + raw_reason[1:] if raw_reason else "Cause inconnue"
-        self.reason_text = f"Tué par : {reason_display}"
+        self.reason_text = f"Tué.e par : {reason_display}"
 
         btn_y = self.panel_y + self.panel_h - 80
         self.btn_retry = Button(game, self.panel_x + 60,                    btn_y, 280, 92, "RÉESSAYER")
@@ -106,7 +106,7 @@ class Stage():
         cy = self.panel_y
 
         title = Label(
-            "VOUS ETES MORT",
+            "VOUS ETES MORT.E",
             (640, cy + 44),
             getFont(self.game, "alagard"),
             (220, 40, 40),
