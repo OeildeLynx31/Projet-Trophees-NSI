@@ -173,13 +173,11 @@ class Player(pygame.sprite.Sprite):
     def checkGravity(self):
         self.velocity[1] += self.gravity
         xMovement = 0
-        
         if not self.stage.inventory.opened:
-            if (self.keys[pygame.K_LEFT] or self.keys[pygame.K_q]) and not (self.keys[pygame.K_RIGHT] or self.keys[pygame.K_d]):
+            if self.keys[pygame.K_LEFT] and not self.keys[pygame.K_RIGHT]:
                 xMovement = -1
             if (self.keys[pygame.K_RIGHT] or self.keys[pygame.K_d]) and not (self.keys[pygame.K_LEFT] or self.keys[pygame.K_q]):
                 xMovement = 1
-        
         mouseRel = pygame.mouse.get_rel()
         if abs(mouseRel[0]) > 50 - self.game.settings["sensibility"]:
             self.lastDir = 1 if mouseRel[0] > 0 else -1
@@ -252,9 +250,22 @@ class Player(pygame.sprite.Sprite):
         if (self.health > 20):
             self.health = 20
 
-    def kill(self, source = None):
-        print("Player was killed by", str(source))
-        self.respawn()
+    def kill(self, source=None):
+        if source is None:
+            reason = "cause inconnue"
+        elif hasattr(source, 'entityName'):
+            reason = source.entityName
+        elif hasattr(source, 'Player') and source.Player:
+            reason = "lui-même"
+        else:
+            reason = str(source)
+
+        if self.rect.y > 900:
+            reason = "une chute dans le vide"
+
+        self.game.deathReason = reason
+        self.game.deathScreen = self.game.screen.copy()
+        self.game.changeStage("gameover")
     
     def updateEffects(self):
         for effect in self.effects:

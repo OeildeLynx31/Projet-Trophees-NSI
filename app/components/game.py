@@ -27,10 +27,16 @@ class Game():
         self.previousStageID = "main" # Added for pause menu
         self.pauseInterface = PauseInterface(self)
         self.score = 0
+        
+        self.lastClick = 0
+        self.clickCooldown = 200
 
-        initFile("save", ["name", "stage", "player_x", "player_y", "player_health", "player_boosts"])
+        self.deathReason = ""
+        self.deathScreen = None
 
-        # Load the main stage
+        initFile("save", ["name", "stage", "player_x", "player_y", "player_health", "player_boosts", "score", "best_score"])
+
+        # Load the default stage
         self.currentStage = getStageByID("main")(self)
 
 
@@ -50,7 +56,16 @@ class Game():
         pygame.quit()
         exit()
     
+    def isClickAllowed(self):
+        now = pygame.time.get_ticks()
+        if now - self.lastClick > self.clickCooldown:
+            self.lastClick = now
+            return True
+        return False
+
     def changeStage(self, stageID, load_data=None):
+        if stageID == "1": # 1 normalement mais ici le jeu commence directement par le stage 2 pour les tests
+            self.score = 0
         self.currentStage = getStageByID(stageID)(self)
         if load_data:
             self.currentStage.player.goto(load_data['player_x'], load_data['player_y'], rel=False)
@@ -60,6 +75,10 @@ class Game():
             self.isPaused = False
 
     def saveGame(self):
+        existing = getData("save", ["name", "player_data"])
+        old_best = int(existing["best_score"]) if existing and existing.get("best_score") else 0
+        new_best = max(old_best, self.score)
+
         if hasattr(self.currentStage, 'player'):
             player_data = {
                 "name": "player_data",
@@ -67,7 +86,9 @@ class Game():
                 "player_x": str(self.currentStage.player.rect.x),
                 "player_y": str(self.currentStage.player.rect.y),
                 "player_health": str(self.currentStage.player.health),
-                "player_boosts": ",".join(self.currentStage.player.boosts)
+                "player_boosts": ",".join(self.currentStage.player.boosts),
+                "score": str(self.score),
+                "best_score": str(new_best)
             }
             upsertData("save", ["name", "player_data"], player_data)
             print("Game Saved!")

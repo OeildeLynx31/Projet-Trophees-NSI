@@ -32,6 +32,9 @@ class Stage():
         self.volume_icons["middle"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/icons/sound/', "sound_middle.png")), (96, 96)).convert_alpha()
         self.volume_icons["loud"] = pygame.transform.scale(pygame.image.load(os.path.join('./assets/interface/icons/sound/', "sound_loud.png")), (96, 96)).convert_alpha()
 
+        self.backCooldown = 400
+        self.backTime = pygame.time.get_ticks()
+
     def tick(self, game):
         self.game = game
         self.screen.blit(self.backdrop, (0, 0))
@@ -45,15 +48,15 @@ class Stage():
 
             label.draw(self.screen)
             if name == "volume":
-                label.text = f"Volume: {self.settings["volume"]}%"
+                label.text = f"Volume: {self.settings['volume']}%"
             elif name == "sensibility":
-                label.text = f"Sensibility: {self.settings["sensibility"]}%"
+                label.text = f"Sensibility: {self.settings['sensibility']}%"
 
         self.drawSoundIcon()
 
         self.group.draw(self.screen)
 
-        if (self.back_button.isClicked()):
+        if self.back_button.isClicked() and pygame.time.get_ticks() - self.backTime > self.backCooldown:
             saveSettings(self.settings)
             self.game.changeStage("main")
         pygame.display.flip()

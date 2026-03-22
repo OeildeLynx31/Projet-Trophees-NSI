@@ -2,6 +2,7 @@ import pygame
 import time
 from .StageMovement import isInScreen
 from .StageMovement import getStaticPos
+from .Font import getFont, Label
 
 ### Stage methods ###
 
@@ -34,7 +35,7 @@ def stageTick(stage, game):
     stage.screen.blit(stage.player.image, stage.player.rect)
 
     for sprite in stage.group.sprites():
-        if ((isInScreen(sprite) or sprite.isLivingEntity) and not sprite.dead and not sprite.Player and sprite.renderLayer == 1):
+        if ((isInScreen(sprite) or sprite.isLivingEntity) and not sprite.dead and not sprite.Player and sprite.renderLayer == 1 and hasattr(self.stage, "player")):
             sprite.tick(game)
             stage.screen.blit(sprite.image, sprite.rect)
 
@@ -136,6 +137,11 @@ def drawLifeBar(stage, player):
     
 
 def drawScore(stage, score):
-    font = pygame.font.SysFont("Arial", 24)
-    scoreText = font.render(f"Score: {score}", True, "WHITE")
-    stage.screen.blit(scoreText, (10, 10))
+    scoreLabel = Label(
+        f"Score: {score}",
+        (10, 10),
+        getFont(stage.game, "yoster"),
+        (200, 200, 220),
+        32
+    )
+    scoreLabel.draw(stage.screen)
