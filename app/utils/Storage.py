@@ -4,12 +4,26 @@ import os
 ######### Core functions #########
 
 def initFile(fileName, headers=[], data=[]):
-    if (not fileExist(fileName)):
+    if not fileExist(fileName):
         with open('./storage/'+fileName+'.csv', 'w', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=headers)
             writer.writeheader()
             for row in data:
                 writer.writerow(row)
+    else:
+        existingColumns = getColumns(fileName)
+        missingColumns = [h for h in headers if h not in existingColumns]
+        if missingColumns:
+            existingData = readFile(fileName)
+            newHeaders = existingColumns + missingColumns
+            for row in existingData:
+                for col in missingColumns:
+                    row[col] = ""
+            with open('./storage/'+fileName+'.csv', 'w', newline='') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames=newHeaders)
+                writer.writeheader()
+                for row in existingData:
+                    writer.writerow(row)
 
 def fileExist(fileName):
     return os.path.isfile('./storage/' + fileName + '.csv')
@@ -79,7 +93,7 @@ def upsertData(fileName, findKeys, newRow):
         data = readFile(fileName)
         found = False
         for row in data:
-            if (row["name"] == keyName):
+            if (row[keyName] == keyValue):
                 row = newRow
                 found = True
                 break

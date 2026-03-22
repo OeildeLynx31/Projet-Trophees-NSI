@@ -219,6 +219,6 @@ class Entity(pygame.sprite.Sprite):
     def kill(self, source = None):
         self.dead = True
         if source and source.Player == True:
-            points = self.properties["points"]
+            points = self.properties.get("points", 0)
             source.game.score += points
         print(self.entityName, "was killed by", str(source))
