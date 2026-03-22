@@ -248,9 +248,22 @@ class Player(pygame.sprite.Sprite):
         if (self.health > 20):
             self.health = 20
 
-    def kill(self, source = None):
-        print("Player was killed by", str(source))
-        self.respawn()
+    def kill(self, source=None):
+        if source is None:
+            reason = "cause inconnue"
+        elif hasattr(source, 'entityName'):
+            reason = source.entityName
+        elif hasattr(source, 'Player') and source.Player:
+            reason = "lui-même"
+        else:
+            reason = str(source)
+
+        if self.rect.y > 900:
+            reason = "une chute dans le vide"
+
+        self.game.deathReason = reason
+        self.game.deathScreen = self.game.screen.copy()
+        self.game.changeStage("gameover")
     
     def updateEffects(self):
         for effect in self.effects:

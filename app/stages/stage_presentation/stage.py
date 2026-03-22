@@ -62,7 +62,7 @@ PAGES = [
     },
 ]
 
-class Stage:
+class Stage():
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
