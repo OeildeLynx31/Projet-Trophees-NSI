@@ -90,6 +90,10 @@ class Player(pygame.sprite.Sprite):
     def tick(self, game):
         self.game = game
         self.stage = game.currentStage
+
+        if not hasattr(self.stage, 'inventory'):
+            return
+
         self.costumeTicked = False
         self.keys = pygame.key.get_pressed()
         if not self.stage.inventory.opened:
@@ -268,7 +272,6 @@ class Player(pygame.sprite.Sprite):
 
         self.game.deathReason = reason
         self.game.deathScreen = self.game.screen.copy()
-        self.game.score = 0
         self.game.changeStage("gameover")
     
     def updateEffects(self):

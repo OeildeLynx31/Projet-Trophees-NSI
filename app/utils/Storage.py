@@ -78,12 +78,11 @@ def updateData(fileName, findKeys, newRow):
     keyName, keyValue = findKeys[0], findKeys[1]
     if (fileExist(fileName)):
         data = readFile(fileName)
-        for row in data:
-            if (row[keyName] == keyValue):
-                row = newRow
+        for i in range(len(data)):
+            if (data[i][keyName] == keyValue):
+                data[i] = newRow
                 break
         writeFile(fileName, data)
-
 
 # Similar to the previous function, but adds the row if the row is not already found :
 # setData('test', [key, value], {...})
@@ -92,15 +91,14 @@ def upsertData(fileName, findKeys, newRow):
     if (fileExist(fileName)):
         data = readFile(fileName)
         found = False
-        for row in data:
-            if (row[keyName] == keyValue):
-                row = newRow
+        for i in range(len(data)):
+            if (data[i][keyName] == keyValue):
+                data[i] = newRow
                 found = True
                 break
         if found:
             try:
                 writeFile(fileName, data)
-                print("done", found)
             except Exception as e:
                 print("error while writing:", e)
         else:

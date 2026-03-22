@@ -24,7 +24,7 @@ class Game():
         self.musicManager = MusicManager()
         self.clock = pygame.time.Clock()
         self.settings = loadSettings()
-        self.previousStageID = "main" # Added for pause menu
+        self.previousStageID = "main"
         self.pauseInterface = PauseInterface(self)
         self.score = 0
         
