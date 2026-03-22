@@ -57,6 +57,7 @@ class Entity(pygame.sprite.Sprite):
         self.gravity = 0.2
         self.lastDir = 1 # 1 for right and -1 for left
         self.health = 1
+        self.growFactor = self.properties["growFactor"]
         self.dead = False
         if self.isLivingEntity:
             self.health = self.properties["health"]
@@ -203,11 +204,12 @@ class Entity(pygame.sprite.Sprite):
     def attack(self):
         if (time.time() - self.lastAttackTime > self.attackSpeed):
             self.lastAttackTime = time.time()
+            hw = self.properties["hitboxW"] * self.growFactor
+            hh = self.properties["hitboxH"] * self.growFactor
+            reach = self.properties["attackRange"]
             # Assuming properties["attackRange"] and properties["attackDamage"] exist
             # For now, using placeholder values and a simple attack in front of the entity
-            attack_rect_offset = [self.properties["hitboxW"] * self.lastDir, 0]
-            attack_rect_size = [self.properties["attackRange"], self.properties["hitboxH"]]
-            Damage(self.stage, attack_rect_offset, attack_rect_size, self.properties["attackDamage"], 0.2, self, False)
+            Damage(self.stage, [0, -hh // 2], [hw // 2 + reach, hh], self.properties["attackDamage"], 0.2, self, True)
 
     def heal(self, damage, source = None):
         self.health += damage
