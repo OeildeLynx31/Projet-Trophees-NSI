@@ -189,13 +189,28 @@ def getProperties(mobName):
                 ["normal_right", "secretwall2", False],
             ]
         },
-
+        "florift": {
+            "name": "Florift",
+            "living": False,
+            "physical": False,
+            "immortal": True,
+            "textW": 16,
+            "textH": 16,
+            "growFactor": 4,
+            "hitboxW": 16,
+            "hitboxH": 16,
+            "skins": [
+                ["normal_right", "fleurtp", False],
+            ]
+        },
     }
     return properties[mobName]
 
 def getEntitiesForStage(stageID):
     stageEntities = {
         "stage1": [
+            {"id": "florift", "pos": [700, 460]},
+            {"id": "florift", "pos": [1300, 300]},
             {"id": "zombush", "pos": [1600, 300]},
             {"id": "champoline", "pos": [1100, 550]},
             {"id": "vines", "pos": [1450, 460]},

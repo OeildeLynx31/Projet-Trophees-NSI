@@ -1,5 +1,7 @@
 import pygame;
-import os;
+import os
+
+from app.utils.Florift import Florift;
 from ...components.player import Player
 from ...entities.entity import Entity
 from ...utils.CollisionRect import *
@@ -63,9 +65,20 @@ class Stage():
 
     def spawnEntities(self):
         entityList = getEntitiesForStage("stage1")
+        florifts = []
+
         for entity in entityList:
-            self.physicalEntityGroup.add(Entity(self, self.game, entity["id"], entity["pos"][0], entity["pos"][1]))
-        
+            if entity["id"] == "florift":
+                f = Florift(self, self.game, entity["pos"][0], entity["pos"][1])
+                self.physicalEntityGroup.add(f)
+                florifts.append(f)
+            else:
+                self.physicalEntityGroup.add(Entity(self, self.game, entity["id"], entity["pos"][0], entity["pos"][1]))
+
+        for i in range(0, len(florifts) - 1, 2):
+            florifts[i].partner = florifts[i + 1]
+            florifts[i + 1].partner = florifts[i]
+
         self.group.add(self.visualEntityGroup.sprites())
         self.group.add(self.physicalEntityGroup.sprites())
         self.physicalEntitiesHitboxes = []

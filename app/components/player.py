@@ -159,6 +159,9 @@ class Player(pygame.sprite.Sprite):
                     self.jumping = False
                     self.isFalling = False
             self.velocity[1] = 0
+
+        if "floriftBoost" in self.boosts and self.velocity[0] != 0:
+            self.velocity[0] *= 0.94
         
         self.calcHitbox()
         self.checkCostume()
@@ -290,14 +293,20 @@ class Player(pygame.sprite.Sprite):
                 if (self.type == "regeneration"):
                     self.player.boosts.append("regeneration")
                     self.player.lifeWaveAnimationStep = 0
+                elif (self.type == "floriftBoost"):
+                    self.player.boosts.append("floriftBoost")
+                    self.player.velocity[0] = self.player.lastDir * 3
 
             def tick(self):
                 pass
 
             def onEnd(self):
                 if (self.type == "regeneration"):
-                    self.player.boosts.remove("regeneration")
-                self.player.effects.remove(self)
+                    self.player.boosts.remove("regeneration")                
+                elif (self.type == "floriftBoost"):
+                    if "floriftBoost" in self.player.boosts:
+                        self.player.boosts.remove("floriftBoost")
 
+                self.player.effects.remove(self)
 
         self.effects.append(Effect(self, effectType, duration))
