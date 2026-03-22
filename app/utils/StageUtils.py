@@ -35,7 +35,7 @@ def stageTick(stage, game):
     stage.screen.blit(stage.player.image, stage.player.rect)
 
     for sprite in stage.group.sprites():
-        if ((isInScreen(sprite) or sprite.isLivingEntity) and not sprite.dead and not sprite.Player and sprite.renderLayer == 1):
+        if ((isInScreen(sprite) or sprite.isLivingEntity) and not sprite.dead and not sprite.Player and sprite.renderLayer == 1 and hasattr(self.stage, "player")):
             sprite.tick(game)
             stage.screen.blit(sprite.image, sprite.rect)
 
