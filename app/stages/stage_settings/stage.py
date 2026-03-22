@@ -45,9 +45,9 @@ class Stage():
 
             label.draw(self.screen)
             if name == "volume":
-                label.text = f"Volume: {self.settings["volume"]}%"
+                label.text = f"Volume: {self.settings['volume']}%"
             elif name == "sensibility":
-                label.text = f"Sensibility: {self.settings["sensibility"]}%"
+                label.text = f"Sensibility: {self.settings['sensibility']}%"
 
         self.drawSoundIcon()
 
