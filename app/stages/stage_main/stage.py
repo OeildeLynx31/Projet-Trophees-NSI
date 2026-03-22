@@ -34,7 +34,7 @@ class Stage():
         self.group.draw(self.screen)
         self.renderGUI()
         if (self.play_button.isClicked()):
-            self.game.changeStage("2")
+            self.game.changeStage("1")
         if (self.presentation_button.isClicked()):
             self.game.changeStage("presentation")
         if (self.settings_button.isClicked()):
