@@ -91,6 +91,8 @@ class Stage:
         self.navCooldown = 250
         self.lastNav = pygame.time.get_ticks()
 
+        self.game.musicManager.play_music('powerful_adventure', game.settings, interrupt=True)
+
     def tick(self, game):
         self.game = game
 

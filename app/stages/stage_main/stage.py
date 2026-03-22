@@ -21,7 +21,7 @@ class Stage():
         self.title = pygame.transform.scale_by(pygame.image.load(os.path.join('./assets/interface/', "title.png")), 4).convert_alpha()
         self.fontLabels = []
 
-        self.game.musicManager.play_music('base_loop', game.settings)
+        self.game.musicManager.play_music('base_loop', game.settings, interrupt=True)
 
     def tick(self, game):
         self.game = game
@@ -45,7 +45,7 @@ class Stage():
 
     def renderGUI(self):
         self.play_button.draw(self.screen)
-        self.quit_button.draw(self.screen)
+        # self.quit_button.draw(self.screen)
         self.settings_button.draw(self.screen)
         for label in self.fontLabels:
             label.draw(self.screen)

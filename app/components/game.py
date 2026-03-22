@@ -27,10 +27,13 @@ class Game():
         self.previousStageID = "main" # Added for pause menu
         self.pauseInterface = PauseInterface(self)
         self.score = 0
+        
+        self.lastClick = 0
+        self.clickCooldown = 200
 
         initFile("save", ["name", "stage", "player_x", "player_y", "player_health", "player_boosts"])
 
-        # Load the main stage
+        # Load the default stage
         self.currentStage = getStageByID("main")(self)
 
 
@@ -50,6 +53,13 @@ class Game():
         pygame.quit()
         exit()
     
+    def isClickAllowed(self):
+        now = pygame.time.get_ticks()
+        if now - self.lastClick > self.clickCooldown:
+            self.lastClick = now
+            return True
+        return False
+
     def changeStage(self, stageID, load_data=None):
         self.currentStage = getStageByID(stageID)(self)
         if load_data:

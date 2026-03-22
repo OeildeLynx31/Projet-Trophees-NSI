@@ -8,6 +8,10 @@ class MusicManager:
             "base_loop": {
                 "duration": 1,
                 "loop": True,
+            },
+            "powerful_adventure": {
+                "duration": 1,
+                "loop": True,
             }
         }
         self.load_musics()
