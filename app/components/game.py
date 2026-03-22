@@ -37,7 +37,7 @@ class Game():
         initFile("save", ["name", "stage", "player_x", "player_y", "player_health", "player_boosts", "score", "best_score"])
 
         # Load the default stage
-        self.currentStage = getStageByID("gameover")(self)
+        self.currentStage = getStageByID("main")(self)
 
 
     def run(self):
