@@ -2,6 +2,7 @@ import pygame
 import time
 from .StageMovement import isInScreen
 from .StageMovement import getStaticPos
+from .Font import getFont, Label
 
 ### Stage methods ###
 
@@ -136,6 +137,11 @@ def drawLifeBar(stage, player):
     
 
 def drawScore(stage, score):
-    font = pygame.font.SysFont("Arial", 24)
-    scoreText = font.render(f"Score: {score}", True, "WHITE")
-    stage.screen.blit(scoreText, (10, 10))
+    scoreLabel = Label(
+        f"Score: {score}",
+        (10, 10),
+        getFont(stage.game, "yoster"),
+        (200, 200, 220),
+        32
+    )
+    scoreLabel.draw(stage.screen)
