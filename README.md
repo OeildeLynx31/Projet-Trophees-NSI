@@ -9,8 +9,8 @@ __L'organisation des fichiers :__
 Tous les ressources du jeu dans `/assets` : \
 Sprites, scènes, sons, etc. rangés par sous-catégories.
 
-Tous les programmes des éléments dans `/app` :\
-Niveaux, joueur, entités, etc. également dans de sous catégories.
+Tous les programmes des éléments dans `/app/components` :\
+Niveaux, joueur, entités, etc. également dans de sous-catégories.
 
 Le dossier racine ne doit contenir que le `main.py` et le fichier `README.md`, et éventuellement d'autres fichier généraux concernant le projet en général, et non des éléments précis.
 
