@@ -1,4 +1,4 @@
-from app.components.game import Game
+from sources.game import Game
 
 game = Game()
 
