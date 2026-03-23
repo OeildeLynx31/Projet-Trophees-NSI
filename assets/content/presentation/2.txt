@@ -1,0 +1,11 @@
+Les Mecaniques
+Déplacement :
+- Z pour avancer, souris pour la direction
+- Saut : ESPACE ou flèche haut
+- Attaque : Clic gauche
+- Inventaire : E
+    
+Les ennemis patrouillent et attaquent au corps à corps.
+Les caisses sont destructibles et donnent des points.
+Des trampolines permettent de sauter plus haut.
+Des fleurs téléportent le joueur vers la fleur plus proche en utilisant Shift

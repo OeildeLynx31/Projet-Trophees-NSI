@@ -6,64 +6,7 @@ from ...utils.Storage import *
 
 from ...utils.Font import *
 
-PAGES = [
-    {
-        "title": "Le Projet",
-        "lines": [
-            "Trophees NSI 2025-2026",
-            "",
-            "Ce jeu est un platformer 2D développé en Python",
-            "avec la bibliothèque Pygame dans le cadre des Trophées NSI",
-            "",
-            "Plutôt qu'un jeu commercialisable, ce projet constitue un moteur de jeu",
-            "qui reflète l'ensemble des notions de NSI acquises en classe de Première.",
-            "",
-            "Le joueur y explore des niveaux, combat des ennemis",
-            "et accumule des points en cassant des caisses.",
-        ]
-    },
-    {
-        "title": "Les Mecaniques",
-        "lines": [
-            "Déplacement : Z pour avancer, souris pour la direction",
-            "Saut : ESPACE ou flèche haut",
-            "Attaque : Clic gauche",
-            "Inventaire : E",
-            "",
-            "Les ennemis patrouillent et attaquent au corps à corps.",
-            "Les caisses sont destructibles et donnent des points.",
-            "Des trampolines permettent de sauter plus haut.",
-        ]
-    },
-    {
-        "title": "Les Ennemis",
-        "lines": [
-            "Zombush  — ennemi de base, saute, 20 PV",
-            "MiniRock — rapide, courte portée, 20 PV",
-            "Grolem   — lent mais puissant, 40 PV",
-            "Spike    — piège au sol, immortel",
-            "",
-            "Chaque ennemi tue rapporte des points.",
-            "Plus l'ennemi est fort, plus le gain est eleve.",
-        ]
-    },
-    {
-        "title": "L'Equipe",
-        "lines": [
-            "Développé par :",
-            "",
-            "  • HENRY-VIEL Vincent — architecture du jeu, mécaniques, systèmes, audio",
-            "  • DALOUX Ewenn — systèmes internes, logique globale et interfaces",
-            "  • CHOQUAR Jules — conception des niveaux, environnements, interfaces",
-            "  • ROUX Valentin — graphismes, animations du joueur, design visuel",
-            "Soutenus par leur exceptionnel professeur: M. Debiez S.",
-            "",
-            "Projet réalisé en classe de Première NSI",
-            "Lycée Emilie de Rodat, Toulouse",
-            "Année scolaire 2025-2026",
-        ]
-    },
-]
+PAGES = loadPresentationPages('./assets/content/presentation')
 
 class Stage():
     def __init__(self, game):

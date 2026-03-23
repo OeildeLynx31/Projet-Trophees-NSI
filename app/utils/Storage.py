@@ -126,3 +126,29 @@ def removeData(fileName, findKeys):
                 newData.append(row)
                 break
         writeFile(fileName, newData)
+
+def loadPresentationPages(folder):
+    """
+    Chaque fichier: 1ere lgne = titre / reste = contenu
+    Les fichiers triés par pos (1.txt, 2.txt, etc...)
+    """
+    pages = []
+    try:
+        files = sorted(
+            [f for f in os.listdir(folder) if f.endswith('.txt')],
+            key=lambda f: int(f.replace('.txt', ''))
+        )
+        for filename in files:
+            filepath = os.path.join(folder, filename)
+            with open(filepath, 'r', encoding='utf-8') as f:
+                raw = f.read()
+            lines = raw.splitlines()
+            title = lines[0] if lines else ""
+            content_lines = lines[1:] if len(lines) > 1 else []
+            pages.append({
+                "title": title,
+                "lines": content_lines
+            })
+    except Exception as e:
+        print(f"Erreur chargement présentation: {e}")
+    return pages

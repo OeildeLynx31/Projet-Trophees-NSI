@@ -1,0 +1,8 @@
+Les Ennemis
+Zombush  — ennemi de base, saute, 20 PV
+MiniRock — rapide, courte portée, 20 PV
+Grolem   — lent mais puissant, 40 PV
+Spike    — piège au sol, immortel
+
+Chaque ennemi tue rapporte des points.
+Plus l'ennemi est fort, plus le gain est eleve.

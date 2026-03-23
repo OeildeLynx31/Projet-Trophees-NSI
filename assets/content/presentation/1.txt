@@ -1,0 +1,11 @@
+Le Projet
+Trophees NSI 2025-2026
+
+Ce jeu est un platformer 2D développé en Python
+avec la bibliothèque Pygame dans le cadre des Trophées NSI
+
+Plutôt qu'un jeu commercialisable, ce projet constitue un moteur de jeu
+qui reflète l'ensemble des notions de NSI acquises en classe de Première.
+
+Le joueur y explore des niveaux, combat des ennemis
+et accumule des points en cassant des caisses.
