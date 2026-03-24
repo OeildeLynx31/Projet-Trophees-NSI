@@ -9,7 +9,6 @@ Le joueur incarne un personnage évoluant dans différents niveaux (stages), aff
 - **Moteur de jeu sur mesure** développé en Python.
 - **Système de stages** dynamique permettant une transition fluide entre les niveaux.
 - **Gestion d'entités** : ennemis (Grolem, Zombush, MiniRock), objets interactifs (Crates, Champolines, Florifts).
-- **Système d'inventaire** complet permettant de s'équiper de différentes armes (épée, lance, hache, etc.).
 - **Effets visuels** : Système de particules et filtres d'image (ex: effet de dégâts).
 - **Sauvegarde et paramètres** : Gestion des paramètres (volume, sensibilité) et des sauvegardes via fichiers CSV.
 
