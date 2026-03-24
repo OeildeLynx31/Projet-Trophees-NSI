@@ -28,4 +28,6 @@ Chacune des ressources présentes dans le jeu, sons et images inclus, sont le r�
 
 ## Inspirations du projet
 
-[et là Jules j'ai besoin de la totalité des jeux sur lesquels on est parti, ah ou juste 3 c'est suffisant]
+- Hollow Knight (combat)
+- Celeste (parcours)
+- Clair Obscur: Expédition 33 (univers)
