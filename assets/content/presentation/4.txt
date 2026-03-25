@@ -1,0 +1,12 @@
+L'Equipe
+Développé par :
+
+  • HENRY-VIEL Vincent — architecture du jeu, mécaniques, systèmes, audio
+  • DALOUX Ewenn — systèmes internes, logique globale et interfaces
+  • CHOQUAR Jules — conception des niveaux, environnements, interfaces
+  • ROUX Valentin — graphismes, animations du joueur, design visuel
+Soutenus par leur exceptionnel professeur: M. Debiez S.
+
+Projet réalisé en classe de Première NSI
+Lycée Emilie de Rodat, Toulouse
+Année scolaire 2025-2026
