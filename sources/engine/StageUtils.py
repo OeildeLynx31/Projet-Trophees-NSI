@@ -144,9 +144,10 @@ def drawScore(stage, score):
 
     scoreLabel = Label(
         f"Score: {score}",
-        (16, 12),
+        (96, 26),
         getFont(stage.game, "alagard"),
         (230, 190, 80),
-        28
+        28,
+        ["center"]
     )
     scoreLabel.draw(stage.screen)
