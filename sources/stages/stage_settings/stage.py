@@ -19,6 +19,8 @@ class Stage():
         self.volume_slider = Slider(self.game, 256, 176, 256, 48, 0, 100, self.settings["volume"], 2)
         self.sensibility_slider = Slider(self.game, 256, 276, 256, 48, 0, 100, self.settings["sensibility"], 2)
 
+        self.debugButton = Button(self.game, 576, 180, 320, 128, "Debug: On" if self.game.debug["show_hitboxes"] else "Debug: Off")
+
         self.labels = []
         self.labels.append(["title", Label("GAME SETTINGS", (640, 50), getFont(self.game, "yoster"), "WHITE", 48, ["center"])])
         self.labels.append(["volume", Label(f"Volume: ", (275, 150), getFont(self.game, "alagard"), "WHITE", 32)])
@@ -42,6 +44,7 @@ class Stage():
         self.back_button.draw(self.screen)
         self.volume_slider.draw(self.screen)
         self.sensibility_slider.draw(self.screen)
+        self.debugButton.draw(self.screen)
         for labelElem in self.labels:
             label = labelElem[1]
             name = labelElem[0]
@@ -59,6 +62,10 @@ class Stage():
         if self.back_button.isClicked() and pygame.time.get_ticks() - self.backTime > self.backCooldown:
             saveSettings(self.settings)
             self.game.changeStage("main")
+
+        if self.debugButton.isClicked():
+            self.game.debug["show_hitboxes"] = True
+            self.debugButton.updateLabel("Debug: On")
         pygame.display.flip()
 
         self.updateSettings()

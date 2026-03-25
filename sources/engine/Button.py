@@ -14,6 +14,8 @@ class Button:
         self.clickRect = getSpriteCollisionRects(self.image)[0] # supposing that a button is composed by only one surface
         self.clickRect.x += x
         self.clickRect.y += y
+        self.width = width
+        self.height = height
         self.label = Label(txt, (x + width/2 - 2, y + height/2), getFont(self.game, "yoster"), "#c4a497", 32, ["center"])
 
     def draw(self, surface):
@@ -29,3 +31,6 @@ class Button:
             return True
         else:
             return False
+
+    def updateLabel(self, txt):
+        self.label = Label(txt, (self.rect.topleft[0] + self.width/2 - 2, self.rect.topleft[1] + self.height/2), getFont(self.game, "yoster"), "#c4a497", 32, ["center"])
