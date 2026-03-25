@@ -9,13 +9,11 @@ __L'organisation des fichiers :__
 
 - `/sources` : Contient tout le code source du jeu.
   - `/sources/engine` : Le moteur du jeu (boutons, collisions, particules, etc.).
-  - `/sources/components` : Composants du jeu (joueur, logique globale).
   - `/sources/entities` : Définitions des entités.
   - `/sources/stages` : Les différents niveaux du jeu.
 - `/assets` : Toutes les ressources (images, sons, polices).
 - `/data` : Données du jeu (sauvegardes, paramètres en CSV).
 - `/docs` : Documentation du projet.
-- `/tests` : Tests unitaires et d'intégration.
 - `/examples` : Exemples d'utilisation ou de scripts annexes.
 - `/main.py` : Point d'entrée du programme.
 
