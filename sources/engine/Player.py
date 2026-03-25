@@ -97,7 +97,7 @@ class Player(pygame.sprite.Sprite):
         self.costumeTicked = False
         self.keys = pygame.key.get_pressed()
         if not self.stage.inventory.opened:
-            if (self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP] or self.keys[pygame.K_z] or self.keys[pygame.K_w]):
+            if (self.keys[pygame.K_SPACE] or self.keys[pygame.K_UP]):
                 self.jump(self.jumpHeight)
             if pygame.mouse.get_pressed(num_buttons=3)[0]:
                 self.attack()
