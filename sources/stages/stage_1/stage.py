@@ -24,6 +24,8 @@ class Stage():
         self.player = Player(self.game)
         self.inventory = InventoryInterface(self.game)
 
+        self.game.musicManager.play_music('full_music', self.game.settings, interrupt=True)
+
         # Groups
         self.group = pygame.sprite.Group()               # Global sprite rendering group, including all entities
         self.visualEntityGroup = pygame.sprite.Group()   # Visual entities that doesn't have any hitbox

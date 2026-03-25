@@ -43,6 +43,8 @@ class Stage():
 
         self.start()
 
+        self.game.musicManager.play_music('full_music', self.game.settings, interrupt=False)
+
     def tick(self, game):
         if self.scroll[0] <= self.scrollMin:
             self.game.changeStage("main")
