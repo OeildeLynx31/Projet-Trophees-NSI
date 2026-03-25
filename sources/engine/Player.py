@@ -129,10 +129,9 @@ class Player(pygame.sprite.Sprite):
                 elif (self.walkingTick <= self.walkingSpeed * 2):
                     self.image = self.images["walk_"+playerDir+"2"+damaged]
                 else:
-                    self.image = self.images["normal_"+playerDir+damaged]
                     if (self.walkingTick > self.walkingSpeed * 2):
                         self.walkingTick = 0
-            else:                  
+            else:
                 self.walkingTick = 0
                 self.image = self.images["normal_"+playerDir+damaged]
 
