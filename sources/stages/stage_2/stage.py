@@ -1,6 +1,6 @@
 import pygame;
 import os;
-from ...engine.player import Player
+from ...engine.Player import Player
 from ...entities.entity import Entity
 from ...engine.CollisionRect import *
 from ...engine.StageMovement import genStageMin
