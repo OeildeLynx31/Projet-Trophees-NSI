@@ -76,6 +76,8 @@ class Stage():
             if not entity.Player and entity.physical:
                 self.physicalEntitiesHitboxes.append(entity.hitbox)
 
+        self.player.giveEffect("regeneration", 8)
+
     def start(self):
         for sprite in self.group:
             if (not sprite.Player):
