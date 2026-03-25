@@ -23,7 +23,7 @@ Chacune des ressources présentes dans le jeu, sons et images inclus, sont le r�
 
 ## utilisation de l'IA et de sources tierces
 
-[les gars je veux ici tous les copié/collé et utilisation de l'IA]
+Le projet se veut 100% sans IA, ainsi, aucune source tiers n'a été utilisée pour la réalisation du projet, à l'exception d'une inspiration pour le design du fond d'écran de la page principale que nous avons refait à la main.
 
 
 ## Inspirations du projet
