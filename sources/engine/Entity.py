@@ -209,12 +209,11 @@ def getProperties(mobName):
 def getEntitiesForStage(stageID):
     stageEntities = {
         "stage1": [
-            {"id": "florift", "pos": [700, 460]},
-            {"id": "florift", "pos": [1300, 300]},
-            {"id": "zombush", "pos": [1600, 300]},
-            {"id": "champoline", "pos": [1100, 550]},
-            {"id": "vines", "pos": [1450, 460]},
-            {"id": "crate", "pos": [400, 520]}
+            {"id": "crate", "pos": [400, 540]},
+            {"id": "champoline", "pos": [1800, 562]},
+            {"id": "zombush", "pos": [2500, 496]},
+            {"id": "florift", "pos": [3180, 480]},
+            {"id": "florift", "pos": [2800, 260]},
         ],
         "stage2": [
             {"id": "champoline", "pos": [1260, 550]},
