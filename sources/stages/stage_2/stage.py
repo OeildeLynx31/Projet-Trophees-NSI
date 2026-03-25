@@ -1,6 +1,6 @@
 import pygame;
 import os;
-from ...engine.player import Player
+from ...engine.Player import Player
 from ...entities.entity import Entity
 from ...engine.CollisionRect import *
 from ...engine.StageMovement import genStageMin
@@ -43,6 +43,8 @@ class Stage():
 
         self.start()
 
+        self.game.musicManager.play_music('full_music', self.game.settings, interrupt=False)
+
     def tick(self, game):
         if self.scroll[0] <= self.scrollMin:
             self.game.changeStage("main")
@@ -73,6 +75,8 @@ class Stage():
         for entity in self.group:
             if not entity.Player and entity.physical:
                 self.physicalEntitiesHitboxes.append(entity.hitbox)
+
+        self.player.giveEffect("regeneration", 8)
 
     def start(self):
         for sprite in self.group:

@@ -12,6 +12,10 @@ class MusicManager:
             "powerful_adventure": {
                 "duration": 1,
                 "loop": True,
+            },
+            "full_music": {
+                "duration": 1,
+                "loop": True,
             }
         }
         self.load_musics()

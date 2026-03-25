@@ -209,12 +209,11 @@ def getProperties(mobName):
 def getEntitiesForStage(stageID):
     stageEntities = {
         "stage1": [
-            {"id": "florift", "pos": [700, 460]},
-            {"id": "florift", "pos": [1300, 300]},
-            {"id": "zombush", "pos": [1600, 300]},
-            {"id": "champoline", "pos": [1100, 550]},
-            {"id": "vines", "pos": [1450, 460]},
-            {"id": "crate", "pos": [400, 520]}
+            {"id": "crate", "pos": [400, 540]},
+            {"id": "champoline", "pos": [1800, 562]},
+            {"id": "zombush", "pos": [2500, 496]},
+            {"id": "florift", "pos": [3180, 480]},
+            {"id": "florift", "pos": [2800, 260]},
         ],
         "stage2": [
             {"id": "champoline", "pos": [1260, 550]},
@@ -246,102 +245,7 @@ def getEntitiesForStage(stageID):
             {"id": "secretwall1", "pos": [3264, 564]},
             {"id": "secretwall2", "pos": [3200, 500]},
             {"id": "secretwall2", "pos": [3200, 564]},
-        ],
-        "stage3": [
-            # === ZONE 1 — Départ (x 200-700) : pression immédiate ===
-            # Deux minirock au sol dès le spawn
-            {"id": "minirock",   "pos": [280,  540]},
-            {"id": "minirock",   "pos": [500,  540]},
-            # Crate accessible facilement pour encourager le joueur
-            {"id": "crate",      "pos": [350,  540]},
-            # Spikes au sol entre les minirock — oblige à sauter
-            {"id": "spike",      "pos": [420,  620]},
-            {"id": "spike",      "pos": [468,  620]},
-
-            # === ZONE 2 — Première montée (x 700-1200) ===
-            # Grolem sur plateforme basse, bloque la progression principale
-            {"id": "grolem",     "pos": [800,  420]},
-            # Vines sur la plateforme haute — ralentit le passage
-            {"id": "vines",      "pos": [950,  210]},
-            # Minirock sur la plateforme haute — piège le joueur qui monte
-            {"id": "minirock",   "pos": [1050, 210]},
-            # Florift paire A — téléporte vers la zone 4 (récompense pour les explorateurs)
-            {"id": "florift",    "pos": [900,  360]},
-            {"id": "florift",    "pos": [2600, 340]},
-            # Champoline cachée sous la plateforme haute pour aider à monter
-            {"id": "champoline", "pos": [870,  470]},
-
-            # === ZONE 3 — Passage de spikes (x 1200-1700) ===
-            # Long couloir de spikes au sol — doit tout passer en sautant
-            {"id": "spike",      "pos": [1250, 620]},
-            {"id": "spike",      "pos": [1298, 620]},
-            {"id": "spike",      "pos": [1346, 620]},
-            {"id": "spike",      "pos": [1394, 620]},
-            {"id": "spike",      "pos": [1442, 620]},
-            {"id": "spike",      "pos": [1490, 620]},
-            {"id": "spike",      "pos": [1538, 620]},
-            {"id": "spike",      "pos": [1586, 620]},
-            # Zombush sur plateforme intermédiaire au milieu des spikes
-            {"id": "zombush",    "pos": [1380, 360]},
-            {"id": "zombush",    "pos": [1520, 360]},
-            # Champoline au début des spikes pour aider le saut
-            {"id": "champoline", "pos": [1220, 500]},
-            # Crate au-dessus des spikes — récompense pour ceux qui restent en hauteur
-            {"id": "crate",      "pos": [1450, 330]},
-
-            # === ZONE 4 — Plateforme centrale (x 1700-2300) : cœur du level ===
-            # Grolem sur plateforme haute — gardien central
-            {"id": "grolem",     "pos": [1800, 210]},
-            # Minirock au sol en contrebas
-            {"id": "minirock",   "pos": [1900, 540]},
-            {"id": "minirock",   "pos": [2100, 540]},
-            # Spikes sur plateforme intermédiaire — piège pour ceux qui descendent
-            {"id": "spike",      "pos": [1970, 370]},
-            {"id": "spike",      "pos": [2018, 370]},
-            {"id": "spike",      "pos": [2066, 370]},
-            # Vines sur plateforme haute — ralentit l'approche du grolem
-            {"id": "vines",      "pos": [1750, 120]},
-            # Crate cachée sur plateforme très haute
-            {"id": "crate",      "pos": [2200, 210]},
-            # Florift paire B — téléporte au-dessus de la zone finale
-            {"id": "florift",    "pos": [2000, 200]},
-            {"id": "florift",    "pos": [3100, 190]},
-
-            # === ZONE 5 — Avant-dernière (x 2300-2900) ===
-            # Duo grolem + zombush qui se cumulent — très dangereux
-            {"id": "grolem",     "pos": [2400, 540]},
-            {"id": "zombush",    "pos": [2550, 540]},
-            {"id": "zombush",    "pos": [2700, 540]},
-            # Spikes sur les plateformes latérales — coupe les chemins alternatifs
-            {"id": "spike",      "pos": [2480, 370]},
-            {"id": "spike",      "pos": [2528, 370]},
-            {"id": "spike",      "pos": [2576, 370]},
-            {"id": "spike",      "pos": [2624, 370]},
-            # Minirock en hauteur — attaque depuis au-dessus
-            {"id": "minirock",   "pos": [2800, 210]},
-            {"id": "minirock",   "pos": [2900, 210]},
-            # Champoline pour atteindre les plateformes hautes
-            {"id": "champoline", "pos": [2360, 470]},
-
-            # === ZONE 6 — Finale (x 2900-3700) : gauntlet ===
-            # Grolem + minirock simultanément — boss de fin
-            {"id": "grolem",     "pos": [3000, 540]},
-            {"id": "grolem",     "pos": [3200, 540]},
-            {"id": "minirock",   "pos": [3050, 340]},
-            {"id": "minirock",   "pos": [3150, 340]},
-            {"id": "minirock",   "pos": [3300, 340]},
-            # Couloir de spikes final au sol — dernière épreuve
-            {"id": "spike",      "pos": [3350, 620]},
-            {"id": "spike",      "pos": [3398, 620]},
-            {"id": "spike",      "pos": [3446, 620]},
-            {"id": "spike",      "pos": [3494, 620]},
-            {"id": "spike",      "pos": [3542, 620]},
-            # Zombush gardien de la sortie
-            {"id": "zombush",    "pos": [3600, 540]},
-            {"id": "zombush",    "pos": [3650, 540]},
-            # Crate récompense juste avant la sortie
-            {"id": "crate",      "pos": [3500, 540]},
-        ],
+        ]
     }
     return stageEntities[stageID]
 
