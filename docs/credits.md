@@ -18,10 +18,11 @@ Chacune des ressources présentes dans le jeu, sons et images inclus, sont le r�
 
 ## Ressources Sonores
 - **Musiques** :
-  - `powerful_adventure.mp3` : Musique d'ambiance
+  - `full_music.mp3` : Musique de jeu
+  - `powerful_adventure.mp3` : Musique d'ambiance (inspiration originale d'Aria Math de C418)
   - `base_loop.mp3` : Boucle sonore thématique
 
-## utilisation de l'IA et de sources tierces
+## Utilisation de l'IA et de sources tierces
 
 Le projet se veut 100% sans IA, ainsi, aucune source tiers n'a été utilisée pour la réalisation du projet, à l'exception d'une inspiration pour le design du fond d'écran de la page principale que nous avons refait à la main.
 
