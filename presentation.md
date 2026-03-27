@@ -18,3 +18,5 @@ Développé par l'équipe de Première NSI au lycée Emilie de Rodat, Toulouse.
 **Veuillez trouver les inspirations et/ou informations concernant l'utilisation d'aide de tiers dans `./docs/credits.md`**
 
 *Plus d'informations dans la section ABOUT implémentée directement dans le jeu*
+
+Un grand merci à Cistax pour son aide.
