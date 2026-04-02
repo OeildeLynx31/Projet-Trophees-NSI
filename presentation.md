@@ -32,14 +32,14 @@ Implémentation du reste des assets + ajout de features progressivement.
 
 ## Validation de l'opérationnalité et du fonctionnement
 
-Avancement général : non terminé, le projet actuel peut-être vu comme une démo ou une beta, plus de contenu sera rajouté ultérieurement.
+Avancement général : non terminé, le projet actuel peut-être vu comme une démo ou une beta, plus de contenu pourra et sera rajouté ultérieurement.
 Le code fonctionne sans erreur, depistage de bugs à l'aide de game testers tout au long du projet.
 Pas de problèmes majeurs, mais une succession de problèmes mineurs rapidement réglés.
 
 ## Ouverture
 
 Certains systèmes n'ont pas été finalisés (comme l'inventaire), certains assets notamment les entités sont encore grossières, il n'y a que 2 salles.
-Avec du temps supplémentaire, nous comptons rajouter tout d'abord d'autres sallesn puis d'autres biomes afin de pouvoir appliquer tout l'univers et l'histoire que nous avons conçu pour ce jeu.
+Avec du temps supplémentaire, nous comptons rajouter tout d'abord d'autres salles puis d'autres biomes afin de pouvoir appliquer tout l'univers et l'histoire que nous avons conçu pour ce jeu.
 Nous aurions également pu améliorer le système d'objets (et donc d'inventaire), rajouter éventuellement du leveling, etc...
 Ce projet nous a appris comment répartir les rôles selon nos compétences respectives, il nous a aussi formé sur la collaboration sur un projet de groupe de longue durée, avec donc les désaccords qui l'accompagnent.
 Pour ma part, avec Valentin, nous avons appris à maitriser des outils jusqu'alors inconnus pour la création de pixel art et nous nous sommes confronté aux choix de direction et de game design qui ne sont pas toujours évident.
@@ -48,5 +48,3 @@ Du côté de Vincent et Ewenn je pense que ça a été également formateur pour
 **Veuillez trouver les inspirations et/ou informations concernant l'utilisation d'aide de tiers dans `./docs/credits.md`**
 
 *Plus d'informations dans la section ABOUT implémentée directement dans le jeu*
-
-Un grand merci à Cistax pour son aide.
